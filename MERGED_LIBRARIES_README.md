@@ -458,7 +458,7 @@ Voxels voxResult = voxBounding.voxIntersectImplicit(pattern);
 
 ## 8. PicogkGodotBridge — wrappers today and planned
 
-**Project:** `godot/modules/picogk_voxel/bridge/PicogkGodotBridge.csproj`  
+**Project:** `godot/modules/picogk_voxel/bridge/PicogkGodotBridge.csproj`
 **Compiles:** PicoGK + all ShapeKernel + all LatticeLibrary + PlanetTest `Planet.cs` / `Noise.cs`.
 
 ### 8.1 Implemented wrappers
@@ -532,7 +532,7 @@ Voxels voxResult = voxBounding.voxIntersectImplicit(pattern);
 
 ### 9.4 Editor plugin (`addons/picogk_planet`)
 
-Today: menu → find `PlanetWorld` → `GeneratePlanet()`.  
+Today: menu → find `PlanetWorld` → `GeneratePlanet()`.
 Tomorrow: dedicated **PicoGK** bottom panel with preset picker + job queue.
 
 ---
@@ -555,30 +555,30 @@ Tomorrow: dedicated **PicoGK** bottom panel with preset picker + job queue.
 
 ### 11.1 Artist — new planet for game
 
-1. Open `godot_demo` in custom Godot .NET editor.  
-2. Project → Build.  
-3. Select `World` → Display Mode **Solid Colored Planet**.  
-4. Tune Radius, Seed, Biome Color Bleed.  
-5. Regenerate Now → wait → **PlanetSurface** appears.  
+1. Open `godot_demo` in custom Godot .NET editor.
+2. Project → Build.
+3. Select `World` → Display Mode **Solid Colored Planet**.
+4. Tune Radius, Seed, Biome Color Bleed.
+5. Regenerate Now → wait → **PlanetSurface** appears.
 6. Save **preset** (.tres), not the scene mesh.
 
 ### 11.2 Engineer — new structure type
 
-1. Implement `IImplicit` or extend `BaseShape` in C#.  
-2. Add method to `ShapeKernelBridge` or new `*Bridge.cs`.  
-3. `dotnet build` bridge → Godot rebuild C#.  
+1. Implement `IImplicit` or extend `BaseShape` in C#.
+2. Add method to `ShapeKernelBridge` or new `*Bridge.cs`.
+3. `dotnet build` bridge → Godot rebuild C#.
 4. New node or menu item calls bridge method.
 
 ### 11.3 Designer — lattice forest
 
-1. Place `PicogkLatticeVolume` (future) with bounding sphere.  
-2. Pick `BodyCentreLattice` + `RegularCellArray` + `CellBasedBeamThickness` in Inspector.  
+1. Place `PicogkLatticeVolume` (future) with bounding sphere.
+2. Pick `BodyCentreLattice` + `RegularCellArray` + `CellBasedBeamThickness` in Inspector.
 3. Generate → mesh child; optionally boolean with planet chunk.
 
 ### 11.4 Batch — cache planet for shipping
 
-1. Headless console or Godot tool iterates chunk keys.  
-2. Each job: voxelize → `SaveToVdbFile` + export mesh.  
+1. Headless console or Godot tool iterates chunk keys.
+2. Each job: voxelize → `SaveToVdbFile` + export mesh.
 3. Ship `user://cache/` with game; runtime loads, no PicoGK on player CPU (optional).
 
 ---
@@ -587,1206 +587,1155 @@ Tomorrow: dedicated **PicoGK** bottom panel with preset picker + job queue.
 
 The following appendix is **auto-generated** from a scan of all `public` members in the three library trees (see `_build_merged_readme.py`). Line numbers refer to the `.cs` file at generation time.
 
+<details>
+<summary><strong>Expand generated public API catalog</strong></summary>
 
-��# #   P i c o G K   ( 7 2   f i l e s ) 
- 
- # # #   B a s e \ F i e l d M e t a d a t a . c s 
- 
- -   n C o u n t ( . . . )   ( L 8 3 ) 
- 
- -   b G e t N a m e A t ( . . . )   ( L 9 6 ) 
- 
- -   s t r T y p e A t ( . . . )   ( L 1 3 4 ) 
- 
- -   s t r T y p e N a m e ( . . . )   ( L 1 4 4 ) 
- 
- -   b G e t V a l u e A t ( . . . )   ( L 1 6 9 ) 
- 
- -   b G e t V a l u e A t ( . . . )   ( L 1 9 2 ) 
- 
- -   b G e t V a l u e A t ( . . . )   ( L 2 0 5 ) 
- 
- -   S e t V a l u e ( . . . )   ( L 2 1 6 ) 
- 
- -   S e t V a l u e ( . . . )   ( L 2 2 7 ) 
- 
- -   S e t V a l u e ( . . . )   ( L 2 3 8 ) 
- 
- -   R e m o v e V a l u e ( . . . )   ( L 2 4 8 ) 
- 
- 
- 
- # # #   B a s e \ G l o b a l O b j e c t s . c s 
- 
- -   v o x S p h e r e ( . . . )   ( L 9 3 ) 
- 
- -   v o x L a t t i c e B e a m ( . . . )   ( L 1 0 9 ) 
- 
- -   v o x M e s h S h e l l ( . . . )   ( L 1 3 0 ) 
- 
- -   v o x C o m b i n e A l l ( . . . )   ( L 1 4 4 ) 
- 
- -   v o x F r o m V d b F i l e ( . . . )   ( L 1 7 0 ) 
- 
- 
- 
- # # #   B a s e \ L a t t i c e . c s 
- 
- -   A d d S p h e r e ( . . . )   ( L 6 4 ) 
- 
- -   A d d B e a m ( . . . )   ( L 7 8 ) 
- 
- -   A d d B e a m ( . . . )   ( L 1 0 1 ) 
- 
- 
- 
- # # #   B a s e \ M e s h . c s 
- 
- -   m s h C r e a t e T r a n s f o r m e d ( . . . )   ( L 7 5 ) 
- 
- -   m s h C r e a t e T r a n s f o r m e d ( . . . )   ( L 1 0 5 ) 
- 
- -   m s h C r e a t e M i r r o r e d ( . . . )   ( L 1 2 9 ) 
- 
- -   n A d d V e r t e x ( . . . )   ( L 1 5 3 ) 
- 
- -   A d d V e r t i c e s ( . . . )   ( L 1 5 8 ) 
- 
- -   v e c V e r t e x A t ( . . . )   ( L 1 7 6 ) 
- 
- -   n V e r t e x C o u n t ( . . . )   ( L 1 9 0 ) 
- 
- -   n A d d T r i a n g l e ( . . . )   ( L 2 0 1 ) 
- 
- -   n A d d T r i a n g l e ( . . . )   ( L 2 1 5 ) 
- 
- -   n T r i a n g l e C o u n t ( . . . )   ( L 2 2 4 ) 
- 
- -   n A d d T r i a n g l e ( . . . )   ( L 2 3 8 ) 
- 
- -   A d d Q u a d ( . . . )   ( L 2 5 3 ) 
- 
- -   A d d Q u a d ( . . . )   ( L 2 7 6 ) 
- 
- -   o T r i a n g l e A t ( . . . )   ( L 2 9 4 ) 
- 
- -   G e t T r i a n g l e ( . . . )   ( L 3 1 2 ) 
- 
- -   A p p e n d ( . . . )   ( L 3 3 5 ) 
- 
- -   o B o u n d i n g B o x ( . . . )   ( L 3 5 2 ) 
- 
- 
- 
- # # #   B a s e \ P o l y L i n e . c s 
- 
- -   n A d d V e r t e x ( . . . )   ( L 6 5 ) 
- 
- -   A d d ( . . . )   ( L 7 6 ) 
- 
- -   n V e r t e x C o u n t ( . . . )   ( L 8 6 ) 
- 
- -   v e c V e r t e x A t ( . . . )   ( L 9 5 ) 
- 
- -   G e t C o l o r ( . . . )   ( L 1 0 6 ) 
- 
- -   o B o u n d i n g B o x ( . . . )   ( L 1 1 6 ) 
- 
- -   A d d A r r o w ( . . . )   ( L 1 3 7 ) 
- 
- -   A d d C r o s s ( . . . )   ( L 1 9 5 ) 
- 
- 
- 
- # # #   B a s e \ S c a l a r F i e l d . c s 
- 
- -   I n f o r m A c t i v e V a l u e ( . . . )   ( L 5 2 ) 
- 
- -   S e t V a l u e ( . . . )   ( L 1 3 8 ) 
- 
- -   b G e t V a l u e ( . . . )   ( L 1 5 5 ) 
- 
- -   R e m o v e V a l u e ( . . . )   ( L 1 6 6 ) 
- 
- -   G e t V o x e l D i m e n s i o n s ( . . . )   ( L 1 8 0 ) 
- 
- -   G e t V o x e l D i m e n s i o n s ( . . . )   ( L 2 1 0 ) 
- 
- -   G e t V o x e l S l i c e ( . . . )   ( L 2 4 2 ) 
- 
- -   T r a v e r s e A c t i v e ( . . . )   ( L 2 6 2 ) 
- 
- -   f S i g n e d D i s t a n c e ( . . . )   ( L 2 7 9 ) 
- 
- -   o B o u n d i n g B o x ( . . . )   ( L 2 8 9 ) 
- 
- 
- 
- # # #   B a s e \ V e c t o r F i e l d . c s 
- 
- -   I n f o r m A c t i v e V a l u e ( . . . )   ( L 5 1 ) 
- 
- -   S e t V a l u e ( . . . )   ( L 1 4 9 ) 
- 
- -   b G e t V a l u e ( . . . )   ( L 1 6 9 ) 
- 
- -   R e m o v e V a l u e ( . . . )   ( L 1 8 3 ) 
- 
- -   T r a v e r s e A c t i v e ( . . . )   ( L 1 9 5 ) 
- 
- 
- 
- # # #   B a s e \ V o x e l s . c s 
- 
- -   f S i g n e d D i s t a n c e ( . . . )   ( L 5 7 ) 
- 
- -   v o x D u p l i c a t e ( . . . )   ( L 1 1 8 ) 
- 
- -   m s h A s M e s h ( . . . )   ( L 1 8 1 ) 
- 
- -   v o x S p h e r e ( . . . )   ( L 1 9 3 ) 
- 
- -   v o x L a t t i c e B e a m ( . . . )   ( L 2 1 1 ) 
- 
- -   v o x M e s h S h e l l ( . . . )   ( L 2 3 4 ) 
- 
- -   b I s E m p t y ( . . . )   ( L 2 4 9 ) 
- 
- -   f V o x e l S i z e ( . . . )   ( L 2 6 7 ) 
- 
- -   B o o l A d d ( . . . )   ( L 2 7 4 ) 
- 
- -   v o x B o o l A d d ( . . . )   ( L 2 9 1 ) 
- 
- -   B o o l A d d A l l ( . . . )   ( L 3 0 3 ) 
- 
- -   v o x B o o l A d d A l l ( . . . )   ( L 3 1 5 ) 
- 
- -   v o x C o m b i n e ( . . . )   ( L 3 2 8 ) 
- 
- -   v o x C o m b i n e A l l ( . . . )   ( L 3 4 0 ) 
- 
- -   B o o l S u b t r a c t ( . . . )   ( L 3 5 4 ) 
- 
- -   v o x B o o l S u b t r a c t ( . . . )   ( L 3 6 9 ) 
- 
- -   B o o l S u b t r a c t A l l ( . . . )   ( L 3 8 1 ) 
- 
- -   v o x B o o l S u b t r a c t A l l ( . . . )   ( L 3 9 2 ) 
- 
- -   B o o l I n t e r s e c t ( . . . )   ( L 4 0 5 ) 
- 
- -   v o x B o o l I n t e r s e c t ( . . . )   ( L 4 2 0 ) 
- 
- -   T r i m ( . . . )   ( L 4 5 8 ) 
- 
- -   v o x T r i m ( . . . )   ( L 4 6 9 ) 
- 
- -   O f f s e t ( . . . )   ( L 4 8 2 ) 
- 
- -   v o x O f f s e t ( . . . )   ( L 4 9 2 ) 
- 
- -   D o u b l e O f f s e t ( . . . )   ( L 5 0 5 ) 
- 
- -   v o x D o u b l e O f f s e t ( . . . )   ( L 5 1 7 ) 
- 
- -   T r i p l e O f f s e t ( . . . )   ( L 5 3 9 ) 
- 
- -   v o x T r i p l e O f f s e t ( . . . )   ( L 5 5 7 ) 
- 
- -   S m o o t h e n ( . . . )   ( L 5 6 9 ) 
- 
- -   v o x S m o o t h e n ( . . . )   ( L 5 7 7 ) 
- 
- -   O v e r O f f s e t ( . . . )   ( L 5 9 0 ) 
- 
- -   v o x O v e r O f f s e t ( . . . )   ( L 6 1 3 ) 
- 
- -   F i l l e t ( . . . )   ( L 6 3 1 ) 
- 
- -   v o x F i l l e t ( . . . )   ( L 6 4 2 ) 
- 
- -   v o x S h e l l ( . . . )   ( L 6 5 9 ) 
- 
- -   v o x S h e l l ( . . . )   ( L 6 8 0 ) 
- 
- -   R e n d e r M e s h ( . . . )   ( L 7 0 7 ) 
- 
- -   R e n d e r I m p l i c i t ( . . . )   ( L 7 2 3 ) 
- 
- -   I n t e r s e c t I m p l i c i t ( . . . )   ( L 7 3 8 ) 
- 
- -   v o x I n t e r s e c t I m p l i c i t ( . . . )   ( L 7 4 8 ) 
- 
- -   . . .   + 1 8   m o r e   m e m b e r s 
- 
- 
- 
- # # #   D i a g n o s t i c s \ T e s t C L I . c s 
- 
- -   R u n ( . . . )   ( L 4 5 ) 
- 
- 
- 
- # # #   D i a g n o s t i c s \ T e s t P r o g r e s s . c s 
- 
- -   T e s t ( . . . )   ( L 4 0 ) 
- 
- 
- 
- # # #   D i a g n o s t i c s \ T e s t V e c t o r A n d C o m p a r i s o n . c s 
- 
- -   T e s t ( . . . )   ( L 4 4 ) 
- 
- 
- 
- # # #   I O \ C l i . c s 
- 
- -   o B B o x F i l e ( . . . )   ( L 8 1 ) 
- 
- -   b B i n a r y ( . . . )   ( L 8 6 ) 
- 
- -   f U n i t s H e a d e r ( . . . )   ( L 9 1 ) 
- 
- -   b 3 2 B i t A l i g n ( . . . )   ( L 9 6 ) 
- 
- -   s t r H e a d e r D a t e ( . . . )   ( L 1 0 6 ) 
- 
- -   s t r W a r n i n g s ( . . . )   ( L 1 1 6 ) 
- 
- -   W r i t e S l i c e s T o C l i F i l e ( . . . )   ( L 1 2 9 ) 
- 
- -   S a v e T o C l i F i l e ( . . . )   ( L 8 8 5 ) 
- 
- 
- 
- # # #   I O \ I m a g e I o . c s 
- 
- -   S a v e T g a ( . . . )   ( L 4 3 ) 
- 
- -   S a v e T g a ( . . . )   ( L 5 5 ) 
- 
- -   G e t F i l e I n f o ( . . . )   ( L 1 1 2 ) 
- 
- -   G e t F i l e I n f o ( . . . )   ( L 1 3 0 ) 
- 
- -   L o a d T g a ( . . . )   ( L 1 5 5 ) 
- 
- -   L o a d T g a ( . . . )   ( L 1 6 7 ) 
- 
- -   b Y A x i s F l i p p e d ( . . . )   ( L 2 4 5 ) 
- 
- 
- 
- # # #   I O \ M e s h I o . c s 
- 
- -   * * e n u m * *   E S t l U n i t   ( L 4 5 ) 
- 
- -   m s h F r o m S t l F i l e ( . . . )   ( L 6 3 ) 
- 
- -   m s h F r o m S t l F i l e ( . . . )   ( L 8 4 ) 
- 
- -   S a v e T o S t l F i l e ( . . . )   ( L 2 1 0 ) 
- 
- -   S a v e T o S t l F i l e ( . . . )   ( L 2 2 1 ) 
- 
- -   N o r m a l X ( . . . )   ( L 3 1 4 ) 
- 
- -   N o r m a l Y ( . . . )   ( L 3 1 5 ) 
- 
- -   N o r m a l Z ( . . . )   ( L 3 1 6 ) 
- 
- -   V 1 X ( . . . )   ( L 3 1 7 ) 
- 
- -   V 1 Y ( . . . )   ( L 3 1 8 ) 
- 
- -   V 1 Z ( . . . )   ( L 3 1 9 ) 
- 
- -   V 2 X ( . . . )   ( L 3 2 0 ) 
- 
- -   V 2 Y ( . . . )   ( L 3 2 1 ) 
- 
- -   V 2 Z ( . . . )   ( L 3 2 2 ) 
- 
- -   V 3 X ( . . . )   ( L 3 2 3 ) 
- 
- -   V 3 Y ( . . . )   ( L 3 2 4 ) 
- 
- -   V 3 Z ( . . . )   ( L 3 2 5 ) 
- 
- -   m _ s t r L o a d H e a d e r D a t a ( . . . )   ( L 4 0 1 ) 
- 
- 
- 
- # # #   I O \ O p e n V d b F i l e . c s 
- 
- -   l i b C r e a t e C o m p a t i b l e L i b r a r y F o r ( . . . )   ( L 8 6 ) 
- 
- -   S a v e T o F i l e ( . . . )   ( L 1 6 5 ) 
- 
- -   v o x G e t ( . . . )   ( L 1 9 9 ) 
- 
- -   v o x G e t ( . . . )   ( L 2 2 1 ) 
- 
- -   n A d d ( . . . )   ( L 2 4 2 ) 
- 
- -   o G e t S c a l a r F i e l d ( . . . )   ( L 2 6 7 ) 
- 
- -   o G e t S c a l a r F i e l d ( . . . )   ( L 2 8 8 ) 
- 
- -   n A d d ( . . . )   ( L 3 0 9 ) 
- 
- -   o G e t V e c t o r F i e l d ( . . . )   ( L 3 2 8 ) 
- 
- -   o G e t V e c t o r F i e l d ( . . . )   ( L 3 4 8 ) 
- 
- -   n A d d ( . . . )   ( L 3 6 9 ) 
- 
- -   n F i e l d C o u n t ( . . . )   ( L 3 8 4 ) 
- 
- -   s t r F i e l d N a m e ( . . . )   ( L 3 9 7 ) 
- 
- -   s t r F i e l d T y p e ( . . . )   ( L 4 3 0 ) 
- 
- -   b I s P i c o G K C o m p a t i b l e ( . . . )   ( L 4 7 8 ) 
- 
- -   f P i c o G K V o x e l S i z e M M ( . . . )   ( L 4 9 4 ) 
- 
- 
- 
- # # #   I O \ V o x e l s I o . c s 
- 
- -   v o x F r o m V d b F i l e ( . . . )   ( L 6 0 ) 
- 
- -   S a v e T o V d b F i l e ( . . . )   ( L 9 1 ) 
- 
- 
- 
- # # #   I n t e r n a l s \ I n t e r o p . c s 
- 
- -   D i s p o s e ( . . . )   ( L 1 9 6 ) 
- 
- -   D i s p o s e ( . . . )   ( L 2 6 2 ) 
- 
- -   D i s p o s e ( . . . )   ( L 4 8 4 ) 
- 
- -   D i s p o s e ( . . . )   ( L 5 6 0 ) 
- 
- -   D i s p o s e ( . . . )   ( L 7 7 4 ) 
- 
- -   D i s p o s e ( . . . )   ( L 8 3 3 ) 
- 
- -   D i s p o s e ( . . . )   ( L 8 9 1 ) 
- 
- -   D i s p o s e ( . . . )   ( L 9 4 4 ) 
- 
- -   D i s p o s e ( . . . )   ( L 1 0 5 7 ) 
- 
- -   D i s p o s e ( . . . )   ( L 1 1 6 0 ) 
- 
- -   D i s p o s e ( . . . )   ( L 1 2 4 5 ) 
- 
- -   D i s p o s e ( . . . )   ( L 1 3 6 5 ) 
- 
- 
- 
- # # #   I n t e r n a l s \ T y p e s . c s 
- 
- -   X ( . . . )   ( L 9 0 ) 
- 
- -   Y ( . . . )   ( L 9 1 ) 
- 
- -   Z ( . . . )   ( L 9 2 ) 
- 
- -   A ( . . . )   ( L 1 0 7 ) 
- 
- -   B ( . . . )   ( L 1 0 8 ) 
- 
- -   C ( . . . )   ( L 1 0 9 ) 
- 
- 
- 
- # # #   L i b r a r y \ L i b r a r y . c s 
- 
- -   v e c V o x e l s T o M m ( . . . )   ( L 2 4 9 ) 
- 
- -   M m T o V o x e l s ( . . . )   ( L 2 6 9 ) 
- 
- -   D i s p o s e ( . . . )   ( L 3 0 1 ) 
- 
- 
- 
- # # #   L i b r a r y \ L i b r a r y G l o b a l . c s 
- 
- -   o L i b r a r y ( . . . )   ( L 4 6 ) 
- 
- -   D i s p o s e ( . . . )   ( L 1 7 9 ) 
- 
- -   o L i b r a r y ( . . . )   ( L 2 3 7 ) 
- 
- -   R e g i s t e r G l o b a l L i b r a r y ( . . . )   ( L 2 4 8 ) 
- 
- -   U n r e g i s t e r G l o b a l L i b r a r y ( . . . )   ( L 2 5 9 ) 
- 
- -   R e g i s t e r G l o b a l V i e w e r ( . . . )   ( L 2 7 8 ) 
- 
- -   U n r e g i s t e r G l o b a l V i e w e r ( . . . )   ( L 2 8 9 ) 
- 
- -   R e g i s t e r G l o b a l L o g ( . . . )   ( L 3 0 8 ) 
- 
- -   U n r e g i s t e r G l o b a l L o g ( . . . )   ( L 3 1 9 ) 
- 
- -   G o ( . . . )   ( L 3 5 7 ) 
- 
- -   L o g ( . . . )   ( L 4 3 4 ) 
- 
- -   b C o n t i n u e T a s k ( . . . )   ( L 4 4 6 ) 
- 
- -   E n d T a s k ( . . . )   ( L 4 5 5 ) 
- 
- -   C a n c e l E n d T a s k R e q u e s t ( . . . )   ( L 4 6 3 ) 
- 
- -   s t r F i n d L i g h t S e t u p F i l e ( . . . )   ( L 4 7 1 ) 
- 
- 
- 
- # # #   L i b r a r y \ L i b r a r y I n f o . c s 
- 
- -   s t r N a m e ( . . . )   ( L 4 7 ) 
- 
- -   s t r V e r s i o n ( . . . )   ( L 5 8 ) 
- 
- -   s t r B u i l d I n f o ( . . . )   ( L 7 0 ) 
- 
- 
- 
- # # #   N u m e r i c s \ A n g l e s . c s 
- 
- -   f N o r m a l i z e d A n g l e R a d ( . . . )   ( L 5 4 ) 
- 
- 
- 
- # # #   N u m e r i c s \ C o m p a r i s o n . c s 
- 
- -   b A l m o s t E q u a l ( . . . )   ( L 7 9 ) 
- 
- -   b A l m o s t L e s s O r E q u a l ( . . . )   ( L 9 6 ) 
- 
- -   b A l m o s t M o r e O r E q u a l ( . . . )   ( L 1 0 1 ) 
- 
- -   b A l m o s t Z e r o ( . . . )   ( L 1 1 0 ) 
- 
- -   b A l m o s t E q u a l ( . . . )   ( L 1 2 0 ) 
- 
- -   b A l m o s t Z e r o ( . . . )   ( L 1 3 2 ) 
- 
- -   b A l m o s t E q u a l ( . . . )   ( L 1 4 2 ) 
- 
- -   b A l m o s t Z e r o ( . . . )   ( L 1 5 3 ) 
- 
- 
- 
- # # #   N u m e r i c s \ C o o r d i n a t e s . c s 
- 
- -   R ( . . . )   ( L 4 6 ) 
- 
- -   P h i ( . . . )   ( L 5 2 ) 
- 
- -   T h e t a ( . . . )   ( L 5 8 ) 
- 
- -   T o S t r i n g ( . . . )   ( L 1 4 8 ) 
- 
- -   R ( . . . )   ( L 1 6 0 ) 
- 
- -   P h i ( . . . )   ( L 1 6 5 ) 
- 
- -   Z ( . . . )   ( L 1 6 9 ) 
- 
- -   T o S t r i n g ( . . . )   ( L 2 6 2 ) 
- 
- -   R ( . . . )   ( L 2 7 4 ) 
- 
- -   P h i ( . . . )   ( L 2 8 0 ) 
- 
- -   T o S t r i n g ( . . . )   ( L 3 5 4 ) 
- 
- 
- 
- # # #   N u m e r i c s \ V e c t o r . c s 
- 
- -   v e c N o r m a l i z e d ( . . . )   ( L 5 3 ) 
- 
- -   v e c S a f e N o r m a l i z e d ( . . . )   ( L 6 8 ) 
- 
- -   v e c A s V e c t o r 3 ( . . . )   ( L 1 2 3 ) 
- 
- -   v e c P t W o r l d ( . . . )   ( L 1 3 3 ) 
- 
- -   v e c D i r W o r l d ( . . . )   ( L 1 4 3 ) 
- 
- -   v e c P t L o c a l ( . . . )   ( L 1 5 3 ) 
- 
- -   v e c D i r L o c a l ( . . . )   ( L 1 6 3 ) 
- 
- -   v e c T r a n s f o r m e d ( . . . )   ( L 1 7 1 ) 
- 
- -   v e c M i r r o r e d ( . . . )   ( L 1 8 5 ) 
- 
- 
- 
- # # #   S h a p e s \ 2 D \ B a s e I n t e r f a c e s . c s 
- 
- -   P t A t T ( . . . )   ( L 8 5 ) 
- 
- 
- 
- # # #   S h a p e s \ 2 D \ C o n t o u r S a m p l e r . c s 
- 
- -   f T o t a l L e n g t h ( . . . )   ( L 8 1 ) 
- 
- -   f A r c T F r o m L i n e a r T ( . . . )   ( L 8 6 ) 
- 
- 
- 
- # # #   S h a p e s \ 2 D \ C o n t o u r s . c s 
- 
- -   f R ( . . . )   ( L 5 7 ) 
- 
- -   f L e n g t h ( . . . )   ( L 5 9 ) 
- 
- -   P t A t T ( . . . )   ( L 6 9 ) 
- 
- -   f P h i ( . . . )   ( L 1 3 1 ) 
- 
- -   f A ( . . . )   ( L 1 3 6 ) 
- 
- -   f B ( . . . )   ( L 1 4 1 ) 
- 
- -   f L e n g t h ( . . . )   ( L 1 4 3 ) 
- 
- -   f L e n g t h ( . . . )   ( L 2 4 7 ) 
- 
- -   f L e n g t h ( . . . )   ( L 2 9 3 ) 
- 
- 
- 
- # # #   S h a p e s \ 2 D \ P a t h s . c s 
- 
- -   f L e n g t h ( . . . )   ( L 7 7 ) 
- 
- -   f A n g l e ( . . . )   ( L 1 3 8 ) 
- 
- -   f L e n g t h ( . . . )   ( L 1 4 0 ) 
- 
- -   A d d ( . . . )   ( L 1 7 7 ) 
- 
- -   A d d L i n e ( . . . )   ( L 1 9 2 ) 
- 
- -   A d d L i n e R e l ( . . . )   ( L 2 0 1 ) 
- 
- -   A d d A r c ( . . . )   ( L 2 1 2 ) 
- 
- -   A d d A r c R e l ( . . . )   ( L 2 2 3 ) 
- 
- -   f L e n g t h ( . . . )   ( L 2 5 6 ) 
- 
- 
- 
- # # #   S h a p e s \ 3 D \ B a s e I n t e r f a c e s . c s 
- 
- -   v e c P t A t T ( . . . )   ( L 5 1 ) 
- 
- -   P t A t T ( . . . )   ( L 7 2 ) 
- 
- 
- 
- # # #   S h a p e s \ 3 D \ F r a m e 3 d . c s 
- 
- -   v e c P t T o W o r l d ( . . . )   ( L 1 4 9 ) 
- 
- -   v e c P t T o W o r l d ( . . . )   ( L 1 5 6 ) 
- 
- -   v e c D i r T o W o r l d ( . . . )   ( L 1 6 5 ) 
- 
- -   v e c D i r T o W o r l d ( . . . )   ( L 1 7 8 ) 
- 
- -   v e c P t F r o m W o r l d ( . . . )   ( L 1 9 0 ) 
- 
- -   v e c D i r F r o m W o r l d ( . . . )   ( L 2 0 3 ) 
- 
- -   A s R i g i d ( . . . )   ( L 3 6 3 ) 
- 
- -   E q u a l s ( . . . )   ( L 4 4 0 ) 
- 
- -   E q u a l s ( . . . )   ( L 4 5 0 ) 
- 
- -   G e t H a s h C o d e ( . . . )   ( L 4 5 7 ) 
- 
- 
- 
- # # #   S h a p e s \ 3 D \ O r i e n t e d P a t h . c s 
- 
- -   v e c P t A t T ( . . . )   ( L 5 8 ) 
- 
- -   v e c P t A t T ( . . . )   ( L 8 3 ) 
- 
- -   P t A t T ( . . . )   ( L 8 6 ) 
- 
- 
- 
- # # #   T y p e s \ A n i m a t i o n . c s 
- 
- -   * * e n u m * *   E T y p e   ( L 4 8 ) 
- 
- -   E n d ( . . . )   ( L 6 1 ) 
- 
- -   b A n i m a t e ( . . . )   ( L 6 6 ) 
- 
- -   C l e a r ( . . . )   ( L 1 2 4 ) 
- 
- -   b P u l s e ( . . . )   ( L 1 3 7 ) 
- 
- -   b I s I d l e ( . . . )   ( L 1 6 7 ) 
- 
- -   A d d ( . . . )   ( L 1 7 3 ) 
- 
- 
- 
- # # #   T y p e s \ B B o x . c s 
- 
- -   b I s E m p t y ( . . . )   ( L 9 6 ) 
- 
- -   b C o n t a i n s ( . . . )   ( L 1 1 2 ) 
- 
- -   I n c l u d e ( . . . )   ( L 1 3 1 ) 
- 
- -   I n c l u d e ( . . . )   ( L 1 4 5 ) 
- 
- -   G r o w ( . . . )   ( L 1 5 5 ) 
- 
- -   T o S t r i n g ( . . . )   ( L 1 9 2 ) 
- 
- -   v e c S i z e ( . . . )   ( L 2 7 0 ) 
- 
- -   b I s E m p t y ( . . . )   ( L 2 7 8 ) 
- 
- -   b C o n t a i n s ( . . . )   ( L 2 9 6 ) 
- 
- -   I n c l u d e ( . . . )   ( L 3 1 7 ) 
- 
- -   I n c l u d e ( . . . )   ( L 3 3 5 ) 
- 
- -   I n c l u d e ( . . . )   ( L 3 4 7 ) 
- 
- -   G r o w ( . . . )   ( L 3 6 0 ) 
- 
- -   v e c C e n t e r ( . . . )   ( L 3 8 5 ) 
- 
- -   o F i t I n t o ( . . . )   ( L 3 9 7 ) 
- 
- -   v e c R a n d o m V e c t o r I n s i d e ( . . . )   ( L 4 2 6 ) 
- 
- -   o A s B o u n d i n g B o x 2 ( . . . )   ( L 4 3 7 ) 
- 
- -   T o S t r i n g ( . . . )   ( L 4 4 6 ) 
- 
- -   v e c M i n ( . . . )   ( L 4 5 4 ) 
- 
- -   v e c M a x ( . . . )   ( L 4 5 9 ) 
- 
- 
- 
- # # #   T y p e s \ C o l o r . c s 
- 
- -   R ( . . . )   ( L 5 0 ) 
- 
- -   G ( . . . )   ( L 5 5 ) 
- 
- -   B ( . . . )   ( L 6 0 ) 
- 
- -   A ( . . . )   ( L 6 5 ) 
- 
- -   s t r A s H e x C o d e ( . . . )   ( L 2 3 9 ) 
- 
- -   s t r A s A B G R H e x C o d e ( . . . )   ( L 2 6 5 ) 
- 
- -   T o S t r i n g ( . . . )   ( L 2 7 5 ) 
- 
- -   c l r W e i g h t e d ( . . . )   ( L 2 8 7 ) 
- 
- -   c l r R a n d o m ( . . . )   ( L 3 1 4 ) 
- 
- -   H ( . . . )   ( L 5 7 7 ) 
- 
- -   S ( . . . )   ( L 5 8 1 ) 
- 
- -   V ( . . . )   ( L 5 8 5 ) 
- 
- -   H ( . . . )   ( L 7 1 8 ) 
- 
- -   L ( . . . )   ( L 7 2 3 ) 
- 
- -   S ( . . . )   ( L 7 2 8 ) 
- 
- 
- 
- # # #   T y p e s \ C s v . c s 
- 
- -   S a v e ( . . . )   ( L 1 0 4 ) 
- 
- -   n R o w C o u n t ( . . . )   ( L 1 3 5 ) 
- 
- -   n M a x C o l u m n C o u n t ( . . . )   ( L 1 4 0 ) 
- 
- -   s t r G e t A t ( . . . )   ( L 1 4 5 ) 
- 
- -   S e t K e y C o l u m n ( . . . )   ( L 1 5 8 ) 
- 
- -   b G e t A t ( . . . )   ( L 1 6 3 ) 
- 
- -   b G e t A t ( . . . )   ( L 1 7 5 ) 
- 
- -   b F i n d C o l u m n ( . . . )   ( L 2 1 2 ) 
- 
- -   s t r C o l u m n I d ( . . . )   ( L 2 3 1 ) 
- 
- -   S e t C o l u m n I d s ( . . . )   ( L 2 3 9 ) 
- 
- -   A d d R o w ( . . . )   ( L 2 4 5 ) 
- 
- 
- 
- # # #   T y p e s \ E a s i n g . c s 
- 
- -   f E a s e S i n e I n ( . . . )   ( L 4 4 ) 
- 
- -   f E a s e S i n e O u t ( . . . )   ( L 4 9 ) 
- 
- -   f E a s e S i n e I n O u t ( . . . )   ( L 5 4 ) 
- 
- -   f E a s e Q u a d I n ( . . . )   ( L 5 9 ) 
- 
- -   f E a s e Q u a d O u t ( . . . )   ( L 6 4 ) 
- 
- -   f E a s e Q u a d I n O u t ( . . . )   ( L 6 9 ) 
- 
- -   f E a s e C u b i c I n ( . . . )   ( L 7 6 ) 
- 
- -   f E a s e C u b i c O u t ( . . . )   ( L 8 1 ) 
- 
- -   f E a s e C u b i c I n O u t ( . . . )   ( L 8 6 ) 
- 
- -   * * e n u m * *   E E a s i n g   ( L 9 3 ) 
- 
- -   f E a s i n g F u n c t i o n ( . . . )   ( L 1 0 4 ) 
- 
- 
- 
- # # #   T y p e s \ I m a g e . c s 
- 
- -   c l r V a l u e ( . . . )   ( L 5 1 ) 
- 
- -   f V a l u e ( . . . )   ( L 5 2 ) 
- 
- -   b V a l u e ( . . . )   ( L 5 3 ) 
- 
- -   S e t V a l u e ( . . . )   ( L 5 5 ) 
- 
- -   S e t V a l u e ( . . . )   ( L 5 6 ) 
- 
- -   S e t V a l u e ( . . . )   ( L 5 7 ) 
- 
- -   S e t V a l u e ( . . . )   ( L 6 4 ) 
- 
- -   S e t B g r 2 4 ( . . . )   ( L 7 9 ) 
- 
- -   S e t B g r a 3 2 ( . . . )   ( L 9 5 ) 
- 
- -   S e t R g b 2 4 ( . . . )   ( L 1 2 1 ) 
- 
- -   S e t R g b a 3 2 ( . . . )   ( L 1 2 6 ) 
- 
- -   c l r G e t A t N o r m a l i z e d ( . . . )   ( L 1 3 8 ) 
- 
- -   D r a w L i n e ( . . . )   ( L 1 6 7 ) 
- 
- -   D r a w L i n e ( . . . )   ( L 1 9 8 ) 
- 
- -   D r a w L i n e ( . . . )   ( L 2 2 9 ) 
- 
- -   f V a l u e ( . . . )   ( L 2 8 7 ) 
- 
- -   c l r V a l u e ( . . . )   ( L 2 9 2 ) 
- 
- -   S e t V a l u e ( . . . )   ( L 2 9 7 ) 
- 
- -   S e t V a l u e ( . . . )   ( L 3 0 2 ) 
- 
- -   c l r V a l u e ( . . . )   ( L 3 1 8 ) 
- 
- -   b V a l u e ( . . . )   ( L 3 2 4 ) 
- 
- -   S e t V a l u e ( . . . )   ( L 3 2 9 ) 
- 
- -   S e t V a l u e ( . . . )   ( L 3 3 4 ) 
- 
- -   b C o n t a i n s A c t i v e P i x e l s ( . . . )   ( L 3 4 7 ) 
- 
- -   f V a l u e ( . . . )   ( L 3 7 2 ) 
- 
- -   b V a l u e ( . . . )   ( L 3 7 8 ) 
- 
- -   S e t V a l u e ( . . . )   ( L 3 8 3 ) 
- 
- -   S e t V a l u e ( . . . )   ( L 3 8 8 ) 
- 
- -   S e t V a l u e ( . . . )   ( L 4 0 4 ) 
- 
- -   f V a l u e ( . . . )   ( L 4 1 7 ) 
- 
- -   c l r V a l u e ( . . . )   ( L 5 2 5 ) 
- 
- -   S e t V a l u e ( . . . )   ( L 5 3 0 ) 
- 
- -   S e t R g b a 3 2 ( . . . )   ( L 5 3 5 ) 
- 
- -   c l r V a l u e ( . . . )   ( L 5 8 7 ) 
- 
- -   S e t V a l u e ( . . . )   ( L 5 9 2 ) 
- 
- -   S e t R g b 2 4 ( . . . )   ( L 5 9 7 ) 
- 
- -   S e t V a l u e ( . . . )   ( L 6 4 9 ) 
- 
- -   c l r V a l u e ( . . . )   ( L 6 6 2 ) 
- 
- 
- 
- # # #   T y p e s \ L o g . c s 
- 
- -   L o g ( . . . )   ( L 6 3 ) 
- 
- -   L o g ( . . . )   ( L 1 1 7 ) 
- 
- -   L o g T i m e ( . . . )   ( L 1 4 4 ) 
- 
- -   D i s p o s e ( . . . )   ( L 1 5 5 ) 
- 
- 
- 
- # # #   T y p e s \ P r o g r e s s . c s 
- 
- -   P r o g r e s s ( . . . )   ( L 6 0 ) 
- 
- -   P r o g r e s s ( . . . )   ( L 9 2 ) 
- 
- -   D i s p o s e ( . . . )   ( L 1 0 6 ) 
- 
- -   S e t I t e m ( . . . )   ( L 1 3 9 ) 
- 
- -   P r o g r e s s ( . . . )   ( L 1 8 5 ) 
- 
- 
- 
- # # #   T y p e s \ S k i a B i t m a p . c s 
- 
- -   S a v e P n g ( . . . )   ( L 1 0 8 ) 
- 
- -   S a v e J p g ( . . . )   ( L 1 2 1 ) 
- 
- -   S a v e T g a ( . . . )   ( L 1 3 4 ) 
- 
- -   i m g L o a d F r o m F i l e ( . . . )   ( L 1 3 9 ) 
- 
- 
- 
- # # #   T y p e s \ S l i c e . c s 
- 
- -   s t r W i n d i n g A s S t r i n g ( . . . )   ( L 5 1 ) 
- 
- -   A d d V e r t e x ( . . . )   ( L 1 1 6 ) 
- 
- -   D e t e c t W i n d i n g ( . . . )   ( L 1 2 1 ) 
- 
- -   C l o s e ( . . . )   ( L 1 3 4 ) 
- 
- -   A s S v g P o l y l i n e ( . . . )   ( L 1 4 4 ) 
- 
- -   A s S v g P a t h ( . . . )   ( L 1 6 7 ) 
- 
- -   o B B o x ( . . . )   ( L 1 9 1 ) 
- 
- -   n C o u n t ( . . . )   ( L 1 9 2 ) 
- 
- -   A d d C o n t o u r ( . . . )   ( L 2 0 5 ) 
- 
- -   b I s E m p t y ( . . . )   ( L 2 1 1 ) 
- 
- -   C l o s e ( . . . )   ( L 2 1 6 ) 
- 
- -   S a v e T o S v g F i l e ( . . . )   ( L 2 2 4 ) 
- 
- -   f Z P o s ( . . . )   ( L 4 9 2 ) 
- 
- -   o B B o x ( . . . )   ( L 4 9 3 ) 
- 
- -   n C o n t o u r s ( . . . )   ( L 4 9 4 ) 
- 
- -   m _ f M i n Y ( . . . )   ( L 5 3 3 ) 
- 
- -   m _ f M a x Y ( . . . )   ( L 5 3 4 ) 
- 
- -   m _ b U s e d ( . . . )   ( L 5 3 5 ) 
- 
- -   A d d S l i c e s ( . . . )   ( L 5 5 8 ) 
- 
- -   A d d T o V i e w e r ( . . . )   ( L 5 6 7 ) 
- 
- -   n C o u n t ( . . . )   ( L 6 0 8 ) 
- 
- -   o B B o x ( . . . )   ( L 6 1 0 ) 
- 
- 
- 
- # # #   U t i l s \ F i e l d U t i l s . c s 
- 
- -   b D o e s S l i c e C o n t a i n D e f e c t ( . . . )   ( L 1 5 4 ) 
- 
- -   b V i s u a l i z e S d f S l i c e s A s T g a S t a c k ( . . . )   ( L 2 0 2 ) 
- 
- -   n C o u n t ( . . . )   ( L 2 5 4 ) 
- 
- -   I n f o r m A c t i v e V a l u e ( . . . )   ( L 2 7 2 ) 
- 
- -   o E x t r a c t ( . . . )   ( L 2 8 3 ) 
- 
- -   I n f o r m A c t i v e V a l u e ( . . . )   ( L 3 3 1 ) 
- 
- -   M e r g e ( . . . )   ( L 3 5 8 ) 
- 
- -   I n f o r m A c t i v e V a l u e ( . . . )   ( L 3 7 7 ) 
- 
- -   A d d T o V i e w e r ( . . . )   ( L 3 8 8 ) 
- 
- -   I n f o r m A c t i v e V a l u e ( . . . )   ( L 4 2 6 ) 
- 
- 
- 
- # # #   U t i l s \ M e s h M a t h . c s 
- 
- -   b F i n d T r i a n g l e F r o m S u r f a c e P o i n t ( . . . )   ( L 4 2 ) 
- 
- 
- 
- # # #   U t i l s \ S l i c e V i z . c s 
- 
- -   n S l i c e C o u n t ( . . . )   ( L 8 4 ) 
- 
- -   V i s u a l i z e ( . . . )   ( L 9 0 ) 
- 
- -   V i s u a l i z e ( . . . )   ( L 9 9 ) 
- 
- -   D i s p o s e ( . . . )   ( L 1 3 4 ) 
- 
- 
- 
- # # #   U t i l s \ U t i l s . c s 
- 
- -   s t r S h o r t e n ( . . . )   ( L 2 1 6 ) 
- 
- -   s t r F o l d e r ( . . . )   ( L 3 0 5 ) 
- 
- -   D i s p o s e ( . . . )   ( L 3 1 2 ) 
- 
- 
- 
- # # #   U t i l s \ V d b 2 C L I . c s 
- 
- -   C o n v e r t ( . . . )   ( L 5 4 ) 
- 
- 
- 
- # # #   U t i l s \ V o x C u t V i z . c s 
- 
- -   n S l i c e C o u n t ( . . . )   ( L 8 9 ) 
- 
- -   C u t ( . . . )   ( L 9 6 ) 
- 
- -   C u t ( . . . )   ( L 1 0 9 ) 
- 
- -   D i s p o s e ( . . . )   ( L 1 3 6 ) 
- 
- 
- 
- # # #   V i e w e r \ V i e w e r . c s 
- 
- -   b P o l l ( . . . )   ( L 1 9 5 ) 
- 
- -   R e q u e s t U p d a t e ( . . . )   ( L 2 4 7 ) 
- 
- -   L o a d L i g h t S e t u p ( . . . )   ( L 2 5 8 ) 
- 
- -   L o a d L i g h t S e t u p ( . . . )   ( L 2 6 7 ) 
- 
- -   A d d ( . . . )   ( L 3 2 5 ) 
- 
- -   R e m o v e ( . . . )   ( L 3 3 7 ) 
- 
- -   S e t O b j e c t M a t r i x ( . . . )   ( L 3 4 8 ) 
- 
- -   A d d ( . . . )   ( L 3 6 0 ) 
- 
- -   R e m o v e ( . . . )   ( L 3 7 2 ) 
- 
- -   S e t O b j e c t M a t r i x ( . . . )   ( L 3 8 3 ) 
- 
- -   A d d ( . . . )   ( L 3 9 5 ) 
- 
- -   R e m o v e ( . . . )   ( L 4 0 7 ) 
- 
- -   S e t O b j e c t M a t r i x ( . . . )   ( L 4 1 8 ) 
- 
- -   R e m o v e A l l O b j e c t s ( . . . )   ( L 4 3 0 ) 
- 
- -   R e q u e s t S c r e e n S h o t ( . . . )   ( L 4 4 2 ) 
- 
- -   E n a b l e E x p e r i m e n t a l ( . . . )   ( L 4 5 3 ) 
- 
- -   S e t G r o u p V i s i b l e ( . . . )   ( L 4 6 1 ) 
- 
- -   S e t G r o u p M a t e r i a l ( . . . )   ( L 4 7 7 ) 
- 
- -   S e t G r o u p M a t r i x ( . . . )   ( L 4 9 4 ) 
- 
- -   E n a b l e O v e r h a n g W a r n i n g ( . . . )   ( L 5 1 0 ) 
- 
- -   D i s a b l e O v e r h a n g W a r n i n g ( . . . )   ( L 5 2 5 ) 
- 
- -   o B B o x ( . . . )   ( L 5 3 6 ) 
- 
- -   S e t B a c k g r o u n d C o l o r ( . . . )   ( L 5 4 6 ) 
- 
- -   Z o o m T o F i t ( . . . )   ( L 5 5 5 ) 
- 
- -   S e t F o v ( . . . )   ( L 5 6 4 ) 
- 
- -   b I s I d l e ( . . . )   ( L 5 9 7 ) 
- 
- 
- 
- # # #   V i e w e r \ V i e w e r A c t i o n s . c s 
- 
- -   D o ( . . . )   ( L 6 5 ) 
- 
- -   D o ( . . . )   ( L 8 9 ) 
- 
- -   D o ( . . . )   ( L 1 1 3 ) 
- 
- -   D o ( . . . )   ( L 1 3 5 ) 
- 
- -   D o ( . . . )   ( L 1 5 5 ) 
- 
- -   D o ( . . . )   ( L 1 7 1 ) 
- 
- -   D o ( . . . )   ( L 1 8 4 ) 
- 
- -   D o ( . . . )   ( L 2 0 3 ) 
- 
- -   D o ( . . . )   ( L 2 2 2 ) 
- 
- -   D o ( . . . )   ( L 2 4 2 ) 
- 
- -   D o ( . . . )   ( L 2 6 3 ) 
- 
- -   D o ( . . . )   ( L 2 8 2 ) 
- 
- -   D o ( . . . )   ( L 3 0 1 ) 
- 
- -   D o ( . . . )   ( L 3 2 2 ) 
- 
- -   D o ( . . . )   ( L 3 4 2 ) 
- 
- -   D o ( . . . )   ( L 3 6 1 ) 
- 
- -   D o ( . . . )   ( L 3 7 5 ) 
- 
- -   D o ( . . . )   ( L 3 9 2 ) 
- 
- -   D o ( . . . )   ( L 4 1 6 ) 
- 
- -   D o ( . . . )   ( L 4 4 5 ) 
- 
- -   D o ( . . . )   ( L 4 7 5 ) 
- 
- 
- 
- # # #   V i e w e r \ V i e w e r A n i m a t i o n . c s 
- 
- -   D o ( . . . )   ( L 5 7 ) 
- 
- -   D o ( . . . )   ( L 9 4 ) 
- 
- -   A d d A n i m a t i o n ( . . . )   ( L 1 0 4 ) 
- 
- -   R e m o v e A l l A n i m a t i o n s ( . . . )   ( L 1 1 2 ) 
- 
- 
- 
- # # #   V i e w e r \ V i e w e r C a m e r a . c s 
- 
- -   S e t V i e w P o r t ( . . . )   ( L 6 6 ) 
- 
- -   L o o k A t ( . . . )   ( L 6 9 ) 
- 
- -   Z o o m T o F i t ( . . . )   ( L 7 1 ) 
- 
- -   S c r o l l ( . . . )   ( L 7 3 ) 
- 
- -   M o u s e D r a g ( . . . )   ( L 7 5 ) 
- 
- -   S e t V e r t i c a l F o v ( . . . )   ( L 1 0 3 ) 
- 
- -   S e t V i e w P o r t ( . . . )   ( L 1 1 2 ) 
- 
- -   L o o k A t ( . . . )   ( L 1 2 5 ) 
- 
- -   Z o o m T o F i t ( . . . )   ( L 1 3 1 ) 
- 
- -   M o u s e D r a g ( . . . )   ( L 1 4 3 ) 
- 
- -   S c r o l l ( . . . )   ( L 1 6 6 ) 
- 
- -   v e c E y e ( . . . )   ( L 1 7 6 ) 
- 
- 
- 
- # # #   V i e w e r \ V i e w e r G p u T e x . c s 
- 
- -   R e p l a c e W i t h ( . . . )   ( L 6 7 ) 
- 
- 
- 
- # # #   V i e w e r \ V i e w e r I m a g e Q u a d . c s 
- 
- -   U p d a t e I m a g e ( . . . )   ( L 6 9 ) 
- 
- -   U p d a t e M a t r i x ( . . . )   ( L 7 5 ) 
- 
- 
- 
- # # #   V i e w e r \ V i e w e r K e y b o a r d . c s 
- 
- -   A d d K e y H a n d l e r ( . . . )   ( L 4 3 ) 
- 
- -   b K e y E q u a l s ( . . . )   ( L 1 4 6 ) 
- 
- -   D o ( . . . )   ( L 1 6 1 ) 
- 
- -   A d d A c t i o n ( . . . )   ( L 1 7 7 ) 
- 
+## PicoGK (72 files)
+
+### Base/FieldMetadata.cs
+
+- nCount(...) (L83)
+
+- bGetNameAt(...) (L96)
+
+- strTypeAt(...) (L134)
+
+- strTypeName(...) (L144)
+
+- bGetValueAt(...) (L169)
+
+- bGetValueAt(...) (L192)
+
+- bGetValueAt(...) (L205)
+
+- SetValue(...) (L216)
+
+- SetValue(...) (L227)
+
+- SetValue(...) (L238)
+
+- RemoveValue(...) (L248)
+
+
+### Base/GlobalObjects.cs
+
+- voxSphere(...) (L93)
+
+- voxLatticeBeam(...) (L109)
+
+- voxMeshShell(...) (L130)
+
+- voxCombineAll(...) (L144)
+
+- voxFromVdbFile(...) (L170)
+
+
+### Base/Lattice.cs
+
+- AddSphere(...) (L64)
+
+- AddBeam(...) (L78)
+
+- AddBeam(...) (L101)
+
+
+### Base/Mesh.cs
+
+- mshCreateTransformed(...) (L75)
+
+- mshCreateTransformed(...) (L105)
+
+- mshCreateMirrored(...) (L129)
+
+- nAddVertex(...) (L153)
+
+- AddVertices(...) (L158)
+
+- vecVertexAt(...) (L176)
+
+- nVertexCount(...) (L190)
+
+- nAddTriangle(...) (L201)
+
+- nAddTriangle(...) (L215)
+
+- nTriangleCount(...) (L224)
+
+- nAddTriangle(...) (L238)
+
+- AddQuad(...) (L253)
+
+- AddQuad(...) (L276)
+
+- oTriangleAt(...) (L294)
+
+- GetTriangle(...) (L312)
+
+- Append(...) (L335)
+
+- oBoundingBox(...) (L352)
+
+
+### Base/PolyLine.cs
+
+- nAddVertex(...) (L65)
+
+- Add(...) (L76)
+
+- nVertexCount(...) (L86)
+
+- vecVertexAt(...) (L95)
+
+- GetColor(...) (L106)
+
+- oBoundingBox(...) (L116)
+
+- AddArrow(...) (L137)
+
+- AddCross(...) (L195)
+
+
+### Base/ScalarField.cs
+
+- InformActiveValue(...) (L52)
+
+- SetValue(...) (L138)
+
+- bGetValue(...) (L155)
+
+- RemoveValue(...) (L166)
+
+- GetVoxelDimensions(...) (L180)
+
+- GetVoxelDimensions(...) (L210)
+
+- GetVoxelSlice(...) (L242)
+
+- TraverseActive(...) (L262)
+
+- fSignedDistance(...) (L279)
+
+- oBoundingBox(...) (L289)
+
+
+### Base/VectorField.cs
+
+- InformActiveValue(...) (L51)
+
+- SetValue(...) (L149)
+
+- bGetValue(...) (L169)
+
+- RemoveValue(...) (L183)
+
+- TraverseActive(...) (L195)
+
+
+### Base/Voxels.cs
+
+- fSignedDistance(...) (L57)
+
+- voxDuplicate(...) (L118)
+
+- mshAsMesh(...) (L181)
+
+- voxSphere(...) (L193)
+
+- voxLatticeBeam(...) (L211)
+
+- voxMeshShell(...) (L234)
+
+- bIsEmpty(...) (L249)
+
+- fVoxelSize(...) (L267)
+
+- BoolAdd(...) (L274)
+
+- voxBoolAdd(...) (L291)
+
+- BoolAddAll(...) (L303)
+
+- voxBoolAddAll(...) (L315)
+
+- voxCombine(...) (L328)
+
+- voxCombineAll(...) (L340)
+
+- BoolSubtract(...) (L354)
+
+- voxBoolSubtract(...) (L369)
+
+- BoolSubtractAll(...) (L381)
+
+- voxBoolSubtractAll(...) (L392)
+
+- BoolIntersect(...) (L405)
+
+- voxBoolIntersect(...) (L420)
+
+- Trim(...) (L458)
+
+- voxTrim(...) (L469)
+
+- Offset(...) (L482)
+
+- voxOffset(...) (L492)
+
+- DoubleOffset(...) (L505)
+
+- voxDoubleOffset(...) (L517)
+
+- TripleOffset(...) (L539)
+
+- voxTripleOffset(...) (L557)
+
+- Smoothen(...) (L569)
+
+- voxSmoothen(...) (L577)
+
+- OverOffset(...) (L590)
+
+- voxOverOffset(...) (L613)
+
+- Fillet(...) (L631)
+
+- voxFillet(...) (L642)
+
+- voxShell(...) (L659)
+
+- voxShell(...) (L680)
+
+- RenderMesh(...) (L707)
+
+- RenderImplicit(...) (L723)
+
+- IntersectImplicit(...) (L738)
+
+- voxIntersectImplicit(...) (L748)
+
+- ... +18 more members
+
+
+### Diagnostics/TestCLI.cs
+
+- Run(...) (L45)
+
+
+### Diagnostics/TestProgress.cs
+
+- Test(...) (L40)
+
+
+### Diagnostics/TestVectorAndComparison.cs
+
+- Test(...) (L44)
+
+
+### IO/Cli.cs
+
+- oBBoxFile(...) (L81)
+
+- bBinary(...) (L86)
+
+- fUnitsHeader(...) (L91)
+
+- b32BitAlign(...) (L96)
+
+- strHeaderDate(...) (L106)
+
+- strWarnings(...) (L116)
+
+- WriteSlicesToCliFile(...) (L129)
+
+- SaveToCliFile(...) (L885)
+
+
+### IO/ImageIo.cs
+
+- SaveTga(...) (L43)
+
+- SaveTga(...) (L55)
+
+- GetFileInfo(...) (L112)
+
+- GetFileInfo(...) (L130)
+
+- LoadTga(...) (L155)
+
+- LoadTga(...) (L167)
+
+- bYAxisFlipped(...) (L245)
+
+
+### IO/MeshIo.cs
+
+- **enum** EStlUnit (L45)
+
+- mshFromStlFile(...) (L63)
+
+- mshFromStlFile(...) (L84)
+
+- SaveToStlFile(...) (L210)
+
+- SaveToStlFile(...) (L221)
+
+- NormalX(...) (L314)
+
+- NormalY(...) (L315)
+
+- NormalZ(...) (L316)
+
+- V1X(...) (L317)
+
+- V1Y(...) (L318)
+
+- V1Z(...) (L319)
+
+- V2X(...) (L320)
+
+- V2Y(...) (L321)
+
+- V2Z(...) (L322)
+
+- V3X(...) (L323)
+
+- V3Y(...) (L324)
+
+- V3Z(...) (L325)
+
+- m_strLoadHeaderData(...) (L401)
+
+
+### IO/OpenVdbFile.cs
+
+- libCreateCompatibleLibraryFor(...) (L86)
+
+- SaveToFile(...) (L165)
+
+- voxGet(...) (L199)
+
+- voxGet(...) (L221)
+
+- nAdd(...) (L242)
+
+- oGetScalarField(...) (L267)
+
+- oGetScalarField(...) (L288)
+
+- nAdd(...) (L309)
+
+- oGetVectorField(...) (L328)
+
+- oGetVectorField(...) (L348)
+
+- nAdd(...) (L369)
+
+- nFieldCount(...) (L384)
+
+- strFieldName(...) (L397)
+
+- strFieldType(...) (L430)
+
+- bIsPicoGKCompatible(...) (L478)
+
+- fPicoGKVoxelSizeMM(...) (L494)
+
+
+### IO/VoxelsIo.cs
+
+- voxFromVdbFile(...) (L60)
+
+- SaveToVdbFile(...) (L91)
+
+
+### Internals/Interop.cs
+
+- Dispose(...) (L196)
+
+- Dispose(...) (L262)
+
+- Dispose(...) (L484)
+
+- Dispose(...) (L560)
+
+- Dispose(...) (L774)
+
+- Dispose(...) (L833)
+
+- Dispose(...) (L891)
+
+- Dispose(...) (L944)
+
+- Dispose(...) (L1057)
+
+- Dispose(...) (L1160)
+
+- Dispose(...) (L1245)
+
+- Dispose(...) (L1365)
+
+
+### Internals/Types.cs
+
+- X(...) (L90)
+
+- Y(...) (L91)
+
+- Z(...) (L92)
+
+- A(...) (L107)
+
+- B(...) (L108)
+
+- C(...) (L109)
+
+
+### Library/Library.cs
+
+- vecVoxelsToMm(...) (L249)
+
+- MmToVoxels(...) (L269)
+
+- Dispose(...) (L301)
+
+
+### Library/LibraryGlobal.cs
+
+- oLibrary(...) (L46)
+
+- Dispose(...) (L179)
+
+- oLibrary(...) (L237)
+
+- RegisterGlobalLibrary(...) (L248)
+
+- UnregisterGlobalLibrary(...) (L259)
+
+- RegisterGlobalViewer(...) (L278)
+
+- UnregisterGlobalViewer(...) (L289)
+
+- RegisterGlobalLog(...) (L308)
+
+- UnregisterGlobalLog(...) (L319)
+
+- Go(...) (L357)
+
+- Log(...) (L434)
+
+- bContinueTask(...) (L446)
+
+- EndTask(...) (L455)
+
+- CancelEndTaskRequest(...) (L463)
+
+- strFindLightSetupFile(...) (L471)
+
+
+### Library/LibraryInfo.cs
+
+- strName(...) (L47)
+
+- strVersion(...) (L58)
+
+- strBuildInfo(...) (L70)
+
+
+### Numerics/Angles.cs
+
+- fNormalizedAngleRad(...) (L54)
+
+
+### Numerics/Comparison.cs
+
+- bAlmostEqual(...) (L79)
+
+- bAlmostLessOrEqual(...) (L96)
+
+- bAlmostMoreOrEqual(...) (L101)
+
+- bAlmostZero(...) (L110)
+
+- bAlmostEqual(...) (L120)
+
+- bAlmostZero(...) (L132)
+
+- bAlmostEqual(...) (L142)
+
+- bAlmostZero(...) (L153)
+
+
+### Numerics/Coordinates.cs
+
+- R(...) (L46)
+
+- Phi(...) (L52)
+
+- Theta(...) (L58)
+
+- ToString(...) (L148)
+
+- R(...) (L160)
+
+- Phi(...) (L165)
+
+- Z(...) (L169)
+
+- ToString(...) (L262)
+
+- R(...) (L274)
+
+- Phi(...) (L280)
+
+- ToString(...) (L354)
+
+
+### Numerics/Vector.cs
+
+- vecNormalized(...) (L53)
+
+- vecSafeNormalized(...) (L68)
+
+- vecAsVector3(...) (L123)
+
+- vecPtWorld(...) (L133)
+
+- vecDirWorld(...) (L143)
+
+- vecPtLocal(...) (L153)
+
+- vecDirLocal(...) (L163)
+
+- vecTransformed(...) (L171)
+
+- vecMirrored(...) (L185)
+
+
+### Shapes/2D/BaseInterfaces.cs
+
+- PtAtT(...) (L85)
+
+
+### Shapes/2D/ContourSampler.cs
+
+- fTotalLength(...) (L81)
+
+- fArcTFromLinearT(...) (L86)
+
+
+### Shapes/2D/Contours.cs
+
+- fR(...) (L57)
+
+- fLength(...) (L59)
+
+- PtAtT(...) (L69)
+
+- fPhi(...) (L131)
+
+- fA(...) (L136)
+
+- fB(...) (L141)
+
+- fLength(...) (L143)
+
+- fLength(...) (L247)
+
+- fLength(...) (L293)
+
+
+### Shapes/2D/Paths.cs
+
+- fLength(...) (L77)
+
+- fAngle(...) (L138)
+
+- fLength(...) (L140)
+
+- Add(...) (L177)
+
+- AddLine(...) (L192)
+
+- AddLineRel(...) (L201)
+
+- AddArc(...) (L212)
+
+- AddArcRel(...) (L223)
+
+- fLength(...) (L256)
+
+
+### Shapes/3D/BaseInterfaces.cs
+
+- vecPtAtT(...) (L51)
+
+- PtAtT(...) (L72)
+
+
+### Shapes/3D/Frame3d.cs
+
+- vecPtToWorld(...) (L149)
+
+- vecPtToWorld(...) (L156)
+
+- vecDirToWorld(...) (L165)
+
+- vecDirToWorld(...) (L178)
+
+- vecPtFromWorld(...) (L190)
+
+- vecDirFromWorld(...) (L203)
+
+- AsRigid(...) (L363)
+
+- Equals(...) (L440)
+
+- Equals(...) (L450)
+
+- GetHashCode(...) (L457)
+
+
+### Shapes/3D/OrientedPath.cs
+
+- vecPtAtT(...) (L58)
+
+- vecPtAtT(...) (L83)
+
+- PtAtT(...) (L86)
+
+
+### Types/Animation.cs
+
+- **enum** EType (L48)
+
+- End(...) (L61)
+
+- bAnimate(...) (L66)
+
+- Clear(...) (L124)
+
+- bPulse(...) (L137)
+
+- bIsIdle(...) (L167)
+
+- Add(...) (L173)
+
+
+### Types/BBox.cs
+
+- bIsEmpty(...) (L96)
+
+- bContains(...) (L112)
+
+- Include(...) (L131)
+
+- Include(...) (L145)
+
+- Grow(...) (L155)
+
+- ToString(...) (L192)
+
+- vecSize(...) (L270)
+
+- bIsEmpty(...) (L278)
+
+- bContains(...) (L296)
+
+- Include(...) (L317)
+
+- Include(...) (L335)
+
+- Include(...) (L347)
+
+- Grow(...) (L360)
+
+- vecCenter(...) (L385)
+
+- oFitInto(...) (L397)
+
+- vecRandomVectorInside(...) (L426)
+
+- oAsBoundingBox2(...) (L437)
+
+- ToString(...) (L446)
+
+- vecMin(...) (L454)
+
+- vecMax(...) (L459)
+
+
+### Types/Color.cs
+
+- R(...) (L50)
+
+- G(...) (L55)
+
+- B(...) (L60)
+
+- A(...) (L65)
+
+- strAsHexCode(...) (L239)
+
+- strAsABGRHexCode(...) (L265)
+
+- ToString(...) (L275)
+
+- clrWeighted(...) (L287)
+
+- clrRandom(...) (L314)
+
+- H(...) (L577)
+
+- S(...) (L581)
+
+- V(...) (L585)
+
+- H(...) (L718)
+
+- L(...) (L723)
+
+- S(...) (L728)
+
+
+### Types/Csv.cs
+
+- Save(...) (L104)
+
+- nRowCount(...) (L135)
+
+- nMaxColumnCount(...) (L140)
+
+- strGetAt(...) (L145)
+
+- SetKeyColumn(...) (L158)
+
+- bGetAt(...) (L163)
+
+- bGetAt(...) (L175)
+
+- bFindColumn(...) (L212)
+
+- strColumnId(...) (L231)
+
+- SetColumnIds(...) (L239)
+
+- AddRow(...) (L245)
+
+
+### Types/Easing.cs
+
+- fEaseSineIn(...) (L44)
+
+- fEaseSineOut(...) (L49)
+
+- fEaseSineInOut(...) (L54)
+
+- fEaseQuadIn(...) (L59)
+
+- fEaseQuadOut(...) (L64)
+
+- fEaseQuadInOut(...) (L69)
+
+- fEaseCubicIn(...) (L76)
+
+- fEaseCubicOut(...) (L81)
+
+- fEaseCubicInOut(...) (L86)
+
+- **enum** EEasing (L93)
+
+- fEasingFunction(...) (L104)
+
+
+### Types/Image.cs
+
+- clrValue(...) (L51)
+
+- fValue(...) (L52)
+
+- bValue(...) (L53)
+
+- SetValue(...) (L55)
+
+- SetValue(...) (L56)
+
+- SetValue(...) (L57)
+
+- SetValue(...) (L64)
+
+- SetBgr24(...) (L79)
+
+- SetBgra32(...) (L95)
+
+- SetRgb24(...) (L121)
+
+- SetRgba32(...) (L126)
+
+- clrGetAtNormalized(...) (L138)
+
+- DrawLine(...) (L167)
+
+- DrawLine(...) (L198)
+
+- DrawLine(...) (L229)
+
+- fValue(...) (L287)
+
+- clrValue(...) (L292)
+
+- SetValue(...) (L297)
+
+- SetValue(...) (L302)
+
+- clrValue(...) (L318)
+
+- bValue(...) (L324)
+
+- SetValue(...) (L329)
+
+- SetValue(...) (L334)
+
+- bContainsActivePixels(...) (L347)
+
+- fValue(...) (L372)
+
+- bValue(...) (L378)
+
+- SetValue(...) (L383)
+
+- SetValue(...) (L388)
+
+- SetValue(...) (L404)
+
+- fValue(...) (L417)
+
+- clrValue(...) (L525)
+
+- SetValue(...) (L530)
+
+- SetRgba32(...) (L535)
+
+- clrValue(...) (L587)
+
+- SetValue(...) (L592)
+
+- SetRgb24(...) (L597)
+
+- SetValue(...) (L649)
+
+- clrValue(...) (L662)
+
+
+### Types/Log.cs
+
+- Log(...) (L63)
+
+- Log(...) (L117)
+
+- LogTime(...) (L144)
+
+- Dispose(...) (L155)
+
+
+### Types/Progress.cs
+
+- Progress(...) (L60)
+
+- Progress(...) (L92)
+
+- Dispose(...) (L106)
+
+- SetItem(...) (L139)
+
+- Progress(...) (L185)
+
+
+### Types/SkiaBitmap.cs
+
+- SavePng(...) (L108)
+
+- SaveJpg(...) (L121)
+
+- SaveTga(...) (L134)
+
+- imgLoadFromFile(...) (L139)
+
+
+### Types/Slice.cs
+
+- strWindingAsString(...) (L51)
+
+- AddVertex(...) (L116)
+
+- DetectWinding(...) (L121)
+
+- Close(...) (L134)
+
+- AsSvgPolyline(...) (L144)
+
+- AsSvgPath(...) (L167)
+
+- oBBox(...) (L191)
+
+- nCount(...) (L192)
+
+- AddContour(...) (L205)
+
+- bIsEmpty(...) (L211)
+
+- Close(...) (L216)
+
+- SaveToSvgFile(...) (L224)
+
+- fZPos(...) (L492)
+
+- oBBox(...) (L493)
+
+- nContours(...) (L494)
+
+- m_fMinY(...) (L533)
+
+- m_fMaxY(...) (L534)
+
+- m_bUsed(...) (L535)
+
+- AddSlices(...) (L558)
+
+- AddToViewer(...) (L567)
+
+- nCount(...) (L608)
+
+- oBBox(...) (L610)
+
+
+### Utils/FieldUtils.cs
+
+- bDoesSliceContainDefect(...) (L154)
+
+- bVisualizeSdfSlicesAsTgaStack(...) (L202)
+
+- nCount(...) (L254)
+
+- InformActiveValue(...) (L272)
+
+- oExtract(...) (L283)
+
+- InformActiveValue(...) (L331)
+
+- Merge(...) (L358)
+
+- InformActiveValue(...) (L377)
+
+- AddToViewer(...) (L388)
+
+- InformActiveValue(...) (L426)
+
+
+### Utils/MeshMath.cs
+
+- bFindTriangleFromSurfacePoint(...) (L42)
+
+
+### Utils/SliceViz.cs
+
+- nSliceCount(...) (L84)
+
+- Visualize(...) (L90)
+
+- Visualize(...) (L99)
+
+- Dispose(...) (L134)
+
+
+### Utils/Utils.cs
+
+- strShorten(...) (L216)
+
+- strFolder(...) (L305)
+
+- Dispose(...) (L312)
+
+
+### Utils/Vdb2CLI.cs
+
+- Convert(...) (L54)
+
+
+### Utils/VoxCutViz.cs
+
+- nSliceCount(...) (L89)
+
+- Cut(...) (L96)
+
+- Cut(...) (L109)
+
+- Dispose(...) (L136)
+
+
+### Viewer/Viewer.cs
+
+- bPoll(...) (L195)
+
+- RequestUpdate(...) (L247)
+
+- LoadLightSetup(...) (L258)
+
+- LoadLightSetup(...) (L267)
+
+- Add(...) (L325)
+
+- Remove(...) (L337)
+
+- SetObjectMatrix(...) (L348)
+
+- Add(...) (L360)
+
+- Remove(...) (L372)
+
+- SetObjectMatrix(...) (L383)
+
+- Add(...) (L395)
+
+- Remove(...) (L407)
+
+- SetObjectMatrix(...) (L418)
+
+- RemoveAllObjects(...) (L430)
+
+- RequestScreenShot(...) (L442)
+
+- EnableExperimental(...) (L453)
+
+- SetGroupVisible(...) (L461)
+
+- SetGroupMaterial(...) (L477)
+
+- SetGroupMatrix(...) (L494)
+
+- EnableOverhangWarning(...) (L510)
+
+- DisableOverhangWarning(...) (L525)
+
+- oBBox(...) (L536)
+
+- SetBackgroundColor(...) (L546)
+
+- ZoomToFit(...) (L555)
+
+- SetFov(...) (L564)
+
+- bIsIdle(...) (L597)
+
+
+### Viewer/ViewerActions.cs
+
+- Do(...) (L65)
+
+- Do(...) (L89)
+
+- Do(...) (L113)
+
+- Do(...) (L135)
+
+- Do(...) (L155)
+
+- Do(...) (L171)
+
+- Do(...) (L184)
+
+- Do(...) (L203)
+
+- Do(...) (L222)
+
+- Do(...) (L242)
+
+- Do(...) (L263)
+
+- Do(...) (L282)
+
+- Do(...) (L301)
+
+- Do(...) (L322)
+
+- Do(...) (L342)
+
+- Do(...) (L361)
+
+- Do(...) (L375)
+
+- Do(...) (L392)
+
+- Do(...) (L416)
+
+- Do(...) (L445)
+
+- Do(...) (L475)
+
+
+### Viewer/ViewerAnimation.cs
+
+- Do(...) (L57)
+
+- Do(...) (L94)
+
+- AddAnimation(...) (L104)
+
+- RemoveAllAnimations(...) (L112)
+
+
+### Viewer/ViewerCamera.cs
+
+- SetViewPort(...) (L66)
+
+- LookAt(...) (L69)
+
+- ZoomToFit(...) (L71)
+
+- Scroll(...) (L73)
+
+- MouseDrag(...) (L75)
+
+- SetVerticalFov(...) (L103)
+
+- SetViewPort(...) (L112)
+
+- LookAt(...) (L125)
+
+- ZoomToFit(...) (L131)
+
+- MouseDrag(...) (L143)
+
+- Scroll(...) (L166)
+
+- vecEye(...) (L176)
+
+
+### Viewer/ViewerGpuTex.cs
+
+- ReplaceWith(...) (L67)
+
+
+### Viewer/ViewerImageQuad.cs
+
+- UpdateImage(...) (L69)
+
+- UpdateMatrix(...) (L75)
+
+
+### Viewer/ViewerKeyboard.cs
+
+- AddKeyHandler(...) (L43)
+
+- bKeyEquals(...) (L146)
+
+- Do(...) (L161)
+
+- AddAction(...) (L177)
+
 
 *(Appendix truncated — full catalog has 2100+ lines; re-run `_build_merged_readme.py` after API changes.)*
 
+</details>
 
 ---
 
