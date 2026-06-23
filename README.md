@@ -1,5 +1,9 @@
 # PicoGK + Godot 4.x .NET — Procedural Voxel Planet
+## Preview
 
+<p align="center">
+  <img src="https://drive.google.com/uc?export=view&id=1yUdxOk2c5wHAhmAaBIglmQwygjTmAch0" alt="Procedural voxel planet generated in Godot with PicoGK" width="760">
+</p>
 This project integrates **PicoGK** into a **custom-built Godot 4.x editor** with .NET support through a native engine module named `picogk_voxel`.
 
 Planet generation is **not reinvented**. The Godot module ports the working reference implementation from `PlanetTest/` into native C++ and exposes it to Godot as `PicogkPlanetGenerator`.
