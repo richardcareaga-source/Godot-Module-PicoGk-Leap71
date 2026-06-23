@@ -1,0 +1,44 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <StartupObject>PicogkGodotBridge.VerifyProgram</StartupObject>
+    <TargetFramework>net8.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Platforms>x64</Platforms>
+    <PlatformTarget>x64</PlatformTarget>
+    <RootNamespace>PicogkGodotBridge</RootNamespace>
+    <AssemblyName>PicogkGodotBridge</AssemblyName>
+    <OutputPath>$(MSBuildThisFileDirectory)bin\</OutputPath>
+  </PropertyGroup>
+
+  <!-- PicoGK — geometry kernel -->
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\..\PicoGK\PicoGK.csproj" />
+  </ItemGroup>
+
+  <!-- LEAP71 ShapeKernel — all ShapeKernel sources -->
+  <ItemGroup>
+    <Compile Include="..\..\..\..\LEAP71_ShapeKernel\ShapeKernel\**\*.cs" />
+  </ItemGroup>
+
+  <!-- LEAP71 LatticeLibrary — lattice + implicit presets + example helpers -->
+  <ItemGroup>
+    <Compile Include="..\..\..\..\LEAP71_LatticeLibrary\LatticeLibrary\**\*.cs" />
+    <Compile Include="..\..\..\..\LEAP71_LatticeLibrary\ImplicitLibrary\**\*.cs" />
+  </ItemGroup>
+
+  <!-- PlanetTest — source of truth for planet SDF -->
+  <ItemGroup>
+    <Compile Include="..\..\..\..\PlanetTest\PlanetTest\Planet.cs" Link="Planet\Planet.cs" />
+    <Compile Include="..\..\..\..\PlanetTest\PlanetTest\Noise.cs" Link="Planet\Noise.cs" />
+  </ItemGroup>
+
+  <!-- PicoGK native runtime (engine binary — required by PicoGK C# bindings) -->
+  <ItemGroup>
+    <None Include="..\..\..\..\PicoGK\native\win-x64\*.dll">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <Link>%(Filename)%(Extension)</Link>
+    </None>
+  </ItemGroup>
+</Project>

@@ -1,0 +1,10 @@
+ea4bc82a6ad023ab7ee23ee620429895
+::res://::1780545869.0
+icon.svg::CompressedTexture2D::325578532783763970::1780545858::1780545871::1::::<><><>c68d3ce8d2a99b5e6293b45b6d6a4896<>res://.godot/imported/icon.svg-218a8f2b3041327d8a5756f3a245f83b.ctex::
+README.md::TextFile::-1::1780545867::0::1::::<><><><>::
+::res://scenes/::1780545865.0
+World.tscn::PackedScene::-1::1780545865::0::1::::<><><><>::res://scripts/PlanetWorld.cs<>res://scripts/OrbitCamera.cs
+::res://scripts/::1780545864.0
+MeshUtil.cs::CSharpScript::7456790314912334385::1780545860::0::1::::<><><><>::
+OrbitCamera.cs::CSharpScript::8650944555439296870::1780545861::0::1::::<><><><>::
+PlanetWorld.cs::CSharpScript::4928301618260702530::1780545869::0::1::::<><><><>::

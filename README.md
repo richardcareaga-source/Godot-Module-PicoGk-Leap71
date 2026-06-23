@@ -1,10 +1,17 @@
-# PicoGK + Custom Godot 4.x .NET Editor — Procedural Voxel Planet
+# PicoGK + Godot 4.x .NET — Procedural Voxel Planet
 
-This repository integrates **PicoGK** into a **custom-built Godot 4.x editor** (with .NET/Mono) via a native engine module `picogk_voxel`. Planet generation logic is **not reinvented** — it is ported from the working reference in **`PlanetTest/`**.
+This project integrates **PicoGK** into a **custom-built Godot 4.x editor** with .NET support through a native engine module named `picogk_voxel`.
 
-**Master reference (~1200 lines — PicoGK + ShapeKernel + LatticeLibrary + Godot merge, full API appendix):** **[MERGED_LIBRARIES_README.md](MERGED_LIBRARIES_README.md)**  
+Planet generation is **not reinvented**. The Godot module ports the working reference implementation from `PlanetTest/` into native C++ and exposes it to Godot as `PicogkPlanetGenerator`.
 
-**Also:** [GAME_ROADMAP.md](GAME_ROADMAP.md) (game phases) · [PROCEDURAL_PLATFORM.md](PROCEDURAL_PLATFORM.md) (caching, threads, chunks) · Regenerate API appendix: `python _build_merged_readme.py`
+**Master reference:** [MERGED_LIBRARIES_README.md](MERGED_LIBRARIES_README.md)
+Includes PicoGK, ShapeKernel, LatticeLibrary, Godot integration notes, and the API appendix.
+
+**Related docs:**
+
+- [GAME_ROADMAP.md](GAME_ROADMAP.md) — game phases
+- [PROCEDURAL_PLATFORM.md](PROCEDURAL_PLATFORM.md) — caching, threads, and chunks
+- Regenerate the API appendix with: `python _build_merged_readme.py`
 
 ---
 
@@ -12,116 +19,152 @@ This repository integrates **PicoGK** into a **custom-built Godot 4.x editor** (
 
 | File | Role |
 |------|------|
-| `PlanetTest/PlanetTest/Noise.cs` | 3D Perlin, fBm, domain-warped fBm (seed 42) |
-| `PlanetTest/PlanetTest/Planet.cs` | `PlanetSDF`, `BiomeSDF`, `Planet` — spherical SDF + biome masks |
-| `PlanetTest/PlanetTest/Program.cs` | Voxelise per biome, preview colours, export full STL |
+| `PlanetTest/PlanetTest/Noise.cs` | 3D Perlin noise, fBm, and domain-warped fBm using seed `42` |
+| `PlanetTest/PlanetTest/Planet.cs` | `PlanetSDF`, `BiomeSDF`, and `Planet` — spherical SDF plus biome masks |
+| `PlanetTest/PlanetTest/Program.cs` | Voxelizes each biome, creates preview colors, and exports the full STL |
 
-### Voxel structure (not a custom octree)
+### Voxel structure
 
-PlanetTest uses PicoGK **`Voxels`**, backed by **OpenVDB** inside the native `picogk.26.1` runtime. Flow:
+`PlanetTest` uses PicoGK **`Voxels`**, backed by **OpenVDB** inside the native `picogk.26.1` runtime.
 
-1. `new Voxels(implicit, bbox)` → `RenderImplicit` samples the SDF on a regular grid at `Library` voxel size.
-2. `new Mesh(voxels)` → `Mesh_hCreateFromVoxels` — marching-cubes-style surface mesh.
-3. Per-biome meshes: `BiomeSDF` returns the planet SDF only inside the target biome, `+1` outside (empty).
+Flow:
 
-There is **no** separate octree implementation in PlanetTest.
+1. `new Voxels(implicit, bbox)` samples the SDF on a regular grid at the PicoGK `Library` voxel size.
+2. `new Mesh(voxels)` calls the PicoGK voxel-to-mesh path, similar to marching cubes.
+3. Per-biome meshes use `BiomeSDF`, which returns the planet SDF only inside the selected biome and returns `+1` outside the biome so empty space is produced.
 
-### Default planet parameters (PlanetTest)
+There is **no separate custom octree** in `PlanetTest`.
+
+### Default planet parameters
 
 | Constant | Value | Meaning |
 |----------|-------|---------|
-| `PlanetSDF.R` | 80 mm | Base sphere radius |
-| `PlanetSDF.H_MAX` | 12 mm | Max terrain relief |
-| `NOISE_SCALE` | 0.028 | Surface noise frequency |
-| Voxel size | 1.2 mm | `Library.Go(1.2f, ...)` in `Program.cs` |
+| `PlanetSDF.R` | `80 mm` | Base sphere radius |
+| `PlanetSDF.H_MAX` | `12 mm` | Maximum terrain relief |
+| `NOISE_SCALE` | `0.028` | Surface noise frequency |
+| Voxel size | `1.2 mm` | `Library.Go(1.2f, ...)` in `Program.cs` |
 
-### Biomes (`Planet.cs`)
+### Biomes
 
 | ID | Enum | Classification |
 |----|------|----------------|
-| 0 | Ocean | `fNoise < -0.18` |
-| 1 | Tropical | `\|lat\| < 0.32` (after above) |
-| 2 | Temperate | default belt |
-| 3 | Tundra | `\|lat\| > 0.52` |
-| 4 | Mountain | `fNoise > 0.28` |
-| 5 | Polar | `\|lat\| > 0.78` |
+| `0` | `Ocean` | `fNoise < -0.18` |
+| `1` | `Tropical` | `abs(lat) < 0.32` after the ocean test |
+| `2` | `Temperate` | Default belt |
+| `3` | `Tundra` | `abs(lat) > 0.52` |
+| `4` | `Mountain` | `fNoise > 0.28` |
+| `5` | `Polar` | `abs(lat) > 0.78` |
 
-Visual colours in PlanetTest previews: blue ocean, lemongrass tropical, green temperate, rock tundra, gray mountain, frozen polar.
+PlanetTest preview colors:
+
+- Ocean: blue
+- Tropical: lemongrass
+- Temperate: green
+- Tundra: rock
+- Mountain: gray
+- Polar: frozen/ice color
 
 ### Coordinate units
 
-- **PicoGK**: millimeters (mm).
-- **Godot**: meters (m). Module divides positions by **1000** when building `ArrayMesh`.
-- Default demo: `radius_mm = 80` → **0.08 m** planet radius in Godot.
+- **PicoGK:** millimeters (`mm`)
+- **Godot:** meters (`m`)
+- The module divides PicoGK vertex positions by **1000** when building the Godot `ArrayMesh`.
+- Default demo scale: `radius_mm = 80` becomes a `0.08 m` planet radius in Godot.
 
-### Axis / winding
+### Axis and triangle winding
 
-Mesh vertices are taken from PicoGK `Mesh_GetTriangleV` in mm, scaled to m. If normals look inverted, toggle `reverse_winding` in the generator (swaps triangle vertex order).
+Mesh vertices are read from PicoGK in millimeters, converted to meters, and written into a Godot `ArrayMesh`.
+
+If the mesh appears inside-out or the normals look inverted, enable `reverse_winding` on the generator. This swaps the triangle vertex order.
 
 ---
 
-## Repository layout
+## Recommended repository layout
 
-```
+Do **not** clone Godot into the same folder that stores your module source unless you already know the paths are correct. Keep the custom module source separate from the Godot engine checkout.
+
+Recommended layout:
+
+```text
 PicoGK Procedural World Generation/
-├── PicoGK/                    # PicoGK C# + native runtime (clone)
-├── LEAP71_ShapeKernel/        # ShapeKernel (LocalFrame, Sh.*)
-├── LEAP71_LatticeLibrary/     # Optional lattice examples
-├── PlanetTest/                # ★ Reference planet implementation
-├── godot/
-│   └── modules/
-│       └── picogk_voxel/      # ★ Copy into Godot source tree
-├── godot_demo/                # Demo scene + test script
-└── README.md                  # This file
+├── PicoGK/                         # PicoGK C# + native runtime clone
+├── LEAP71_ShapeKernel/             # ShapeKernel clone
+├── LEAP71_LatticeLibrary/          # Optional lattice examples
+├── PlanetTest/                     # Reference planet implementation
+├── modules/
+│   └── picogk_voxel/               # Your Godot engine module source
+├── godot_engine/                   # Godot source checkout
+├── godot_demo/                     # Demo scene and test scripts
+├── MERGED_LIBRARIES_README.md
+└── README.md
 ```
+
+The important part is this:
+
+- `modules/picogk_voxel/` is your module source.
+- `godot_engine/` is the Godot source tree you build.
+- Before building, copy or link `modules/picogk_voxel/` into `godot_engine/modules/picogk_voxel/`.
 
 ---
 
-## Step 1 — Clone Godot (stable 4.x)
+## Step 1 — Clone Godot
+
+From the repository root:
 
 ```powershell
-cd "c:\Users\richa\OneDrive\Desktop\PicoGK Procedural World Generation"
-git clone https://github.com/godotengine/godot.git godot
-cd godot
+cd "C:\Users\richa\OneDrive\Desktop\PicoGK Procedural World Generation"
+git clone https://github.com/godotengine/godot.git godot_engine
+cd godot_engine
 git fetch --tags
-# Example: latest 4.4 stable (check https://github.com/godotengine/godot/releases)
+
+# Use the Godot 4.x tag your project targets.
+# Example:
 git checkout 4.4-stable
+
 git submodule update --init --recursive
 ```
 
-Copy the module into the Godot tree:
+---
+
+## Step 2 — Add the PicoGK module to Godot
+
+From the repository root, copy the module into the Godot engine source tree:
 
 ```powershell
-Copy-Item -Recurse "..\godot\modules\picogk_voxel" "modules\picogk_voxel"
+Copy-Item -Recurse ".\modules\picogk_voxel" ".\godot_engine\modules\picogk_voxel"
 ```
 
-Or symlink:
+Or create a Windows junction so the Godot checkout points directly at your module source:
 
 ```powershell
-New-Item -ItemType Junction -Path "modules\picogk_voxel" -Target "..\..\godot\modules\picogk_voxel"
+New-Item -ItemType Junction `
+  -Path ".\godot_engine\modules\picogk_voxel" `
+  -Target ".\modules\picogk_voxel"
 ```
+
+Use the junction during development so edits to `modules/picogk_voxel/` are immediately seen by the Godot build.
 
 ---
 
-## Step 2 — Windows build prerequisites
+## Step 3 — Windows build prerequisites
 
 | Tool | Purpose |
 |------|---------|
-| **Visual Studio 2022** | Desktop development with C++ |
-| **Python 3** | SCons |
-| **SCons** | `pip install scons` |
-| **.NET SDK** | Match Godot tag (e.g. **.NET 8** for Godot 4.4) |
-| **Git** | Source + submodules |
+| **Visual Studio 2022** | C++ compiler and Windows build tools |
+| **Python 3** | Required by SCons |
+| **SCons** | Godot build system; install with `pip install scons` |
+| **.NET SDK** | Required for Godot .NET / C# support |
+| **Git** | Source checkout and submodules |
 
-Enable **Mono/.NET** in Godot build (see Step 3).
+Install the Visual Studio workload **Desktop development with C++**.
 
 ---
 
-## Step 3 — PicoGK native DLLs
+## Step 4 — PicoGK native DLLs
 
-From your PicoGK checkout, ensure runtime DLLs exist:
+Confirm these DLLs exist in your PicoGK checkout:
 
-```
+```text
 PicoGK/native/win-x64/
   picogk.26.1.dll
   blosc.dll
@@ -131,100 +174,130 @@ PicoGK/native/win-x64/
   zstd.dll
 ```
 
-If missing, build or download PicoGK per [picogk.org](https://picogk.org).
-
-Set environment variable before building/running Godot (optional):
+Set the PicoGK native runtime path before building and running Godot:
 
 ```powershell
-$env:PICOGK_NATIVE_DIR = "C:\...\PicoGK\native\win-x64"
+$env:PICOGK_NATIVE_DIR = "C:\Users\richa\OneDrive\Desktop\PicoGK Procedural World Generation\PicoGK\native\win-x64"
 ```
 
-After building the editor, **copy all DLLs** next to:
+After Godot builds, copy the PicoGK DLLs next to the editor executable:
 
-- `godot/bin/godot.windows.editor.x86_64.mono.exe` (custom editor)
-- Exported game executable
+```powershell
+Copy-Item "$env:PICOGK_NATIVE_DIR\*.dll" ".\godot_engine\bin\"
+```
 
-The module `SCsub` post-step can copy DLLs when `PICOGK_NATIVE_DIR` is set.
+The DLLs must be next to:
+
+- `godot_engine/bin/godot.windows.editor.x86_64.mono.exe`
+- Any exported game executable that uses this module
+
+The module `SCsub` can also copy the DLLs automatically when `PICOGK_NATIVE_DIR` is set.
 
 ---
 
-## Step 4 — Build custom Godot .NET editor
+## Step 5 — Build the custom Godot .NET editor
+
+From the Godot source folder:
 
 ```powershell
-cd godot
-scons platform=windows target=editor module_mono_enabled=yes
+cd "C:\Users\richa\OneDrive\Desktop\PicoGK Procedural World Generation\godot_engine"
+$env:PICOGK_NATIVE_DIR = "..\PicoGK\native\win-x64"
+scons platform=windows target=editor module_mono_enabled=yes -j8
 ```
 
-Generate .NET glue (Godot 4.x; exact target name may vary by version):
+After the build completes, copy the PicoGK runtime DLLs into `bin/`:
+
+```powershell
+Copy-Item "$env:PICOGK_NATIVE_DIR\*.dll" ".\bin\"
+```
+
+If your selected Godot tag requires Mono/.NET glue generation, run the glue step required by that Godot version. For many Godot 4.x source builds, the command is similar to:
 
 ```powershell
 .\bin\godot.windows.editor.x86_64.mono.exe --headless --generate-mono-glue modules/mono/glue
-# Or build glue via scons target documented for your tag, e.g.:
-# scons platform=windows target=editor module_mono_enabled=yes modules=mono
 ```
 
-Confirm the editor starts and can create a **C#** project.
+Then rebuild if the Godot tag requires a second pass.
 
 ---
 
-## Step 5 — Clone PicoGK dependencies (already in this workspace)
+## Step 6 — Clone PicoGK dependencies
+
+From the repository root, clone these if they are not already present:
 
 ```powershell
-# From repo root (if not present):
 git clone https://github.com/leap71/PicoGK
 git clone https://github.com/leap71/LEAP71_ShapeKernel
 git clone https://github.com/leap71/LEAP71_LatticeLibrary
 ```
 
-Planet generation for the Godot module uses the **C++ port** of `PlanetTest` noise/SDF logic plus **direct calls** to `picogk.26.1.dll` (same entry points as `PicoGK/Internals/Interop.cs`). It does **not** reference PicoGK C# from game scripts.
+The Godot module uses:
+
+- A C++ port of the `PlanetTest` noise and SDF logic
+- Direct calls into `picogk.26.1.dll`
+- PicoGK entry points matching the native interop layer used by `PicoGK/Internals/Interop.cs`
+
+Game scripts do **not** reference PicoGK C# directly.
 
 ---
 
-## Step 6 — Module `picogk_voxel`
+## Step 7 — Module contents
 
-Location: `godot/modules/picogk_voxel/`
+Module location inside the Godot engine tree:
+
+```text
+godot_engine/modules/picogk_voxel/
+```
 
 | File | Purpose |
 |------|---------|
-| `config.py` | Enable module, `PICOGK_NATIVE_DIR` |
-| `SCsub` | Compile sources, optional DLL copy |
-| `register_types.*` | Register `PicogkPlanetGenerator` |
-| `picogk_runtime.*` | Load `picogk.26.1.dll`, P/Invoke-equivalent C API |
-| `planet_noise.*` | Port of `Noise.cs` |
-| `planet_sdf.*` | Port of `PlanetSDF` / `BiomeSDF` |
-| `picogk_planet_generator.*` | Godot `RefCounted` API → `ArrayMesh` |
+| `config.py` | Enables the module and reads `PICOGK_NATIVE_DIR` |
+| `SCsub` | Compiles the module sources and optionally copies DLLs |
+| `register_types.*` | Registers `PicogkPlanetGenerator` with Godot |
+| `picogk_runtime.*` | Loads `picogk.26.1.dll` and wraps the native C API |
+| `planet_noise.*` | C++ port of `Noise.cs` |
+| `planet_sdf.*` | C++ port of `PlanetSDF` and `BiomeSDF` |
+| `picogk_planet_generator.*` | Godot `RefCounted` API that returns an `ArrayMesh` |
 | `picogk_voxel.*` | Module hooks |
 
-Rebuild Godot after adding the module:
+Rebuild Godot after adding or changing the module:
 
 ```powershell
+cd ".\godot_engine"
 scons platform=windows target=editor module_mono_enabled=yes -j8
 ```
 
 ---
 
-## Step 7 — Godot API (`PicogkPlanetGenerator`)
+## Step 8 — Godot API
 
-**ClassDB name:** `PicogkPlanetGenerator` (extends `RefCounted`)
+**ClassDB name:** `PicogkPlanetGenerator`
+**Base type:** `RefCounted`
 
 | Method | Description |
 |--------|-------------|
-| `generate_planet(radius_mm, voxel_size_mm, seed)` | Full planet `ArrayMesh` |
-| `generate_biome_mesh(biome_id, radius_mm, voxel_size_mm, seed)` | Single biome shell |
-| `generate_collision_mesh(radius_mm, voxel_size_mm, seed)` | Full planet (collision) |
-| `set_noise_settings(noise_scale, warp_strength, terrain_height)` | Maps to `NOISE_SCALE`, warp, `H_MAX` |
-| `set_biome_thresholds(ocean_threshold, mountain_threshold, polar_latitude)` | Biome latitude/noise cuts |
-| `set_reverse_winding(enabled)` | Fix inside-out meshes |
+| `generate_planet(radius_mm, voxel_size_mm, seed)` | Generates the full planet as an `ArrayMesh` |
+| `generate_biome_mesh(biome_id, radius_mm, voxel_size_mm, seed)` | Generates one biome shell as an `ArrayMesh` |
+| `generate_collision_mesh(radius_mm, voxel_size_mm, seed)` | Generates the full planet mesh for collision |
+| `set_noise_settings(noise_scale, warp_strength, terrain_height)` | Sets noise scale, domain warp strength, and terrain height |
+| `set_biome_thresholds(ocean_threshold, mountain_threshold, polar_latitude)` | Sets biome latitude and noise thresholds |
+| `set_reverse_winding(enabled)` | Swaps triangle order if normals are inverted |
 
-Generation runs on a **worker thread** (does not block the main thread). **No** PicoGK OpenGL viewer is created.
+Generation should run on a **worker thread** so the editor does not freeze. The module should not open a PicoGK OpenGL viewer or ImGui overlay.
 
 ---
 
-## Step 8 — Demo project
+## Step 9 — Demo project
 
-Open `godot_demo/` with your **custom** Godot editor binary.
+Open `godot_demo/` with your custom Godot editor binary:
 
+```powershell
+.\godot_engine\bin\godot.windows.editor.x86_64.mono.exe --path .\godot_demo
 ```
+
+Demo layout:
+
+```text
 godot_demo/
   project.godot
   scenes/World.tscn
@@ -232,57 +305,107 @@ godot_demo/
   scripts/planet_test.gd       # Automated generation test
 ```
 
-Run scene **World** or attach `planet_test.gd` to verify all biomes + collision.
+Run the `World` scene or attach `planet_test.gd` to verify:
+
+- Full planet mesh generation
+- Six biome mesh generations
+- Collision mesh generation
+- Correct scale in Godot meters
+- No PicoGK viewer window
+- Editor remains responsive during generation
 
 ---
 
-## Step 9 — Testing checklist
+## Testing checklist
 
-1. Launch custom `godot.*.mono.exe`.
-2. **Project → Project Settings → Modules** — confirm `picogk_voxel` built.
-3. Editor console: `ClassDB.class_exists("PicogkPlanetGenerator")` → `true`.
-4. Run `godot_demo` — six biome meshes + collision.
-5. No `picogk` viewer window / ImGui overlay.
-6. Editor remains responsive during generation (worker thread).
+1. Build the custom Godot editor with `module_mono_enabled=yes`.
+2. Confirm `picogk_voxel` was compiled into the editor.
+3. Copy all PicoGK runtime DLLs into `godot_engine/bin/`.
+4. Start the editor and open `godot_demo/`.
+5. Check the script console:
+
+   ```gdscript
+   ClassDB.class_exists("PicogkPlanetGenerator")
+   ```
+
+   Expected result:
+
+   ```gdscript
+   true
+   ```
+
+6. Run the `World` scene.
+7. Confirm all biome meshes and collision are created.
+8. Confirm no PicoGK viewer or ImGui window opens.
+9. Confirm the editor does not freeze while generation runs.
 
 ---
 
 ## PicoGK API access notes
 
 | API | Access in C# | Godot module approach |
-|-----|----------------|------------------------|
-| `IImplicit.fSignedDistance` | Public interface | C++ callbacks (`planet_sdf.cpp`) |
-| `Voxels` + `RenderImplicit` | Public | `Voxels_RenderImplicit` via DLL |
-| `Mesh` from voxels | Public `new Mesh(voxels)` | `Mesh_hCreateFromVoxels` |
-| `Library.Go` + `Viewer` | Opens viewer | **Not used** — `Library_hCreateInstance` only |
-| `Sh.PreviewVoxels` | ShapeKernel viewer | **Not used** in Godot |
-| `Voxels` internal handles | `internal` constructors | Native handles via DLL only |
+|-----|--------------|-----------------------|
+| `IImplicit.fSignedDistance` | Public interface | C++ callbacks in `planet_sdf.cpp` |
+| `Voxels` + `RenderImplicit` | Public | Native voxel rendering through the PicoGK DLL |
+| `Mesh` from voxels | Public `new Mesh(voxels)` | Native mesh creation from voxel handles |
+| `Library.Go` + `Viewer` | Opens viewer | Not used; the module creates a library/runtime instance only |
+| `Sh.PreviewVoxels` | ShapeKernel viewer | Not used in Godot |
+| `Voxels` internal handles | Internal C# constructors | Native handles are used directly through the DLL |
 
-No PicoGK C# **internal** APIs were required for mesh generation. The module uses the **published C ABI** mirrored in `Interop.cs`. If your PicoGK version differs from `picogk.26.1`, update `PICOGK_DLL_NAME` in `picogk_runtime.h`.
+The module does not require PicoGK C# internal APIs for mesh generation. It uses the PicoGK native ABI mirrored by the PicoGK C# interop layer.
+
+If your PicoGK DLL version changes, update the DLL name in:
+
+```text
+godot_engine/modules/picogk_voxel/picogk_runtime.h
+```
+
+Look for:
+
+```cpp
+PICOGK_DLL_NAME
+```
 
 ---
 
-## Custom build command (summary)
+## One-command build summary
+
+From the repository root:
 
 ```powershell
-cd godot
-$env:PICOGK_NATIVE_DIR = "..\PicoGK\native\win-x64"
+cd "C:\Users\richa\OneDrive\Desktop\PicoGK Procedural World Generation"
+$env:PICOGK_NATIVE_DIR = ".\PicoGK\native\win-x64"
+cd .\godot_engine
 scons platform=windows target=editor module_mono_enabled=yes -j8
-Copy-Item "$env:PICOGK_NATIVE_DIR\*.dll" "bin\"
+Copy-Item "$env:PICOGK_NATIVE_DIR\*.dll" ".\bin\"
 .\bin\godot.windows.editor.x86_64.mono.exe --path ..\godot_demo
 ```
 
 ---
 
-## Matching PlanetTest output
+## Matching `PlanetTest` output
 
-Keep defaults aligned with PlanetTest unless you intentionally change sliders:
+Keep these defaults aligned with `PlanetTest` unless you intentionally expose them as sliders:
 
-- `radius_mm = 80`, `voxel_size_mm = 1.2`, `seed = 42`
-- `noise_scale = 0.028`, `warp_strength = 0.8`, `terrain_height = 12`
-- `ocean_threshold = -0.18`, `mountain_threshold = 0.28`, `polar_latitude = 0.78`
+```text
+radius_mm          = 80
+voxel_size_mm      = 1.2
+seed               = 42
+noise_scale        = 0.028
+warp_strength      = 0.8
+terrain_height     = 12
+ocean_threshold    = -0.18
+mountain_threshold = 0.28
+polar_latitude     = 0.78
+```
 
-Compare exported STL from PlanetTest (`Desktop/PlanetTest_Output/Planet.STL`) with Godot collision mesh scale in meters.
+Compare the STL exported by `PlanetTest`:
+
+```text
+Desktop/PlanetTest_Output/Planet.STL
+```
+
+against the Godot collision mesh. Remember that PicoGK outputs millimeters and Godot uses meters.
 
 ---
 
@@ -290,16 +413,22 @@ Compare exported STL from PlanetTest (`Desktop/PlanetTest_Output/Planet.STL`) wi
 
 | Issue | Fix |
 |-------|-----|
-| `Failed to load picogk.26.1.dll` | Copy `native/win-x64/*.dll` next to Godot exe; set `PICOGK_NATIVE_DIR` |
-| Empty mesh | Increase `radius_mm` or decrease `voxel_size_mm`; check log for PicoGK errors |
-| Editor freeze | Ensure you use async/worker path in demo scripts |
-| Wrong scale | Remember mm → m (/1000) |
-| Module not found | Folder must be `godot/modules/picogk_voxel` with `config.py` |
+| `Failed to load picogk.26.1.dll` | Copy every DLL from `PicoGK/native/win-x64/` into `godot_engine/bin/` and confirm `PICOGK_NATIVE_DIR` is set |
+| Empty mesh | Increase `radius_mm`, reduce `voxel_size_mm`, and check the console for PicoGK runtime errors |
+| Editor freezes | Confirm generation is running on the worker-thread path, not directly on the main thread |
+| Wrong scale | Confirm all PicoGK vertex positions are divided by `1000` before building the `ArrayMesh` |
+| Inside-out mesh | Enable `reverse_winding` |
+| Module not found | Confirm the final path is `godot_engine/modules/picogk_voxel/config.py` |
+| Godot build does not include the module | Clean and rebuild after copying or linking the module into `godot_engine/modules/` |
 
 ---
 
 ## License
 
-Respect licenses of Godot (MIT), PicoGK (Apache-2.0), LEAP71 ShapeKernel (Apache-2.0), and your project terms.
-#   G o d o t - M o d u l e - P i c o G k - L e a p 7 1  
- 
+Respect the licenses for:
+
+- Godot — MIT
+- PicoGK — Apache-2.0
+- LEAP71 ShapeKernel — Apache-2.0
+- LEAP71 LatticeLibrary — Apache-2.0
+- Your own project assets and code

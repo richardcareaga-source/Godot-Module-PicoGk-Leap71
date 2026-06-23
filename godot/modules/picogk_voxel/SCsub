@@ -1,0 +1,57 @@
+#!/usr/bin/env python
+import os
+from glob import glob
+from SCons.Script import Copy
+
+Import("env")
+
+# C++ stubs (optional future GDExtension hooks) — primary integration is C# bridge below.
+module_env = env.Clone()
+if os.path.exists("register_types.cpp"):
+    module_env.add_source_files(env.modules_sources, "register_types.cpp")
+if os.path.exists("picogk_voxel.cpp"):
+    module_env.add_source_files(env.modules_sources, "picogk_voxel.cpp")
+
+# Build PicogkGodotBridge — compiles PicoGK + ShapeKernel + LatticeLibrary + PlanetTest sources.
+bridge_dir = Dir(".").srcnode().abspath + "/bridge"
+native_dll_dir = Dir(".").srcnode().abspath + "/../../../../PicoGK/native/win-x64"
+
+if env["platform"] == "windows":
+
+    def build_bridge(target, source, env):
+        import subprocess
+
+        subprocess.check_call(
+            ["dotnet", "publish", bridge_dir + "/PicogkGodotBridge.csproj", "-c", "Release", "-o", bridge_dir + "/bin_publish"],
+            cwd=bridge_dir,
+        )
+        return 0
+
+    env.Command(
+        "#bin/PicogkGodotBridge.dll",
+        bridge_dir + "/PicogkGodotBridge.csproj",
+        build_bridge,
+    )
+
+    copied_native = set()
+    if os.path.isdir(native_dll_dir):
+        for dll_path in glob(os.path.join(native_dll_dir, "*.dll")):
+            name = os.path.basename(dll_path)
+            copied_native.add(name.lower())
+            env.Command(
+                os.path.join("#bin", name),
+                dll_path,
+                Copy("$TARGET", "$SOURCE"),
+            )
+    publish_dir = os.path.join(bridge_dir, "bin_publish")
+    if os.path.isdir(publish_dir):
+        for dll_path in glob(os.path.join(publish_dir, "*.dll")):
+            name = os.path.basename(dll_path)
+            low = name.lower()
+            if low == "picogkgodotbridge.dll" or low in copied_native:
+                continue
+            env.Command(
+                os.path.join("#bin", name),
+                dll_path,
+                Copy("$TARGET", "$SOURCE"),
+            )

@@ -1,0 +1,4169 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>PicoGK</name>
+    </assembly>
+    <members>
+        <member name="M:PicoGK.Voxels.#ctor">
+            <summary>
+            Create a new empty voxels object, using the global library instance
+            </summary>
+        </member>
+        <member name="M:PicoGK.Voxels.#ctor(PicoGK.IImplicit@,PicoGK.BBox3@)">
+            <summary>
+            Create a new Voxels object using the global library instance, 
+            rendering the implicit within the specified bounds
+            </summary>
+            <param name="xImplicit">Implicit to render</param>
+            <param name="oBounds">Bounding box to evaluate the implicit in</param>
+        </member>
+        <member name="M:PicoGK.Voxels.#ctor(PicoGK.IBoundedImplicit@)">
+            <summary>
+            Create a new Voxels object using the global library instance, 
+            rendering the specified bounded implicit 
+            </summary>
+            <param name="xImplicit">Bounded implicit to render</param>
+        </member>
+        <member name="M:PicoGK.Voxels.voxSphere(System.Numerics.Vector3,System.Single)">
+            <summary>
+            Create a new Voxels object using the global library instance, 
+            rendering a sphere with the specified center and radius
+            </summary>
+            <param name="vecCenter">Center of the sphere</param>
+            <param name="fRadius">Radius of the Sphere</param>
+            <returns></returns>
+        </member>
+        <member name="M:PicoGK.Voxels.voxLatticeBeam(System.Numerics.Vector3,System.Single,System.Numerics.Vector3,System.Single)">
+            <summary>
+            Returns a lattice beam with hemispherical ends
+            internally uses an optimized internal function, so is faster
+            than the general lattice functions
+            </summary>
+            <param name="vec1">Start point</param>
+            <param name="fRadius1">Radius at start</param>
+            <param name="vec2">End point</param>
+            <param name="fRadius2">Radius at end</param>
+            <returns>Voxels object</returns>
+        </member>
+        <member name="M:PicoGK.Voxels.voxMeshShell(PicoGK.Mesh,System.Single)">
+            <summary>
+            Creates a shelled (hollow) Voxels object
+            from a mesh. The mesh object is offset in all
+            directions by the radius. The mesh doesn't have
+            to be closed (it could consist of just one triangle)
+            </summary>
+            <param name="msh">Mesh object</param>
+            <param name="fRadius">Offset radius (in all directions)</param>
+            <returns>Voxels object</returns>
+        </member>
+        <member name="M:PicoGK.Voxels.voxCombineAll(System.Collections.Generic.IEnumerable{PicoGK.Voxels}@)">
+            <summary>
+            Create a new Voxels object using the global library instance, 
+            and adds all voxel fields in the container, returning the result
+            </summary>
+            <param name="avoxList">Container with the voxel fields</param>
+            <returns>All voxel fields combined</returns>
+        </member>
+        <member name="M:PicoGK.Voxels.voxFromVdbFile(System.String)">
+            <summary>
+            Create Voxels from a OpenVDB file (.vdb) using the global library instance.
+            This function searches for the first compatible field in the .vdb
+            file (OpenVDB supports storing many fields of various types in one
+            file). PicoGK Voxels need an openvdb::GRID_LEVEL_SET field.
+            Incompatible fields and other compatible fields after the first one
+            are ignored. For more sophisticated .vdb file handling, use
+            PicoGK.OpenVdbFile
+            Note: When you save your own VdbFiles with multiple fields in it
+            you cannot rely on the fields being in the same order as you saved
+            them. In other words, if you use PicoGK.OpenVdbFile to save multiple
+            Voxel fields to a file, loading Voxels with voxFromVdbFile will
+            load any one, not necessarily the one you saved first.
+            </summary>
+            <param name="strFileName">Path and file name of the VDB file</param>
+            <returns>A voxel field, based on the .vdb data</returns>
+            <exception cref="T:System.IO.FileLoadException">If file is empty or no
+            compatible field found, an exception is thrown.
+            </exception>
+        </member>
+        <member name="M:PicoGK.Voxels.#ctor(PicoGK.Library,PicoGK.VoxHandle)">
+            <summary>
+            Create a voxels object from an existing handle
+            (for internal use)
+            </summary>
+        </member>
+        <member name="M:PicoGK.Voxels.#ctor(PicoGK.Library)">
+            <summary>
+            Default constructor, builds a new empty voxel field
+            </summary>
+        </member>
+        <member name="M:PicoGK.Voxels.#ctor(PicoGK.Voxels@)">
+            <summary>
+            Copy constructor, create a duplicate
+            of the supplied voxel field
+            </summary>
+            <param name="voxSource">Source to copy from</param>
+        </member>
+        <member name="M:PicoGK.Voxels.voxDuplicate">
+            <summary>
+            Create a duplicate of the current voxel field
+            </summary>
+        </member>
+        <member name="M:PicoGK.Voxels.#ctor(PicoGK.ScalarField@)">
+            <summary>
+            Create a voxel field from a supplied scalar field
+            the scalar field needs to contain a valid discretized
+            signed distance field for this to work properly
+            </summary>
+            <param name="oSource">Source to copy from</param>
+        </member>
+        <member name="M:PicoGK.Voxels.#ctor(PicoGK.Library,PicoGK.IImplicit@,PicoGK.BBox3@)">
+            <summary>
+            Creates a new voxel field and renders it using the
+            implicit function specified
+            </summary>
+            <param name="libSet">Library instance to use</param>
+            <param name="xImplicit">Implicit function to render</param>
+            <param name="oBounds">Boundary box to evaluate for implicit function</param>
+        </member>
+        <member name="M:PicoGK.Voxels.#ctor(PicoGK.Library,PicoGK.IBoundedImplicit@)">
+            <summary>
+            Creates a new voxel field and renders it using the
+            bounded implicit function specified
+            </summary>
+            <param name="libSet">Library instance to use</param>
+            <param name="xImplicit">Implicit function to render</param>
+        </member>
+        <member name="M:PicoGK.Voxels.#ctor(PicoGK.Mesh@)">
+            <summary>
+            Creates a new voxel field form a mesh
+            </summary>
+            <param name="msh">The mesh that is rendered into the voxels</param>
+        </member>
+        <member name="M:PicoGK.Voxels.#ctor(PicoGK.Lattice@)">
+            <summary>
+            Creates a new voxel field from a lattice
+            </summary>
+            <param name="lat">The lattice used</param>
+        </member>
+        <member name="M:PicoGK.Voxels.mshAsMesh">
+            <summary>
+            Return the current voxel field as a mesh
+            </summary>
+            <returns>The meshed result of the voxel field</returns>
+        </member>
+        <member name="M:PicoGK.Voxels.voxSphere(PicoGK.Library,System.Numerics.Vector3,System.Single)">
+            <summary>
+            Create a voxel field with a sphere inside
+            </summary>
+            <param name="libSet">Library instance to use</param>
+            <param name="vecCenter">Center of the sphere</param>
+            <param name="fRadius">Radius of the Sphere</param>
+            <returns></returns>
+        </member>
+        <member name="M:PicoGK.Voxels.voxLatticeBeam(PicoGK.Library,System.Numerics.Vector3,System.Single,System.Numerics.Vector3,System.Single)">
+            <summary>
+            Returns a lattice beam with hemispherical ends
+            internally uses an optimized internal function, so is faster
+            than the general lattice functions
+            </summary>
+            <param name="libSet">Library instanxe to use</param>
+            <param name="vec1">Start point</param>
+            <param name="fRadius1">Radius at start</param>
+            <param name="vec2">End point</param>
+            <param name="fRadius2">Radius at end</param>
+            <returns>Voxels object</returns>
+        </member>
+        <member name="M:PicoGK.Voxels.voxMeshShell(PicoGK.Library,PicoGK.Mesh,System.Single)">
+            <summary>
+            Creates a shelled (hollow) Voxels object
+            from a mesh. The mesh object is offset in all
+            directions by the radius. The mesh doesn't have
+            to be closed (it could consist of just one triangle)
+            </summary>
+            <param name="libSet">Library instance</param>
+            <param name="msh">Mesh object</param>
+            <param name="fRadius">Offset radius (in all directions)</param>
+            <returns>Voxels object</returns>
+        </member>
+        <member name="M:PicoGK.Voxels.bIsEmpty">
+            <summary>
+            Checks whether this Voxels object is empty, i.e. has no
+            volume. This function is faster than, for example,
+            CalculateProperties
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:PicoGK.Voxels.nMemUsage">
+            <summary>
+            Returns the amount of memory in bytes used by this object
+            </summary>
+            <returns>Number of bytes allocated to this object</returns>
+        </member>
+        <member name="P:PicoGK.Voxels.fVoxelSize">
+            <summary>
+            Returns the voxel size in millimeters used in the voxel field
+            </summary>
+            <returns>Voxel size in mm</returns>
+        </member>
+        <member name="M:PicoGK.Voxels.BoolAdd(PicoGK.Voxels@)">
+            <summary>
+            Performs a boolean union between two voxel fields
+            Our voxelfield will have all the voxels set that the operands also has set
+            </summary>
+            <param name="voxOperand">Voxels to add to our field</param>
+        </member>
+        <member name="M:PicoGK.Voxels.voxBoolAdd(PicoGK.Voxels@)">
+            <summary>
+            Performs a boolean union operation on a copy of the current 
+            voxel field and the operand and returns the copy. 
+            The current voxel field remains unchanged
+            </summary>
+            <param name="voxOperand">Voxels to add</param>
+            <returns></returns>
+        </member>
+        <member name="M:PicoGK.Voxels.BoolAddAll(System.Collections.Generic.IEnumerable{PicoGK.Voxels}@)">
+            <summary>
+            Performs a boolean union of all voxels supplied in the
+            container (List, Array, etc.)
+            </summary>
+            <param name="avoxList">Container containing Voxels to be added</param>
+        </member>
+        <member name="M:PicoGK.Voxels.voxBoolAddAll(System.Collections.Generic.IEnumerable{PicoGK.Voxels}@)">
+            <summary>
+            Performs a boolean union of all voxels supplied in the
+            container (List, Array, etc.) on a copy of the current voxel field
+            and returns that copy
+            </summary>
+            <param name="avoxList">Container containing Voxels to be added</param>
+        </member>
+        <member name="M:PicoGK.Voxels.voxCombine(PicoGK.Voxels@,PicoGK.Voxels@)">
+            <summary>
+            Combines two voxel fields and returns the result using BoolAdd
+            </summary>
+            <param name="vox1">First field</param>
+            <param name="vox2">Second field</param>
+            <returns>Combination of the two fields as new field</returns>
+        </member>
+        <member name="M:PicoGK.Voxels.voxCombineAll(PicoGK.Library,System.Collections.Generic.IEnumerable{PicoGK.Voxels}@)">
+            <summary>
+            Combines all voxel fields in the container and returns the result
+            </summary>
+            <param name="libSet">Library instance to use</param>
+            <param name="avoxList">Container with the voxel fields</param>
+            <returns>All voxel fields combined</returns>
+        </member>
+        <member name="M:PicoGK.Voxels.BoolSubtract(PicoGK.Voxels@)">
+            <summary>
+            Performs a boolean difference between the two voxel fields
+            Our voxel field's voxel will have all the matter removed
+            that is set in the operand
+            </summary>
+            <param name="voxOperand">Voxels to remove from our field</param>
+        </member>
+        <member name="M:PicoGK.Voxels.voxBoolSubtract(PicoGK.Voxels@)">
+            <summary>
+            Performs a boolean difference operation on a copy of the current 
+            voxel field and the operand and returns the copy. 
+            The current voxel field remains unchanged
+            </summary>
+            <param name="voxOperand">Voxels to add</param>
+            <returns></returns>
+        </member>
+        <member name="M:PicoGK.Voxels.BoolSubtractAll(System.Collections.Generic.IEnumerable{PicoGK.Voxels}@)">
+            <summary>
+            Subtracts on all voxels supplied in the container (List, Array, etc.)
+            from the current field
+            </summary>
+            <param name="avoxList">Container containing Voxels to be subtracted</param>
+        </member>
+        <member name="M:PicoGK.Voxels.voxBoolSubtractAll(System.Collections.Generic.IEnumerable{PicoGK.Voxels}@)">
+            <summary>
+            Subtracts on all voxels supplied in the container (List, Array, etc.)
+            from a copy of the current field and returns the result
+            </summary>
+            <param name="avoxList">Container containing Voxels to be subtracted</param>
+        </member>
+        <member name="M:PicoGK.Voxels.BoolIntersect(PicoGK.Voxels@)">
+            <summary>
+            Performs a boolean intersection between two voxel fields.
+            Our fields will have all voxels removed, that are not
+            inside the Operand's field
+            </summary>
+            <param name="voxOperand">Voxels masking our voxel field</param>
+        </member>
+        <member name="M:PicoGK.Voxels.voxBoolIntersect(PicoGK.Voxels@)">
+            <summary>
+            Performs a boolean intersection operation on a copy of the current 
+            voxel field and the operand and returns the copy. 
+            The current voxel field remains unchanged
+            </summary>
+            <param name="voxOperand">Voxels to intersect with</param>
+            <returns></returns>
+        </member>
+        <member name="M:PicoGK.Voxels.op_Addition(PicoGK.Voxels,PicoGK.Voxels)">
+            <summary>
+            Overloaded operators allow you to do things like
+            vox = vox1 + vox2
+            </summary>
+        </member>
+        <member name="M:PicoGK.Voxels.op_Subtraction(PicoGK.Voxels,PicoGK.Voxels)">
+            <summary>
+            Overloaded operators allow you to do things like
+            vox = vox1 - vox2
+            </summary>
+        </member>
+        <member name="M:PicoGK.Voxels.op_BitwiseAnd(PicoGK.Voxels,PicoGK.Voxels)">
+            <summary>
+            Overloaded operator for intersect  (boolean AND)
+            vox = vox1 &amp; vox2
+            </summary>
+        </member>
+        <member name="M:PicoGK.Voxels.Trim(PicoGK.BBox3)">
+            <summary>
+            Intersects the voxel field with the specified bounding box
+            so all voxels outside the box are trimmed away
+            </summary>
+        </member>
+        <member name="M:PicoGK.Voxels.voxTrim(PicoGK.BBox3)">
+            <summary>
+            Intersects a copy of the voxel field with the specified bounding box
+            so all voxels outside the box are trimmed away. Returns the result
+            as a new voxel field.
+            </summary>
+        </member>
+        <member name="M:PicoGK.Voxels.Offset(System.Single)">
+            <summary>
+            Offsets the voxel field by the specified distance.
+            The surface of the voxel field is moved outward or inward
+            Outward is positive, inward is negative
+            </summary>
+            <param name="fDistMM">The distance to move the surface outward (positive) or inward (negative) in millimeters</param>
+        </member>
+        <member name="M:PicoGK.Voxels.voxOffset(System.Single)">
+            <summary>
+            Offsets a copy of the voxel field by the specified distance.
+            The surface of the voxel field is moved outward or inward
+            Outward is positive, inward is negative.
+            </summary>
+            <param name="fDistMM">The distance to move the surface outward (positive) or inward (negative) in millimeters</param>
+            <returns>Resulting field</returns>
+        </member>
+        <member name="M:PicoGK.Voxels.DoubleOffset(System.Single,System.Single)">
+            <summary>
+            Offsets the voxel field twice, by the specified distances
+            Outwards is positive, inwards is negative
+            </summary>
+            <param name="fDist1MM">First offset distance in mm</param>
+            <param name="fDist2MM">Second distance in mm</param>
+        </member>
+        <member name="M:PicoGK.Voxels.voxDoubleOffset(System.Single,System.Single)">
+            <summary>
+            Offsets a copy of the voxel field twice, by the specified distances
+            Outwards is positive, inwards is negative 
+            </summary>
+            <param name="fDist1MM">First distance to offset</param>
+            <param name="fDist2MM">Second distance to offset</param>
+            <returns>Returns the resulting field</returns>
+        </member>
+        <member name="M:PicoGK.Voxels.TripleOffset(System.Single)">
+            <summary>
+            Offsets the voxel field three times by the specified distance.
+            First it offsets inwards by the specified distance
+            Then it offsets twice the distance outwards
+            Then it offsets the distance inwards again
+            This is useful to smoothen a voxel field. By offsetting inwards
+            you eliminate all convex detail below a certain threshold
+            by offsetting outwards, you eliminated concave detail below a threshold
+            by offsetting inwards again, you are back to the size of the object
+            that you started with, but without the detail
+            Usually call this with a positive number, although you can reverse
+            the operations by using a negative number
+            </summary>
+            <param name="fDistMM">Distance to move (in mm)</param>
+        </member>
+        <member name="M:PicoGK.Voxels.voxTripleOffset(System.Single)">
+            <summary>
+            Offsets a copy of the voxel field three times by the specified distance.
+            First it offsets inwards by the specified distance
+            Then it offsets twice the distance outwards
+            Then it offsets the distance inwards again
+            This is useful to smoothen a voxel field. By offsetting inwards
+            you eliminate all convex detail below a certain threshold
+            by offsetting outwards, you eliminated concave detail below a threshold
+            by offsetting inwards again, you are back to the size of the object
+            that you started with, but without the detail
+            Usually call this with a positive number, although you can reverse
+            the operations by using a negative number
+            </summary>
+            <param name="fDistMM">Distance to move (in mm)</param>
+            <returns>Returns the resulting field</returns>
+        </member>
+        <member name="M:PicoGK.Voxels.Smoothen(System.Single)">
+            <summary>
+            Same as TripleOffset
+            </summary>
+            <param name="fDistMM">Distance to move (in mm)</param>
+            <returns>Returns the resulting field</returns>
+        </member>
+        <member name="M:PicoGK.Voxels.voxSmoothen(System.Single)">
+            <summary>
+            Same as TripleOffset
+            </summary>
+            <param name="fDistMM">Distance to move (in mm)</param>
+            <returns>Returns the resulting field</returns>
+        </member>
+        <member name="M:PicoGK.Voxels.OverOffset(System.Single,System.Single)">
+            <summary>
+            Similar to DoubleOffset, but allows you to
+            specify the offsetted distance to the original
+            surface as the second parameter.
+            The surface is first offset by fFirstOffsetMM
+            Then the surface is offset so that the final
+            offset from the surface is fFinalSurfaceDistInMM
+            </summary>
+            <param name="fFirstOffsetMM">Initial offset</param>
+            <param name="fFinalSurfaceDistInMM">absolute final offset value</param>
+        </member>
+        <member name="M:PicoGK.Voxels.voxOverOffset(System.Single,System.Single)">
+            <summary>
+            Similar to DoubleOffset, but allows you to
+            specify the offsetted distance to the original
+            surface as the second parameter.
+            The surface is first offset by fFirstOffsetMM
+            Then the surface is offset so that the final
+            offset from the surface is fFinalSurfaceDistInMM.
+            
+            If not specified, the surface is where it was before.
+            
+            This function is used to eliminate detail in the voxel
+            field. It generates fillet-like results when used
+            with a positive first offset.
+            </summary>
+            <param name="fFirstOffsetMM">Initial offset</param>
+            <param name="fFinalSurfaceDistInMM">Absolute final offset from initial surface</param>
+        </member>
+        <member name="M:PicoGK.Voxels.Fillet(System.Single)">
+            <summary>
+            Creates a fillet-like effect.
+            Same as OverOffset with second value 0
+            Since the effect is similar to a fillet, this makes
+            a lot of code more readable
+            </summary>
+            <param name="fRoundingMM"></param>
+            <returns></returns>
+        </member>
+        <member name="M:PicoGK.Voxels.voxFillet(System.Single)">
+            <summary>
+            Creates a fillet-like effect.
+            Same as OverOffset with second value 0
+            Since the effect is similar to a fillet, this makes
+            a lot of code more readable
+            </summary>
+            <param name="fRoundingMM"></param>
+            <returns></returns>
+        </member>
+        <member name="M:PicoGK.Voxels.voxShell(System.Single)">
+            <summary>
+            Creates a shell of a voxel field. The wall thickness is
+            the size of the offset.
+            
+            If a positive offset is supplied, the wall is outside the
+            object, i.e. the void inside the shell has the shape and
+            dimensions of the current object.
+            
+            If the offset is negative, the object's dimensions remain
+            the same, but a void is created that is created by negatively
+            offsetting the object.
+            </summary>
+            <param name="fOffset"></param>
+            <returns></returns>
+        </member>
+        <member name="M:PicoGK.Voxels.voxShell(System.Single,System.Single,System.Single)">
+            <summary>
+            Creates a shell of a voxel field, by offsetting and subtracting
+            copies of the field.
+            One of the offsets can be zero, but if both are zero, an empty voxel
+            field is the result
+            </summary>
+            <param name="fNegOffsetMM">Offset to be used to create the void</param>
+            <param name="fPosOffsetMM">Offset to be used to create the outer shell</param>
+            <param name="fSmoothInnerMM">Optional smoothing parameter that allows you to smoothen the internal void</param>
+            <returns></returns>
+        </member>
+        <member name="M:PicoGK.Voxels.RenderMesh(PicoGK.Mesh@)">
+            <summary>
+            Renders a mesh into the voxel field, combining it with
+            the existing content
+            </summary>
+            <param name="msh">The mesh to render (needs to be a closed surface)</param>
+        </member>
+        <member name="M:PicoGK.Voxels.RenderImplicit(PicoGK.IImplicit@,PicoGK.BBox3@)">
+            <summary>
+            Render an implicit signed distance function into the voxels
+            overwriting the existing content with the voxels where the implicit
+            function returns smaller or equal to 0
+            You will often want to use IntersectImplicit instead
+            </summary>
+            <param name="xImp">Implicit object with signed distance function</param>
+            <param name="oBounds">Bounding box in which to render the implicit</param>
+        </member>
+        <member name="M:PicoGK.Voxels.IntersectImplicit(PicoGK.IImplicit@)">
+            <summary>
+            Render an implicit signed distance function into the voxels
+            but using the existing voxels as a mask.
+            If the voxel field contains a voxel at a given position, the voxel
+            will be set to true if the signed distance function returns
+            smaller or equal to 0
+            and false if the signed distance function returns > 0
+            So a voxel field, containting a filled sphere, will contain a
+            Gyroid Sphere, if used with a Gyroid implict
+            </summary>
+            <param name="xImp">Implicit object with signed distance function</param>
+        </member>
+        <member name="M:PicoGK.Voxels.voxIntersectImplicit(PicoGK.IImplicit@)">
+            <summary>
+            Same as IntersectImplicit, but uses a copy of the current voxel field
+            and returns the result.
+            </summary>
+            <param name="xImp">Implicit function to use</param>
+            <returns></returns>
+        </member>
+        <member name="M:PicoGK.Voxels.RenderLattice(PicoGK.Lattice@)">
+            <summary>
+            Renders a lattice into the voxel field, combining it with
+            the existing content
+            </summary>
+            <param name="lat">The lattice to render</param>
+        </member>
+        <member name="M:PicoGK.Voxels.ProjectZSlice(System.Single,System.Single)">
+            <summary>
+            Projects the slices at the start Z position upwards or downwards,
+            until it reaches the end Z position.
+            </summary>
+            <param name="fStartZMM">Start voxel slice in mm</param>
+            <param name="fEndZMM">End voxel slice in mm</param>
+        </member>
+        <member name="M:PicoGK.Voxels.voxProjectZSlice(System.Single,System.Single)">
+            <summary>
+            Makes a copy of the voxel field and applies
+            the ProjectZSlice function to the copy.
+            </summary>
+        </member>
+        <member name="M:PicoGK.Voxels.bIsEqual(PicoGK.Voxels@)">
+            <summary>
+            Returns true if the voxel fields contain the same content
+            </summary>
+            <param name="voxOther">Voxels to compare to</param>
+            <returns></returns>
+        </member>
+        <member name="M:PicoGK.Voxels.CalculateProperties(System.Single@,PicoGK.BBox3@)">
+            <summary>
+            This function evaluates the entire voxel field and returns
+            the volume of all voxels in cubic millimeters and the Bounding Box
+            in real world coordinates
+            Note this function is potentially slow, as it needs to traverse the
+            entire voxel field
+            </summary>
+            <param name="fVolumeCubicMM">Cubic MMs of volume filled with voxels</param>
+            <param name="oBBox">The real world bounding box of the voxels</param>
+        </member>
+        <member name="M:PicoGK.Voxels.oCalculateBoundingBox">
+            <summary>
+            Calculates the bounding box of a voxel field
+            Note: Uses an intermediate mesh generated from the voxels
+            This is the only accurate way of getting a bounding box. OpenVDB keeps spurious
+            surface voxels (distance 0) around which show up in the bounding box, even though
+            the voxel field does not actually contain any volume.
+            </summary>
+            <returns>Bounding box of the voxels in real world coordinates</returns>
+        </member>
+        <member name="M:PicoGK.Voxels.bIsInside(System.Numerics.Vector3)">
+            <summary>
+            Returns whether the location specified lies inside the solid
+            domain of the voxel field (are you at or below the surface)
+            </summary>
+            <param name="vecTestPoint">Point to evaluate</param>
+            <returns>True if inside or on the surface, False if outside</returns>
+        </member>
+        <member name="M:PicoGK.Voxels.vecSurfaceNormal(System.Numerics.Vector3@)">
+            <summary>
+            Returns the normal of the surface found at the specified point.
+            Use after functions like bClosestPointOnSurface or bRayCastToSurface
+            </summary>
+            <param name="vecSurfacePoint">
+            The point (on the surface of a voxel field, for which to return
+            the normal
+            </param>
+            <returns>The normal vector of the surface at the point</returns>
+        </member>
+        <member name="M:PicoGK.Voxels.bClosestPointOnSurface(System.Numerics.Vector3@,System.Numerics.Vector3@)">
+            <summary>
+            Returns the closest point from the search point on the surface
+            of the voxel field
+            </summary>
+            <param name="vecSearch">Search position</param>
+            <param name="vecSurfacePoint">Point on the surface of the voxel field which 
+            is closest to the supplied point.</param>
+            <returns>True if point is found, false if field is empty</returns>
+        </member>
+        <member name="M:PicoGK.Voxels.vecClosestPointOnSurface(System.Numerics.Vector3@)">
+            <summary>
+            Returns the closest point from the search point on the surface
+            of the voxel field 
+            </summary>
+            <param name="vecSearch">Search position</param>
+            <returns>Point on the surface of the voxel field which is closest
+            to the supplied point.</returns>
+            <exception cref="T:System.Exception">Throws an exception if no point found, 
+            which means the voxel field is empty</exception>
+        </member>
+        <member name="M:PicoGK.Voxels.bRayCastToSurface(System.Numerics.Vector3@,System.Numerics.Vector3@,System.Numerics.Vector3@)">
+            <summary>
+            Casts a ray to the surface of a voxel field and finds
+            the point on the surface where the ray intersects.
+            </summary>
+            <param name="vecSearch">Search point</param>
+            <param name="vecDirection">Direction to search in</param>
+            <param name="vecSurfacePoint">Point on the surface</param>
+            <returns>True, point found. False, no surface intersection found</returns>
+        </member>
+        <member name="M:PicoGK.Voxels.vecRayCastToSurface(System.Numerics.Vector3@,System.Numerics.Vector3@)">
+            <summary>
+            Casts a ray to the surface of a voxel field and finds
+            the point on the surface where the ray intersects.
+            </summary>
+            <param name="vecSearch">Search point</param>
+            <param name="vecDirection">Direction to search in</param>
+            <returns>Point on surface</returns>
+            <exception cref="T:System.Exception">Throws an exception of no intersection 
+            with surface found.</exception>
+        </member>
+        <member name="M:PicoGK.Voxels.GetVoxelDimensions(System.Int32@,System.Int32@,System.Int32@,System.Int32@,System.Int32@,System.Int32@)">
+            <summary>
+            Returns the dimensions of the voxel field in discrete voxels
+            </summary>
+            <param name="nXOrigin">X origin of the voxel field in voxels</param>
+            <param name="nYOrigin">Y origin of the voxel field in voxels</param>
+            <param name="nZOrigin">Z origin of the voxel field in voxels</param>
+            <param name="nXSize">Size in x direction in voxels</param>
+            <param name="nYSize">Size in y direction in voxels</param>
+            <param name="nZSize">Size in z direction in voxels</param>
+        </member>
+        <member name="M:PicoGK.Voxels.GetVoxelDimensions(System.Int32@,System.Int32@,System.Int32@)">
+            <summary>
+            Returns the dimensions of the voxel field in discrete voxels
+            </summary>
+            <param name="nXSize">Size in x direction in voxels</param>
+            <param name="nYSize">Size in y direction in voxels</param>
+            <param name="nZSize">Size in z direction in voxels</param>
+        </member>
+        <member name="M:PicoGK.Voxels.vecZSliceOrigin(System.Int32)">
+            <summary>
+            Query the real world origin of a voxel slice, which is also
+            the origin of the actual voxel field in space
+            </summary>
+            <param name="nZSlice">Slice you are looking for</param>
+            <returns>Real world coordinates of the origin of the slice</returns>
+        </member>
+        <member name="M:PicoGK.Voxels.nSliceCount">
+            <summary>
+            Return the number of slices in this voxel field
+            </summary>
+            <returns>Number of slices in the voxel field (equivalent to nZSice)</returns>
+        </member>
+        <member name="M:PicoGK.Voxels.imgAllocateSlice(System.Int32@,PicoGK.Voxels.ESliceAxis)">
+            <summary>
+            Allocate a grayscale image that can hold a voxel slice
+            </summary>
+            <param name="nSliceCount">Number of slices in the specified axis</param>
+            <param name="eAxis">Axis to use for the slice direction</param>
+            <returns>Allocated grayscale image to be used in GetVoxelSlice</returns>
+        </member>
+        <member name="M:PicoGK.Voxels.GetVoxelSlice(System.Int32@,PicoGK.ImageGrayScale@,PicoGK.Voxels.ESliceMode,PicoGK.Voxels.ESliceAxis)">
+            <summary>
+            Returns a slice of the voxel field along the specified axis.
+            To use it, use GetVoxelDimensions to find out the size of the voxel
+            field in voxel units. Then allocate a new grayscale image to copy
+            the data into, and pass it as a reference. Since GetVoxelDimensions
+            is potentially an "expensive" function, we are putting the burden
+            on you to allocate an image and don't create it for you. You can
+            also re-use the image if you want to save an entire image stack
+            </summary>
+            <param name="nSlice">Slice to retrieve. 0 is at the origin.</param>
+            <param name="img">Pre-allocated grayscale image to receive the values</param>
+            <param name="eMode">Encoding mode of the image, defaults to signed distance, 
+            which is the native narrow band distance encoded in the float image. You
+            can also speciy black/white, which encodes the inside of the field as black
+            pixels, or antialiased, which encodes the outside narrow band in grayscale</param>
+            <param name="eAxis">Axis to slice along, defaults to Z, but you can also slice
+            along X and Y</param>
+        </member>
+        <member name="M:PicoGK.Voxels.GetInterpolatedVoxelSlice(System.Single@,PicoGK.ImageGrayScale@,PicoGK.Voxels.ESliceMode)">
+            <summary>
+            Returns a signed distance-field-encoded slice of the voxel field
+            To use it, use GetVoxelDimensions to find out the size of the voxel
+            field in voxel units. Then allocate a new grayscale image to copy
+            the data into, and pass it as a reference. Since GetVoxelDimensions
+            is potentially an "expensive" function, we are putting the burden
+            on you to allocate an image and don't create it for you. You can
+            also re-use the image if you want to save an entire image stack
+            </summary>
+            <param name="fZSlice">Slice to retrieve. 0 is at the bottom.</param>
+            <param name="img">Pre-allocated grayscale image to receive the values</param>
+            <param name="eMode">Encoding mode of the image, defaults to signed distance, 
+            which is the native narrow band distance encoded in the float image. You
+            can also speciy black/white, which encodes the inside of the field as black
+            pixels, or antialiased, which encodes the outside narrow band in grayscale</param>
+        </member>
+        <member name="M:PicoGK.Voxels.oVectorize(System.Single,System.Boolean,PicoGK.IProgress)">
+            <summary>
+            Vectorize a Voxels object using Marching Squares.
+            The result is the outline of each voxel slice with outer contours
+            in counter-clockwise direction and inner contours (islands) in
+            clockwise direction. Supports arbitrary layer height (interpolates
+            the slices between discrete Z values)
+            </summary>
+            <param name="fLayerHeight">Layer height in MM</param>
+            <param name="bUseAbsXYOrigin">By default the origin lies at 0/0 of the bounding box.
+            If you set this parameter to true, the X/Y coordinates start at the actual position in space
+            where the voxel field lies. This can be useful for display purposes.</param>
+            <param name="xProgress">Optional parameter that allows you to report the progress</param>
+            <returns>The returned PolySliceStack object contains the vectorized layers.</returns>
+            <exception cref="T:System.Exception">An exception is thrown if no slices are detected.</exception>
+        </member>
+        <member name="M:PicoGK.Voxels.SaveToCliFile(System.String,System.Single,PicoGK.CliIo.EFormat,System.Boolean,PicoGK.IProgress)">
+            <summary>
+            Save the voxel field to a .cli file
+            CLI is an quasi industry standard for exchanging
+            layer information with Laser Powder Bed Fusion (LBPF)
+            industrial 3D printers
+            </summary>
+            <param name="strFileName">File name of the .CLI file</param>
+            <param name="fLayerHeight">Layer height in mm
+            Typical values are 30 micron (0.03f) or 60 micron (0.06f)</param>
+            <param name="eFormat">Format options</param>
+            <param name="bUseAbsXYOrigin">If specified, the CLI file uses the 
+            position in space in X/Y that the voxel field was in. By default
+            the position of the CLI slices are relative to the voxel field
+            boundaries.</param>
+            <param name="xProgress">Optional progress reporting interface</param>
+        </member>
+        <member name="M:PicoGK.Voxels.voxFromVdbFile(PicoGK.Library,System.String)">
+            <summary>
+            Create Voxels from a OpenVDB file (.vdb)
+            This function searches for the first compatible field in the .vdb
+            file (OpenVDB supports storing many fields of various types in one
+            file). PicoGK Voxels need an openvdb::GRID_LEVEL_SET field.
+            Incompatible fields and other compatible fields after the first one
+            are ignored. For more sophisticated .vdb file handling, use
+            PicoGK.OpenVdbFile
+            Note: When you save your own VdbFiles with multiple fields in it
+            you cannot rely on the fields being in the same order as you saved
+            them. In other words, if you use PicoGK.OpenVdbFile to save multiple
+            Voxel fields to a file, loading Voxels with voxFromVdbFile will
+            load any one, not necessarily the one you saved first.
+            </summary>
+            <param name="libSet">Library instance to use</param>
+            <param name="strFileName">Path and file name of the VDB file</param>
+            <returns>A voxel field, based on the .vdb data</returns>
+            <exception cref="T:System.IO.FileLoadException">If file is empty or no
+            compatible field found, an exception is thrown.
+            </exception>
+        </member>
+        <member name="M:PicoGK.Voxels.SaveToVdbFile(System.String)">
+            <summary>
+            Creates a new .vdb file and saves the voxel field to it
+            </summary>
+            <param name="strFileName">Path and filename of the file</param>
+            <exception> Throws an exception if unable to save
+            </exception>
+        </member>
+        <member name="T:PicoGK.VectorField">
+            <summary>
+            A Field of 3D floating point vectors
+            </summary>
+        </member>
+        <member name="M:PicoGK.VectorField.#ctor">
+            <summary>
+            Create an empty VectorField object
+            </summary>
+        </member>
+        <member name="M:PicoGK.VectorField.#ctor(PicoGK.Library,PicoGK.VectorFieldHandle)">
+            <summary>
+            Create a VectorField object from an existing handle
+            (for internal use)
+            </summary>
+        </member>
+        <member name="M:PicoGK.VectorField.#ctor(PicoGK.Library)">
+            <summary>
+            Default constructor, builds a new empty field
+            </summary>
+        </member>
+        <member name="M:PicoGK.VectorField.#ctor(PicoGK.VectorField@)">
+            <summary>
+            Copy constructor, create a duplicate
+            of the supplied field
+            </summary>
+            <param name="oSource">Source to copy from</param>
+        </member>
+        <member name="M:PicoGK.VectorField.#ctor(PicoGK.Voxels)">
+            <summary>
+            Creates a gradient field from an existing voxel field
+            </summary>
+            <param name="vox">Voxels to create gradients from</param>
+        </member>
+        <member name="M:PicoGK.VectorField.#ctor(PicoGK.Voxels,System.Numerics.Vector3,System.Single)">
+            <summary>
+            Creates a vector field from an existing voxel field
+            setting the value of each voxel to the specified value
+            </summary>
+            <param name="vox">Voxel field that defines which values to set</param>
+            <param name="vecValue">Value to set in the vector field</param>
+            <param name="fSdThreshold">The threshold of the signed distance field
+            to be used for the definition of "inside" - usually 0.5 is a good
+            value - the surface is at exactly 0 and a value of
+            1.0 means you are 1 voxel outside from the surface.</param>
+        </member>
+        <member name="M:PicoGK.VectorField.SetValue(System.Numerics.Vector3,System.Numerics.Vector3)">
+            <summary>
+            Sets the value at the specified position in mm
+            When you set a value, the position gets "activated"
+            When no value is set, the position doesn't contain
+            a value, and bGetValue returns false
+            </summary>
+            <param name="vecPosition">Position in mm</param>
+            <param name="vecValue">Value</param>
+        </member>
+        <member name="M:PicoGK.VectorField.bGetValue(System.Numerics.Vector3,System.Numerics.Vector3@)">
+            <summary>
+            Get the value at the specified position
+            If the specified position doesn't contain a value
+            the function returns false.
+            </summary>
+            <param name="vecPosition">Position in mm</param>
+            <param name="vecValue">Value at position</param>
+            <returns>
+            false:  the specified position doesn't contain a value
+            true:   the specified position contains a value
+            </returns>
+        </member>
+        <member name="M:PicoGK.VectorField.RemoveValue(System.Numerics.Vector3)">
+            <summary>
+            Removes the value at the specified position
+            </summary>
+            <param name="vecPosition">Position of the value in space</param>
+        </member>
+        <member name="M:PicoGK.VectorField.TraverseActive(PicoGK.ITraverseVectorField)">
+            <summary>
+            Visit each active value in the vector field and call the
+            InformActiveValue methot of the ITraverseVectorField interface
+            </summary>
+            <param name="xTraverse">The interface containing the callback</param>
+        </member>
+        <member name="F:PicoGK.VectorField.m_oMetadata">
+            <summary>
+            VectorField metadata
+            </summary>
+        </member>
+        <member name="T:PicoGK.ScalarField">
+            <summary>
+            A field of scalar floating point values
+            </summary>
+        </member>
+        <member name="M:PicoGK.ScalarField.#ctor">
+            <summary>
+            Create an empty scalar field object
+            </summary>
+        </member>
+        <member name="M:PicoGK.ScalarField.#ctor(PicoGK.Library,PicoGK.ScalarFieldHandle)">
+            <summary>
+            Create a voxels object from an existing handle
+            (for internal use)
+            </summary>
+        </member>
+        <member name="M:PicoGK.ScalarField.#ctor(PicoGK.Library)">
+            <summary>
+            Default constructor, builds a new empty field
+            </summary>
+        </member>
+        <member name="M:PicoGK.ScalarField.#ctor(PicoGK.ScalarField@)">
+            <summary>
+            Copy constructor, create a duplicate
+            of the supplied field
+            </summary>
+            <param name="oSource">Source to copy from</param>
+        </member>
+        <member name="M:PicoGK.ScalarField.#ctor(PicoGK.Voxels)">
+            <summary>
+            Creates a scalar field from an existing voxel field
+            setting the voxels inside the object to signed distance value
+            of the voxels
+            </summary>
+            <param name="vox"></param>
+        </member>
+        <member name="M:PicoGK.ScalarField.#ctor(PicoGK.Voxels,System.Single,System.Single)">
+            <summary>
+            Creates a new scalar field using the topology of an existing
+            voxel field. If the threshold is smaller than the specified
+            value, the scalar field value is set to the specified value
+            </summary>
+            <param name="vox">Voxel field to use as topology source</param>
+            <param name="fValue">Value to set the Scalar Field to if condition is met</param>
+            <param name="fSdThreshold">The threshold of the signed distance field
+            to be used for the definition of "inside" - usually 0.5 is a good
+            value - the surface is at exactly 0 and a value of
+            1.0 means you are 1 voxel outside from the surface.
+            </param>
+        </member>
+        <member name="M:PicoGK.ScalarField.SetValue(System.Numerics.Vector3,System.Single)">
+            <summary>
+            Sets the value at the specified position in mm
+            When you set a value, the position gets "activated"
+            When no value is set, the position doesn't contain
+            a value, and bGetValue returns false
+            </summary>
+            <param name="vecPosition">Position in mm</param>
+            <param name="fValue">Value</param>
+        </member>
+        <member name="M:PicoGK.ScalarField.bGetValue(System.Numerics.Vector3,System.Single@)">
+            <summary>
+            Get the value at the specified position
+            If the specified position doesn't contain a value
+            the function returns false.
+            </summary>
+            <param name="vecPosition">Position in mm</param>
+            <param name="fValue">Value at position</param>
+            <returns>
+            false:  the specified position doesn't contain a value
+            true:   the specified position contains a value
+            </returns>
+        </member>
+        <member name="M:PicoGK.ScalarField.RemoveValue(System.Numerics.Vector3)">
+            <summary>
+            Removes the value at the specified position
+            </summary>
+            <param name="vecPosition">Position of the value in space</param>
+        </member>
+        <member name="M:PicoGK.ScalarField.GetVoxelDimensions(System.Int32@,System.Int32@,System.Int32@,System.Int32@,System.Int32@,System.Int32@)">
+            <summary>
+            Returns the dimensions of the field in discrete voxels
+            </summary>
+            <param name="nXOrigin">X origin of the field in voxels</param>
+            <param name="nYOrigin">Y origin of the field in voxels</param>
+            <param name="nZOrigin">Z origin of the field in voxels</param>
+            <param name="nXSize">Size in x direction in voxels</param>
+            <param name="nYSize">Size in y direction in voxels</param>
+            <param name="nZSize">Size in z direction in voxels</param>
+        </member>
+        <member name="M:PicoGK.ScalarField.GetVoxelDimensions(System.Int32@,System.Int32@,System.Int32@)">
+            <summary>
+            Returns the dimensions of the field in discrete voxels
+            </summary>
+            <param name="nXSize">Size in x direction in voxels</param>
+            <param name="nYSize">Size in y direction in voxels</param>
+            <param name="nZSize">Size in z direction in voxels</param>
+        </member>
+        <member name="M:PicoGK.ScalarField.GetVoxelSlice(System.Int32@,PicoGK.ImageGrayScale@)">
+            <summary>
+            Returns a signed distance-field-encoded slice of the voxel field
+            To use it, use GetVoxelDimensions to find out the size of the voxel
+            field in voxel units. Then allocate a new grayscale image to copy
+            the data into, and pass it as a reference. Since GetVoxelDimensions
+            is potentially an "expensive" function, we are putting the burden
+            on you to allocate an image and don't create it for you. You can
+            also re-use the image if you want to save an entire image stack
+            </summary>
+            <param name="nZSlice">Slice to retrieve. 0 is at the bottom.</param>
+            <param name="img">Pre-allocated grayscale image to receive the values</param>
+        </member>
+        <member name="M:PicoGK.ScalarField.TraverseActive(PicoGK.ITraverseScalarField)">
+            <summary>
+            Visit each active value in the vector field and call the
+            InformActiveValue methot of the ITraverseScalarField interface
+            </summary>
+            <param name="xTraverse">The interface containing the callback</param>
+        </member>
+        <member name="M:PicoGK.ScalarField.fSignedDistance(System.Numerics.Vector3@)">
+            <summary>
+            Return the scalar value at the specified position as
+            as signed distance value. This assumes you stored an signed
+            distance field in the scalar field (for example by constructing it
+            from a voxel field)
+            </summary>
+            <param name="vecPosition">Position to sample</param>
+            <returns>
+            Distance to the surface - negative values are inside the object
+            positive values are outside the object, values of 0 are exactly
+            on the surface
+            </returns>
+        </member>
+        <member name="M:PicoGK.ScalarField.oBoundingBox">
+            <summary>
+            Returns the bounding box of all active voxels in mm coordinates
+            </summary>
+            <returns>Bounding box of all active voxels</returns>
+        </member>
+        <member name="F:PicoGK.ScalarField.m_oMetadata">
+            <summary>
+            Field metadata
+            </summary>
+        </member>
+        <member name="T:PicoGK.FieldMetadata">
+            <summary>
+            Metadata table containing parameters associated with field types
+            like Voxels, ScalarFields, VectorFields. The metadata contained in here
+            is saved and loaded from VDB files.
+            </summary>
+        </member>
+        <member name="T:PicoGK.FieldMetadata.EType">
+            <summary>
+            Type of the data items in the metadata table
+            </summary>
+        </member>
+        <member name="M:PicoGK.FieldMetadata.nCount">
+            <summary>
+            Number of items in the metadata table
+            </summary>
+        </member>
+        <member name="M:PicoGK.FieldMetadata.bGetNameAt(System.Int32,System.String@)">
+            <summary>
+            Attempts to retrieve the name of the parameter at
+            the index supplied
+            </summary>
+            <param name="nIndex">Index value of the parameter</param>
+            <param name="strValueName">Name of the parameter at this
+            position.</param>
+            <returns></returns>
+        </member>
+        <member name="M:PicoGK.FieldMetadata.eTypeAt(System.String)">
+            <summary>
+            Returns the type of the value with the specified name
+            </summary>
+            <param name="strName">Name of the parameter to retrieve</param>
+            <returns>Type of the parameter</returns>
+        </member>
+        <member name="M:PicoGK.FieldMetadata.strTypeAt(System.String)">
+            <summary>
+            Returns the human readable type of the parameter with the
+            specified name
+            </summary>
+            <param name="strName">Name of the parameter</param>
+            <returns>The human readable name of the type</returns>
+        </member>
+        <member name="M:PicoGK.FieldMetadata.strTypeName(PicoGK.FieldMetadata.EType)">
+            <summary>
+            Translate the type enum to a string
+            </summary>
+            <param name="eType">Type to translate</param>
+            <returns>Human readable string</returns>
+        </member>
+        <member name="M:PicoGK.FieldMetadata.bGetValueAt(System.String,System.String@)">
+            <summary>
+            Try to get the value of a parameter
+            </summary>
+            <param name="strFieldName">Name of the parameter</param>
+            <param name="strValue">Value returned</param>
+            <returns>Returns false if value doesn't exist or has the
+            wrong type</returns>
+        </member>
+        <member name="M:PicoGK.FieldMetadata.bGetValueAt(System.String,System.Single@)">
+            <summary>
+            Try to get the value of a parameter
+            </summary>
+            <param name="strFieldName">Name of the parameter</param>
+            <param name="fValue">Value returned</param>
+            <returns>Returns false if value doesn't exist or has the
+            wrong type</returns>
+        </member>
+        <member name="M:PicoGK.FieldMetadata.bGetValueAt(System.String,System.Numerics.Vector3@)">
+            <summary>
+            Try to get the value of a parameter
+            </summary>
+            <param name="strFieldName">Name of the parameter</param>
+            <param name="vecValue">Value returned</param>
+            <returns>Returns false if value doesn't exist or has the
+            wrong type</returns>
+        </member>
+        <member name="M:PicoGK.FieldMetadata.SetValue(System.String,System.String)">
+            <summary>
+            Set string value in the metadata table
+            </summary>
+            <param name="strFieldName">Name of the parameter</param>
+            <param name="strValue">Value to set</param>
+        </member>
+        <member name="M:PicoGK.FieldMetadata.SetValue(System.String,System.Single)">
+            <summary>
+            Set floating point value in the metadata table
+            </summary>
+            <param name="strFieldName">Name of the parameter</param>
+            <param name="fValue">Value to set</param>
+        </member>
+        <member name="M:PicoGK.FieldMetadata.SetValue(System.String,System.Numerics.Vector3)">
+            <summary>
+            Set a vector value in the metadata table
+            </summary>
+            <param name="strFieldName">Name of the parameter</param>
+            <param name="vecValue">Value to set</param>
+        </member>
+        <member name="M:PicoGK.FieldMetadata.RemoveValue(System.String)">
+            <summary>
+            Remove a value from the metadata table
+            </summary>
+            <param name="strFieldName">Name of the value</param>
+        </member>
+        <member name="M:PicoGK.FieldMetadata.ToString">
+            <summary>
+            Converts the contents of the metadata table to a string
+            </summary>
+            <returns>String containing info about metadata</returns>
+        </member>
+        <member name="M:PicoGK.FieldMetadata.#ctor(PicoGK.Library,PicoGK.VdbMetaHandle)">
+            <summary>
+            Internal constructor used by the Voxels, ScalarField and VectorField
+            accessor function. Do not construct FieldMetadata objects by
+            yourself
+            </summary>
+            <param name="oLibrary">Library instance to use</param>
+            <param name="hSource">This pointer</param>
+        </member>
+        <member name="M:PicoGK.FieldMetadata._SetValue(System.String,System.String)">
+            <summary>
+            Set string value in the metadata table (internal, do not use)
+            </summary>
+            <param name="strFieldName">Name of the parameter</param>
+            <param name="strValue">Value to set</param>
+        </member>
+        <member name="M:PicoGK.FieldMetadata._SetValue(System.String,System.Single)">
+            <summary>
+            Set floating point value in the metadata table (internal, do not use)
+            </summary>
+            <param name="strFieldName">Name of the parameter</param>
+            <param name="fValue">Value to set</param>
+        </member>
+        <member name="M:PicoGK.FieldMetadata._SetValue(System.String,System.Numerics.Vector3)">
+            <summary>
+            Set a vector value in the metadata table (internal, do not use)
+            </summary>
+            <param name="strFieldName">Name of the parameter</param>
+            <param name="vecValue">Value to set</param>
+        </member>
+        <member name="M:PicoGK.FieldMetadata._RemoveValue(System.String)">
+            <summary>
+            Remove a value from the metadata table (internal, do not use)
+            </summary>
+            <param name="strFieldName">Name of the value</param>
+        </member>
+        <member name="M:PicoGK.FieldMetadata.GuardInternalFields(System.String)">
+            <summary>
+            This function tests whether you are attempting to set internal
+            metadata fields from your code — this can mess up openvdb and
+            internal PicoGK functionality
+            </summary>
+            <param name="strFieldName">Field name you are trying to set</param>
+            <exception cref="T:System.FieldAccessException"></exception>
+        </member>
+        <member name="T:PicoGK.Mesh">
+            <summary>
+            A triangle mesh
+            </summary>
+        </member>
+        <member name="M:PicoGK.Mesh.#ctor">
+            <summary>
+            Creates a new empty Mesh, using the global library instance
+            </summary>
+        </member>
+        <member name="M:PicoGK.Mesh.#ctor(PicoGK.Library)">
+            <summary>
+            Create an empty Mesh
+            </summary>
+        </member>
+        <member name="M:PicoGK.Mesh.#ctor(PicoGK.Voxels@)">
+            <summary>
+            Create a mesh from the specified voxels object
+            </summary>
+            <param name="vox">Voxels to create a mesh from</param>
+        </member>
+        <member name="M:PicoGK.Mesh.mshCreateTransformed(System.Numerics.Vector3,System.Numerics.Vector3)">
+            <summary>
+            Create a transformed mesh by offsetting and scaling it
+            </summary>
+            <param name="vecScale">Scale the mesh (first step)</param>
+            <param name="vecOffset">Offset the mesh (second step)</param>
+            <returns>A new mesh that has the transformation applied</returns>
+        </member>
+        <member name="M:PicoGK.Mesh.mshCreateTransformed(System.Numerics.Matrix4x4)">
+            <summary>
+            Create a transformed mesh by applying a transformation matrix
+            </summary>
+            <param name="matTrans">Transformation Matrix to apply</param>
+            <returns>A new mesh that has the transformation applied</returns>
+        </member>
+        <member name="M:PicoGK.Mesh.mshCreateMirrored(System.Numerics.Vector3,System.Numerics.Vector3)">
+            <summary>
+            Mirrors a mesh at the specified plane.
+            </summary>
+            <param name="vecPlanePoint">A point through which the mirror plane passes.</param>
+            <param name="vecPlaneNormal">The normal vector of the mirror plane.</param>
+            <returns>The mirrored mesh.</returns>
+        </member>
+        <member name="M:PicoGK.Mesh.nAddVertex(System.Numerics.Vector3@)">
+            <summary>
+            Add a new vertex to the mesh so that it can be used in mesh triangles
+            </summary>
+            <param name="vec">The vertex to add</param>
+            <returns>The index of the vertex (to be used in triangles)</returns>
+        </member>
+        <member name="M:PicoGK.Mesh.vecVertexAt(System.Int32)">
+            <summary>
+            Get the vertex at the specified index
+            </summary>
+            <param name="nVertex">The vertex index</param>
+        </member>
+        <member name="M:PicoGK.Mesh.nVertexCount">
+            <summary>
+            Get the number of vertices in the mesh
+            </summary>
+            <returns>The number of vertices in the mesh</returns>
+        </member>
+        <member name="M:PicoGK.Mesh.nAddTriangle(PicoGK.Triangle@)">
+            <summary>
+            Add a triangle to the mesh with the specified vertex indices
+            </summary>
+            <param name="t">Triangle with the vertex indices set to existing vertices</param>
+            <returns>The triangle index of the added triangle</returns>
+        </member>
+        <member name="M:PicoGK.Mesh.nAddTriangle(System.Int32,System.Int32,System.Int32)">
+            <summary>
+            Add a triangle to the mesh with the specified vertex indices
+            </summary>
+            <param name="A">First vertex in the triangle</param>
+            <param name="B">Second vertex in the triangle</param>
+            <param name="C">Third vertex in the triangle</param>
+            <returns></returns>
+        </member>
+        <member name="M:PicoGK.Mesh.nTriangleCount">
+            <summary>
+            Return number of triangles in the mesh
+            </summary>
+            <returns>Triangle count in mesh</returns>
+        </member>
+        <member name="M:PicoGK.Mesh.nAddTriangle(System.Numerics.Vector3@,System.Numerics.Vector3@,System.Numerics.Vector3@)">
+            <summary>
+            Add a triangle specified by the three vertices to the mesh
+            First adds the vertices and then the triangle based on the vertex
+            index
+            </summary>
+            <param name="vecA">First vertex of the triangle</param>
+            <param name="vecB">Second vertex of the triangle</param>
+            <param name="vecC">Third vertex of the triangle</param>
+            <returns>The triangle index of the added triangle in the mesh</returns>
+        </member>
+        <member name="M:PicoGK.Mesh.AddQuad(System.Int32,System.Int32,System.Int32,System.Int32,System.Boolean)">
+            <summary>
+            Adds a quad, defined by four corner vertices
+            Helper function, which calls nAddTriangle in
+            the background.
+            </summary>
+        </member>
+        <member name="M:PicoGK.Mesh.AddQuad(System.Numerics.Vector3@,System.Numerics.Vector3@,System.Numerics.Vector3@,System.Numerics.Vector3@,System.Boolean)">
+            <summary>
+            Adds a quad, defined by four corner vertices
+            Helper function, which calls nAddTriangle in
+            the background.
+            </summary>
+        </member>
+        <member name="M:PicoGK.Mesh.oTriangleAt(System.Int32)">
+            <summary>
+            Get the triangle with the specified index
+            </summary>
+            <param name="nTriangle">Triangle index in the mesh</param>
+        </member>
+        <member name="M:PicoGK.Mesh.GetTriangle(System.Int32,System.Numerics.Vector3@,System.Numerics.Vector3@,System.Numerics.Vector3@)">
+            <summary>
+            Get the triangle with the specified index
+            </summary>
+            <param name="nTriangle">Triangle index in the mesh</param>
+            <param name="vecA">First vertex in the triangle</param>
+            <param name="vecB">Second vertex in the triangle</param>
+            <param name="vecC">Third vertex in the triangle</param>
+        </member>
+        <member name="M:PicoGK.Mesh.Append(PicoGK.Mesh)">
+            <summary>
+            Append one mesh to another
+            Note, no deduplication is done
+            and no "boolean"
+            The source mesh remains unchanged
+            </summary>
+        </member>
+        <member name="M:PicoGK.Mesh.oBoundingBox">
+            <summary>
+            Return the BoundingBox of the Mesh
+            </summary>
+            <returns>BoundingBox of the Mesh</returns>
+        </member>
+        <member name="M:PicoGK.Mesh.mshFromStlFile(System.String,PicoGK.Mesh.EStlUnit,System.Single,System.Nullable{System.Numerics.Vector3},PicoGK.Library)">
+            <summary>
+            Loads a mesh from an STL file
+            By default, it tries to find a UNITS= info in the header and uses that
+            to scale the mesh automatically to mm. If none is found mm is assumed
+            You can override this behaviour and explicitly specify a unit
+            To explicitly scale the STL, provide the fPostScale parameter
+            vecPostOffsetMM is applied last, offsetting the mesh
+            </summary>
+            <param name="strFilePath">
+            Path to the file. If not found or not able to open, an exception is thrown
+            </param>
+            <param name="eLoadUnit">Units to load</param>
+            <param name="fPostScale">Scale parameter to be applied before offset</param>
+            <param name="vecPostOffsetMM">Offset parameter to be applied last</param>
+            <param name="libSet">Library instance to use</param>
+            <returns>Returns a valid mesh in any case. If file was invalid, the mesh may be empty.</returns>
+        </member>
+        <member name="M:PicoGK.Mesh.SaveToStlFile(System.String,PicoGK.Mesh.EStlUnit,System.Nullable{System.Numerics.Vector3},System.Single)">
+            <summary>
+            Saves a Mesh to STL file
+            If eUnit is auto, then, if this mesh was loaded from an STL before
+            the same units as before are being used (stored in public property
+            m_eLoadUnits). If not loaded from an STL, defaults to mm.
+            Internal mesh units are always mm, so if a unit other than mm is
+            used, the mesh coordinates are scaled appropriately (divided by 10
+            for CM units, for example). Our STL loaders use the UNIT= parameter
+            in the header, so whatever units you use, you will always get an STL
+            with the same dimensions if you load it again using our loader.
+            However many STL importers out there, ignore the UNIT info in the
+            header.
+            You can explicitly offset the mesh before saving (offset in mm)
+            after offset, a scale parameter can be applied.
+            The last operation is always the conversion to the unit
+            </summary>
+            <param name="strFilePath">File path. If not writable, exceptions is thrown
+            </param>
+            <param name="eUnit">If loaded previously, defaults to original units.
+            MM if not previously loaded. Can be overridden to save to a specifc
+            unit.</param>
+            <param name="vecOffsetMM">Offset applied while still in mm units</param>
+            <param name="fScale">Scale applied after offset, while still in mm units</param>
+        </member>
+        <member name="T:PicoGK.Lattice">
+            <summary>
+            A lattice of beams (and spheres)
+            </summary>
+        </member>
+        <member name="M:PicoGK.Lattice.#ctor">
+            <summary>
+            Creates a new empty Lattice, using the global library instance
+            </summary>
+        </member>
+        <member name="M:PicoGK.Lattice.#ctor(PicoGK.Library)">
+            <summary>
+            Create an empty lattice object
+            </summary>
+            <param name="libSet">Library instance</param>
+            <exception cref="T:PicoGK.PicoGKAllocException">Failure to allocate the object</exception>
+        </member>
+        <member name="M:PicoGK.Lattice.AddSphere(System.Numerics.Vector3@,System.Single)">
+            <summary>
+            Add a sphere to the lattice
+            </summary>
+            <param name="vecCenter">Center point</param>
+            <param name="fRadius">Radius of the sphere</param>
+        </member>
+        <member name="M:PicoGK.Lattice.AddBeam(System.Numerics.Vector3@,System.Single,System.Numerics.Vector3@,System.Single,System.Boolean)">
+            <summary>
+            Add a beam to the lattice
+            </summary>
+            <param name="vecA">Starting point of the beam</param>
+            <param name="fRadA">Radius at starting point</param>
+            <param name="vecB">End point of the beam</param>
+            <param name="fRadB">Radius at end point</param>
+            <param name="bRoundCap">If true, beam has a hemispherical cap</param>
+        </member>
+        <member name="M:PicoGK.Lattice.AddBeam(System.Numerics.Vector3@,System.Numerics.Vector3@,System.Single,System.Single,System.Boolean)">
+            <summary>
+            Add a beam to the lattice
+            </summary>
+            <param name="vecA">Start point of the beam</param>
+            <param name="vecB">End point of the beam</param>
+            <param name="fRadA">Radius at start point</param>
+            <param name="fRadB">Radius at end point</param>
+            <param name="bRoundCap">If true, beam has hemispherical caps</param>
+        </member>
+        <member name="T:PicoGK.PolyLine">
+            <summary>
+            A colored 3D polyline for use in the viewer
+            </summary>
+        </member>
+        <member name="M:PicoGK.PolyLine.#ctor(PicoGK.ColorFloat)">
+            <summary>
+            Creates a new empty PolyLine, using the global library instance
+            </summary>
+        </member>
+        <member name="M:PicoGK.PolyLine.#ctor(PicoGK.Library,PicoGK.ColorFloat)">
+            <summary>
+            Create a new polyline with the specified color
+            </summary>
+            <param name="libSet">Library instance to use</param>
+            <param name="clr">Color of the polyline</param>
+        </member>
+        <member name="M:PicoGK.PolyLine.nAddVertex(System.Numerics.Vector3@)">
+            <summary>
+            Add a vertex to the polyline
+            </summary>
+            <param name="vec">The specified vertex</param>
+            <returns>The vertex index</returns>
+        </member>
+        <member name="M:PicoGK.PolyLine.Add(System.Collections.Generic.IEnumerable{System.Numerics.Vector3})">
+            <summary>
+            Adds all vertices from a container
+            </summary>
+            <param name="avec">Container containing vertices</param>
+        </member>
+        <member name="M:PicoGK.PolyLine.nVertexCount">
+            <summary>
+            Return number of vertices in the PolyLine
+            </summary>
+            <returns>Number of vertices</returns>
+        </member>
+        <member name="M:PicoGK.PolyLine.vecVertexAt(System.Int32)">
+            <summary>
+            Get the vertex in the polyline at the specified vertex index
+            </summary>
+            <param name="nIndex">Vertex index to retrieve</param>
+        </member>
+        <member name="M:PicoGK.PolyLine.GetColor(PicoGK.ColorFloat@)">
+            <summary>
+            Return the color of the PolyLine
+            </summary>
+            <param name="clr">PolyLine color</param>
+        </member>
+        <member name="M:PicoGK.PolyLine.oBoundingBox">
+            <summary>
+            Return BoundingBox of PolyLine
+            </summary>
+            <returns>Bounding Box</returns>
+        </member>
+        <member name="M:PicoGK.PolyLine.AddArrow(System.Single,System.Nullable{System.Numerics.Vector3})">
+            <summary>
+            Adds an arrow to the tip of the current polyline
+            The arrow points in the direction of the last polyline segment,
+            unless you explicitly set a direction
+            If you do not supply a direction, and there are less than
+            two vertices in the polyline segment, the arrow points in Z+
+            The polyline ends in the tip of the arrow, so you can cascade
+            multiple arrows.
+            </summary>
+            <param name="fSizeMM">
+            Optional size of the base of the arrow,
+            and the distance from the tip. Defaults to 1mm
+            </param>
+            <param name="_vecDir">Optional direction of the arrow</param>
+        </member>
+        <member name="M:PicoGK.PolyLine.AddCross(System.Single)">
+            <summary>
+            Add a cross at the end of a polyline
+            </summary>
+            <param name="fSizeMM">Size of the cross</param>
+        </member>
+        <member name="T:PicoGK.OpenVdbFile">
+             <summary>
+             OpenVdbFile handles the creation, loading and saving of openvdb .VDB
+             files. These files are a general container for data generated by the
+             OpenVDB library. As such, they have many data types and functionality
+             that PicoGK doesn't support. PicoGK currently allows for the saving
+             and storing of Voxels, ScalarFields, and VectorFields in VDB files.
+            
+             The following caveats are important:
+            
+             1. Make sure that the voxel size of the file (fPicoGKVoxelSizeMM) is
+             the same as the one in your PicoGK.Library instance. The easiest way
+             to create a compatible PicoGK.Library instance is to use the 
+             oCreateCompatibleLibraryFor static function.
+            
+             2. If you store more than one field to a .VDB file, you cannot rely on
+             the first saved field to also be the first to be retrieved. OpenVDB
+             reshuffles the order of the fields. The easiest way around that is to
+             retrieve fields by name, if your .vdb file contains multiple
+            
+             3. There are many data types that PicoGK currently doesn't support.
+             PicoGK.Voxels are based on the OpenVDB type GRID_LEVEL_SET. Other
+             types, such as GRID_FOG_VOLUME are not supported.
+            
+             4. If you just want to save/store VDBs from PicoGK, and only have one
+             field per VDB, you can use the helper functions in VoxelsIo which are
+             easier to use.
+            
+             Workflow for creating .VDB files
+             - Create an empty OpenVdbFile object
+             - Add the fields you want to save to it
+             - Save it to file
+            
+             Workflow for loading VDB files
+             - Load .VDB file from disk into a OpenVdbFile object
+             - Query the object for the fields stored, retrieving names and types
+             - Get the Voxels from the field with the right name and type
+             
+             </summary>
+        </member>
+        <member name="M:PicoGK.OpenVdbFile.#ctor">
+            <summary>
+            Create an empty openvdb file object
+            </summary>
+        </member>
+        <member name="M:PicoGK.OpenVdbFile.#ctor(System.String)">
+            <summary>
+            Create an OpenVDB file object by loading
+            an existing file
+            </summary>
+            <param name="strFileName"></param>
+        </member>
+        <member name="M:PicoGK.OpenVdbFile.libCreateCompatibleLibraryFor(System.String)">
+            <summary>
+            Create a PicoGK library object that is compatible with the
+            specified OpenVDB file, i.e. a library instance that has
+            the same voxel size as the data stored in the VDB file
+            </summary>
+        </member>
+        <member name="T:PicoGK.OpenVdbFile.EFieldType">
+            <summary>
+            Types of fields in .VDB files
+            </summary>
+        </member>
+        <member name="F:PicoGK.OpenVdbFile.EFieldType.Unsupported">
+            <summary>
+            Unsupported data type (for example FOG)
+            </summary>
+        </member>
+        <member name="F:PicoGK.OpenVdbFile.EFieldType.Voxels">
+            <summary>
+            PicoGK.Voxels field
+            </summary>
+        </member>
+        <member name="F:PicoGK.OpenVdbFile.EFieldType.ScalarField">
+            <summary>
+            PicoGK.ScalarField type
+            </summary>
+        </member>
+        <member name="F:PicoGK.OpenVdbFile.EFieldType.VectorField">
+            <summary>
+            PicoGK.ScalerField type
+            </summary>
+        </member>
+        <member name="M:PicoGK.OpenVdbFile.#ctor(PicoGK.Library)">
+            <summary>
+            Creates an empty .VDB file object, with no fields in it
+            </summary>
+        </member>
+        <member name="M:PicoGK.OpenVdbFile.#ctor(PicoGK.Library,System.String)">
+            <summary>
+            Creates a new .VDB file object by attempting to load it from disk
+            Note, the order of the fields in the file is arbitrary
+            </summary>
+            <param name="libSet">Library instance to use</param>
+            <param name="strFileName">Path and filename of the .VDB</param>
+            <exception cref="T:System.IO.FileLoadException">
+            If file cannot be read, exception is thrown.
+            </exception>
+        </member>
+        <member name="M:PicoGK.OpenVdbFile.SaveToFile(System.String)">
+            <summary>
+            Saves the current object with all of its attached fields to a .VDB
+            container. Note, the order of the fields inside the file is
+            not the order in which you added the fields.
+            </summary>
+            <param name="strFileName">Path and filename to save to</param>
+            <exception cref="T:System.IO.IOException">
+            Throws exception if unable to save
+            </exception>
+        </member>
+        <member name="M:PicoGK.OpenVdbFile.voxGet(System.Int32)">
+            <summary>
+            Get the Voxels at the index specified. 0 is the first field.
+            If the field at the specified position is incompatible with Voxels
+            an exception is thrown.
+            </summary>
+            <param name="nIndex">Index of the field</param>
+            <returns>Voxels described by the VDB field</returns>
+            <exception>Throws exception if no Voxels found at index</exception>
+        </member>
+        <member name="M:PicoGK.OpenVdbFile.voxGet(System.String)">
+            <summary>
+            Gets the Voxels with the field name specified
+            </summary>
+            <param name="strName">Name of the field in the .VDB file</param>
+            <returns>Voxels described by the VDB field</returns>
+            <exception cref="T:System.Exception">Throws exception if not found
+            </exception>
+        </member>
+        <member name="M:PicoGK.OpenVdbFile.nAdd(PicoGK.Voxels,System.String)">
+            <summary>
+            Adds a copy of the specified Voxels to the VdbFile object
+            </summary>
+            <param name="vox">Voxels to add</param>
+            <param name="strFieldName">Field name (if not specified,
+            autogenerates a unique one
+            </param>
+            <returns>Index of the field inside the VdbFile object</returns>
+        </member>
+        <member name="M:PicoGK.OpenVdbFile.oGetScalarField(System.Int32)">
+            <summary>
+            Get the ScalarField at the index specified. 0 is the first field.
+            If the field at the specified position is incompatible with the
+            field type, an exception is thrown.
+            </summary>
+            <param name="nIndex">Index of the field</param>
+            <returns>ScalarField described by the VDB field</returns>
+            <exception>Throws exception if no ScalarField found at index</exception>
+        </member>
+        <member name="M:PicoGK.OpenVdbFile.oGetScalarField(System.String)">
+            <summary>
+            Gets the ScalarField with the field name specified
+            </summary>
+            <param name="strName">Name of the field in the .VDB file</param>
+            <returns>ScalarField described by the VDB field</returns>
+            <exception cref="T:System.Exception">Throws exception if not found
+            </exception>
+        </member>
+        <member name="M:PicoGK.OpenVdbFile.nAdd(PicoGK.ScalarField,System.String)">
+            <summary>
+            Adds a copy of the specified Scalar Field to the VdbFile object
+            </summary>
+            <param name="oField">Field to add</param>
+            <param name="strFieldName">Field name (if not specified,
+            autogenerates a unique one
+            </param>
+            <returns>Index of the field inside the VdbFile object</returns>
+        </member>
+        <member name="M:PicoGK.OpenVdbFile.oGetVectorField(System.Int32)">
+            <summary>
+            Get the VectorField at the index specified. 0 is the first field.
+            If the field at the specified position is incompatible with the
+            field type, an exception is thrown.
+            </summary>
+            <param name="nIndex">Index of the field</param>
+            <returns>VectorField described by the VDB field</returns>
+            <exception>Throws exception if no ScalarField found at index</exception>
+        </member>
+        <member name="M:PicoGK.OpenVdbFile.oGetVectorField(System.String)">
+            <summary>
+            Gets the VectorField with the field name specified
+            </summary>
+            <param name="strName">Name of the field in the .VDB file</param>
+            <returns>VectorField described by the VDB field</returns>
+            <exception cref="T:System.Exception">Throws exception if not found
+            </exception>
+        </member>
+        <member name="M:PicoGK.OpenVdbFile.nAdd(PicoGK.VectorField,System.String)">
+            <summary>
+            Adds a copy of the specified VectorField to the VdbFile object
+            </summary>
+            <param name="oField">Field to add</param>
+            <param name="strFieldName">Field name (if not specified,
+            autogenerates a unique one
+            </param>
+            <returns>Index of the field inside the VdbFile object</returns>
+        </member>
+        <member name="M:PicoGK.OpenVdbFile.nFieldCount">
+            <summary>
+            Number of fields stored in the VdbFile container
+            </summary>
+            <returns>The number of fields in the VdbFile</returns>
+        </member>
+        <member name="M:PicoGK.OpenVdbFile.strFieldName(System.Int32)">
+            <summary>
+            Returns the name of the field (if specified) at the given field
+            index
+            </summary>
+            <param name="nIndex">Index of the field</param>
+            <returns>The name as string</returns>
+            /// <exception cref="T:System.Exception">Throws exception if out of range
+            </exception>
+        </member>
+        <member name="M:PicoGK.OpenVdbFile.eFieldType(System.Int32)">
+            <summary>
+            Returns the type of the field at the given field index
+            </summary>
+            <param name="nIndex">Index of the field</param>
+            <returns>The type of the field</returns>
+            /// <exception cref="T:System.Exception">Throws exception if out of range
+            </exception>
+        </member>
+        <member name="M:PicoGK.OpenVdbFile.strFieldType(System.Int32)">
+            <summary>
+            Returns the field type at the given index as string
+            </summary>
+            <param name="nIndex">Index of the field</param>
+            <returns>A string describing the field type</returns>
+            <exception cref="T:System.ArgumentOutOfRangeException">
+            If the field index is out of range, an exception is thrown
+            </exception>
+        </member>
+        <member name="M:PicoGK.Utils.mshCreateCube(PicoGK.BBox3)">
+            <summary>
+            Helper function to create simple box mesh from a bounding box
+            </summary>
+        </member>
+        <member name="M:PicoGK.Utils.mshCreateCube(System.Nullable{System.Numerics.Vector3},System.Nullable{System.Numerics.Vector3})">
+            <summary>
+            Helper function to create a simple box mesh with the optional specified size and location
+            </summary>
+        </member>
+        <member name="M:PicoGK.Utils.strStripQuotesFromPath(System.String)">
+            <summary>
+            Strip quotes of a quoted path like "/usr/lib/" -> /usr/lib/
+            </summary>
+            <param name="strPath"></param>Path that is potentially quoted
+            <returns></returns>Unquoted path
+        </member>
+        <member name="M:PicoGK.Utils.strStripExtension(System.String)">
+            <summary>
+            Strips the extension from a filename
+            </summary>
+        </member>
+        <member name="M:PicoGK.Utils.bWaitForFileExistence(System.String,System.Single)">
+            <summary>
+            Wait for a file's creation
+            </summary>
+            <param name="strFile"></param>
+            File to check for existence
+            <param name="fTimeOut"></param> T
+            imeout in seconds
+            <returns></returns>true if file exists, false if timeout
+        </member>
+        <member name="M:PicoGK.Utils.strHomeFolder">
+            <summary>
+            Returns the path to the home folder (cross platform compatible)
+            </summary>
+            <returns>Path to the home folder</returns>
+            <exception cref="T:System.Exception">Excepts, if not found</exception>
+        </member>
+        <member name="M:PicoGK.Utils.strDocumentsFolder">
+            <summary>
+            Returns the path to the documents folder (cross platform compatible)
+            </summary>
+            <returns>The path th documents folder</returns>
+            <exception cref="T:System.Exception">Excepts, if unable to find</exception>
+        </member>
+        <member name="M:PicoGK.Utils.strProjectRootFolder">
+            <summary>
+            Returns the path to the source folder of your project, under the
+            assumption that the executable .NET DLL is in its usual place.
+            
+            This function is can be used to load files in a subdirectory
+            of your source code, such as the viewer environment or fonts.
+            </summary>
+            <returns>The assumed path to the source code root</returns>
+        </member>
+        <member name="M:PicoGK.Utils.strPicoGKSourceCodeFolder">
+            <summary>
+            Returns the path to the source folder of PicoGK, making the following
+            Assumptions:
+            - PicoGK is contained in a subfolder named "PicoGK" inside your
+              main project, so your path is MyProject/PicoGK
+            - The executable .NET DLL is in its usual place
+            This function is used mainly to load the viewer environment and
+            test files used in the PicoGK examples
+            </summary>
+            <returns>The assumed path to the PicoGK source code</returns>
+        </member>
+        <member name="M:PicoGK.Utils.strExecutableFolder">
+            <summary>
+            Returns the path in which your current executable resides
+            </summary>
+            <returns>The folder in which your executable resides</returns>
+        </member>
+        <member name="M:PicoGK.Utils.strDateTimeFilename(System.String@,System.String@)">
+            <summary>
+            Returns a file name in the form 20230930_134500 to be used in log files etc.
+            </summary>
+            <param name="strPrefix">Prepended before the date/time stamp</param>
+            <param name="strPostfix">Appended after the date/time stamp</param>
+            <returns></returns>
+        </member>
+        <member name="M:PicoGK.Utils.strShorten(System.String,System.Int32)">
+            <summary>
+            Shorted a string, IF it is too long. If it is not too long, nothing happens
+            C# is lacking such a function (all other functions throw exceptions)
+            </summary>
+            <param name="str">String to shorten (if too long)</param>
+            <param name="iMaxCharacters">Number of max characters in the string</param>
+            <returns></returns>
+        </member>
+        <member name="T:PicoGK.Utils.TempFolder">
+             <summary>
+             Creates a temporary folder with an arbitrary filename
+             in the system's default temp directory, which is guaranteed to be
+             writable (we don't check this, but the system should guarantee it)
+             Use the "using" syntax to automatically cleanup after the object
+             runs out of scope. It will clean up all the files inside and then
+             delete the temporary folder.
+             Note: It intentionally doesn't delete any subdirectories you may
+             create. If you create subdirs, please clean them up yourself.
+             We intentionally do not recursively wipe out everything out of an
+             abundance of caution.
+            
+             Access the temp folder using oFolder.strFolder
+             
+             </summary>
+        </member>
+        <member name="T:PicoGK.ITraverseScalarField">
+            <summary>
+            An interface used to traverse the active values of a ScalarField
+            </summary>
+        </member>
+        <member name="M:PicoGK.ITraverseScalarField.InformActiveValue(System.Numerics.Vector3@,System.Single)">
+            <summary>
+            Called for every active value in the ScalarField object
+            </summary>
+            <param name="vecPosition">Position in the field</param>
+            <param name="fValue">Value at the postion</param>
+        </member>
+        <member name="T:PicoGK.ITraverseVectorField">
+            <summary>
+            An interface to allow traversal of all active values in a VectorField
+            </summary>
+        </member>
+        <member name="M:PicoGK.ITraverseVectorField.InformActiveValue(System.Numerics.Vector3@,System.Numerics.Vector3@)">
+            <summary>
+            Called for every active value in the VectorField object
+            </summary>
+            <param name="vecPosition">Position in the VectorField</param>
+            <param name="vecValue">Value at position</param>
+        </member>
+        <member name="T:PicoGK.IImplicit">
+            <summary>
+            Function signature for signed distance implicts
+            </summary>
+        </member>
+        <member name="M:PicoGK.IImplicit.fSignedDistance(System.Numerics.Vector3@)">
+            <summary>
+            Return the signed distance to the iso surface
+            </summary>
+            <param name="vec">Real world point to sample</param>
+            <returns>
+            Distance to the Iso surface in real world values
+            0.0 is at the surface
+            Negative values indicate the inside of the object
+            Positive values indicate the outside of the object
+            </returns>
+        </member>
+        <member name="T:PicoGK.IBoundedImplicit">
+            <summary>
+            Interface for a bounded implicit function. Like IImplicit, but
+            allows querying the bounding box of the function. Use when the
+            implicit defines a shape that has bounds (say, a sphere), vs.
+            an unbounded function (a gyroid)
+            </summary>
+        </member>
+        <member name="P:PicoGK.IBoundedImplicit.oBounds">
+            <summary>
+            Access the bounding box of the implicit function
+            </summary>
+        </member>
+        <member name="M:PicoGK.Diagnostics.TestCliOutput.Run">
+            <summary>
+            Test function, generates a unique voxel object and tests vectorization and CLI output
+            </summary>
+        </member>
+        <member name="T:PicoGK.Library">
+            <summary>
+            The Library object encapsulates an instance of a PicoGK library configuration
+            </summary>
+        </member>
+        <member name="M:PicoGK.Library.#ctor(System.Single)">
+            <summary>
+            Create a new Library instance, using the specified voxel size in MM
+            </summary>
+            <param name="fVoxelSizeMM">Voxel size in MM</param>
+        </member>
+        <member name="M:PicoGK.Library.nTotalMemUsage">
+            <summary>
+            Return the total memory usage of all objects created with this Library instance
+            </summary>
+            <returns>Memory usage in bytes</returns>
+        </member>
+        <member name="M:PicoGK.Library.nMeshesMemUsage">
+            <summary>
+            Returns the total memory usage of all Mesh objects created with this Library instance
+            </summary>
+            <returns>Memory usage in bytes</returns>
+        </member>
+        <member name="M:PicoGK.Library.nLatticesMemUsage">
+            <summary>
+            Returns the total memory usage of all Lattice objects created with this Library instance
+            </summary>
+            <returns>Memory usage in bytes</returns>
+        </member>
+        <member name="M:PicoGK.Library.nPolyLinesMemUsage">
+            <summary>
+            Returns the total memory usage of all PolyLine objects created with this Library instance
+            </summary>
+            <returns>Memory usage in bytes</returns>
+        </member>
+        <member name="M:PicoGK.Library.nVoxelsMemUsage">
+            <summary>
+            Returns the total memory usage of all Voxels objects created with this Library instance
+            </summary>
+            <returns>Memory usage in bytes</returns>
+        </member>
+        <member name="M:PicoGK.Library.nVdbFilesMemUsage">
+            <summary>
+            Returns the total memory usage of all VdbFile objects created with this Library instance
+            </summary>
+            <returns>Memory usage in bytes</returns>
+        </member>
+        <member name="M:PicoGK.Library.nScalarFieldsMemUsage">
+            <summary>
+            Returns the total memory usage of all ScalarField objects created with this Library instance
+            </summary>
+            <returns>Memory usage in bytes</returns>
+        </member>
+        <member name="M:PicoGK.Library.nVectorFieldsMemUsage">
+            <summary>
+            Returns the total memory usage of all VectorField objects created with this Library instance
+            </summary>
+            <returns>Memory usage in bytes</returns>
+        </member>
+        <member name="M:PicoGK.Library.nVdbMetasMemUsage">
+            <summary>
+            Returns the total memory usage of all VdbFile metadata objects created with this Library instance
+            </summary>
+            <returns>Memory usage in bytes</returns>
+        </member>
+        <member name="M:PicoGK.Library.nMeshesAllocated">
+            <summary>
+            Returns the number of Mesh objects created with this Library instance
+            </summary>
+            <returns>Count of allocated objects</returns>
+        </member>
+        <member name="M:PicoGK.Library.nLatticesAllocated">
+            <summary>
+            Returns the number of Lattice objects created with this Library instance
+            </summary>
+            <returns>Count of allocated objects</returns>
+        </member>
+        <member name="M:PicoGK.Library.nPolyLinesAllocated">
+            <summary>
+            Returns the number of PolyLine objects created with this Library instance
+            </summary>
+            <returns>Count of allocated objects</returns>
+        </member>
+        <member name="M:PicoGK.Library.nVoxelsAllocated">
+            <summary>
+            Returns the number of Voxels objects created with this Library instance
+            </summary>
+            <returns>Count of allocated objects</returns>
+        </member>
+        <member name="M:PicoGK.Library.nVdbFilesAllocated">
+            <summary>
+            Returns the number of VdbFile objects created with this Library instance
+            </summary>
+            <returns>Count of allocated objects</returns>
+        </member>
+        <member name="M:PicoGK.Library.nScalarFieldsAllocated">
+            <summary>
+            Returns the number of ScalarField objects created with this Library instance
+            </summary>
+            <returns>Count of allocated objects</returns>
+        </member>
+        <member name="M:PicoGK.Library.nVectorFieldsAllocated">
+            <summary>
+            Returns the number of VectorField objects created with this Library instance
+            </summary>
+            <returns>Count of allocated objects</returns>
+        </member>
+        <member name="M:PicoGK.Library.nVdbMetasAllocated">
+            <summary>
+            Returns the number of VdbFile metadata objects created with this Library instance
+            </summary>
+            <returns>Count of allocated objects</returns>
+        </member>
+        <member name="M:PicoGK.Library.vecVoxelsToMm(System.Int32,System.Int32,System.Int32)">
+            <summary>
+            Convert voxel index coordinates to world coordinates in millimeters
+            </summary>
+            <param name="x">x coordinate in voxel units</param>
+            <param name="y">y coordinate in voxel units</param>
+            <param name="z">z coordinate in voxel units</param>
+            <returns>3D vector coordinate in millimeters (world units)</returns>
+        </member>
+        <member name="M:PicoGK.Library.MmToVoxels(System.Numerics.Vector3,System.Int32@,System.Int32@,System.Int32@)">
+            <summary>
+            Convert world (millimeter) units to voxel units
+            </summary>
+            <param name="vecMm">3D coordinate in world (millimeter) space</param>
+            <param name="x">x coordinate in voxel units</param>
+            <param name="y">y coordinate in voxel units</param>
+            <param name="z">z coordinate in voxel units</param>
+        </member>
+        <member name="F:PicoGK.Library.fVoxelSize">
+            <summary>
+            Voxel size in millimeters
+            </summary>
+        </member>
+        <member name="M:PicoGK.Library.Finalize">
+            <summary>
+            Cleanup of library
+            </summary>
+        </member>
+        <member name="M:PicoGK.Library.Dispose">
+            <summary>
+            The Library implements the Dispose pattern, so you can use it with `using`
+            </summary>
+        </member>
+        <member name="M:PicoGK.Library.Dispose(System.Boolean)">
+            <summary>
+            Internal dispose function
+            </summary>
+            <param name="bDisposing">True if called from explict Dispose</param>
+        </member>
+        <member name="M:PicoGK.Library.Go(System.Single,System.Threading.ThreadStart,System.String,System.Boolean,System.String,System.String)">
+            <summary>
+            This is the one library function that you call to run your code
+            it sets up the PicoGK library, with the specified voxel size and
+            builds the PicoGK environment with viewer, log and other internals
+            The fnTask you pass is called after everything is set up correctly
+            inside of fnTask, you do your processing, displaying it in
+            Library::oTheViewer and logging info with Library::Log()
+            </summary>
+            <param name="fVoxelSizeMM">Voxel size in millimeters</param>
+            <param name="fnTask">The task to execute</param>
+            <param name="strLogFilePath">Filename of the logfile</param>
+            <param name="bEndAppWithTask">If true, the viewer exits when your task is done</param>
+            <param name="strWindowTitle">The title of your viewer window</param>
+            <param name="strLightsFile">A specific lighting environment to load</param>
+            <exception cref="T:System.Exception">
+            Throws an exception, for a number of scenarios, for example, if the
+            library cannot be found, folders, etc. cannot be created, etc.
+            Always handle the exception to understand what's going on.
+            </exception>
+        </member>
+        <member name="M:PicoGK.Library.bContinueTask(System.Boolean)">
+            <summary>
+            Checks whether the task started using Go() should continue, and returns true if that's the case or false otherwise.
+            If your task can take a non-trivial amount of time, check this function periodically.
+            If it returns false, exit the task function as soon as possible.
+            </summary>
+            <param name="bAppExitOnly">If true, the bContinueTask function will only take into consideration if the application is about to exit. Any pending EndTask() requests will be ignored.</param>
+            <returns></returns>
+        </member>
+        <member name="M:PicoGK.Library.EndTask">
+            <summary>
+            Requests the task started by the Go() function to end.
+            Note that it's the responsability of the task to call the bContinueTask() function periodically and to honor these requests.
+            </summary>
+        </member>
+        <member name="M:PicoGK.Library.CancelEndTaskRequest">
+            <summary>
+            Cancels any pending request to end the task.
+            </summary>
+        </member>
+        <member name="M:PicoGK.Library.strName">
+            <summary>
+            Returns the library name (from the C++ side)
+            </summary>
+            <returns>The name of the dynamically loaded C++ library</returns>
+        </member>
+        <member name="M:PicoGK.Library.strVersion">
+            <summary>
+            Returns the library version (from the C++ side)
+            </summary>
+            <returns>The library version of the C++ library</returns>
+        </member>
+        <member name="M:PicoGK.Library.strBuildInfo">
+            <summary>
+            Returns internal build info, such as build date/time
+            of the C++ library
+            </summary>
+            <returns>Internal build info of the C++ library</returns>
+        </member>
+        <member name="T:PicoGK.Viewer">
+            <summary>
+            PicoGK viewer
+            </summary>
+            <summary>
+            PicoGK viewer
+            </summary>
+        </member>
+        <member name="M:PicoGK.Viewer.#ctor(System.String,System.Numerics.Vector2,PicoGK.ILog)">
+            <summary>
+            Initialize a new Viewer
+            </summary>
+            <param name="strTitle">Window title</param>
+            <param name="vecSize">Size in window units (pixels)</param>
+            <param name="xLog">Log interface to report status to</param>
+        </member>
+        <member name="M:PicoGK.Viewer.bPoll">
+            <summary>
+            Run this function in your main thread while it returns true
+            </summary>
+        </member>
+        <member name="M:PicoGK.Viewer.RequestUpdate">
+            <summary>
+            Request a refresh of the viewer
+            </summary>
+        </member>
+        <member name="M:PicoGK.Viewer.LoadLightSetup(System.String)">
+            <summary>
+            Load the IBL light setup from the specified ZIP file
+            </summary>
+        </member>
+        <member name="M:PicoGK.Viewer.LoadLightSetup(System.IO.Stream)">
+            <summary>
+            Load the IBL light setup from the specified stream
+            </summary>
+        </member>
+        <member name="M:PicoGK.Viewer.Add(PicoGK.Voxels@,System.Int32)">
+            <summary>
+            Add the object to the viewer, using the specified viewer group
+            </summary>
+        </member>
+        <member name="M:PicoGK.Viewer.Remove(PicoGK.Voxels)">
+            <summary>
+            Removes the object from the viewer
+            </summary>
+        </member>
+        <member name="M:PicoGK.Viewer.SetObjectMatrix(PicoGK.Voxels,System.Numerics.Matrix4x4@)">
+            <summary>
+            Set the transformation matrix for the specified object
+            </summary>
+        </member>
+        <member name="M:PicoGK.Viewer.Add(PicoGK.Mesh,System.Int32)">
+            <summary>
+            Add the object to the viewer, using the specified viewer group
+            </summary>
+        </member>
+        <member name="M:PicoGK.Viewer.Remove(PicoGK.Mesh)">
+            <summary>
+            Removes the object from the viewer
+            </summary>
+        </member>
+        <member name="M:PicoGK.Viewer.SetObjectMatrix(PicoGK.Mesh,System.Numerics.Matrix4x4@)">
+            <summary>
+            Set the transformation matrix for the specified object
+            </summary>
+        </member>
+        <member name="M:PicoGK.Viewer.Add(PicoGK.PolyLine,System.Int32)">
+            <summary>
+            Add the object to the viewer, using the specified viewer group
+            </summary>
+        </member>
+        <member name="M:PicoGK.Viewer.Remove(PicoGK.PolyLine)">
+            <summary>
+            Removes the object from the viewer
+            </summary>
+        </member>
+        <member name="M:PicoGK.Viewer.SetObjectMatrix(PicoGK.PolyLine,System.Numerics.Matrix4x4@)">
+            <summary>
+            Set the transformation matrix for the specified object
+            </summary>
+        </member>
+        <member name="M:PicoGK.Viewer.RemoveAllObjects">
+            <summary>
+            Remove all objects from the viewer
+            </summary>
+        </member>
+        <member name="M:PicoGK.Viewer.RequestScreenShot(System.String)">
+            <summary>
+            Request screenshot (TGA), which will be saved to the
+            the specified location. Note, that the executation is asynchronous
+            </summary>
+        </member>
+        <member name="M:PicoGK.Viewer.EnableExperimental(System.Boolean)">
+            <summary>
+            Enable/disable experimental rendering features
+            </summary>
+        </member>
+        <member name="M:PicoGK.Viewer.SetGroupVisible(System.Int32,System.Boolean)">
+            <summary>
+            Enable or disable the display of a viewer group
+            </summary>
+        </member>
+        <member name="M:PicoGK.Viewer.SetGroupMaterial(System.Int32,PicoGK.ColorFloat,System.Single,System.Single)">
+            <summary>
+            Set the material for this viewer group
+            </summary>
+            <param name="nGroupID">Group ID</param>
+            <param name="clr">Color of the meshes in this group</param>
+            <param name="fMetallic">Metallic factor 0..1</param>
+            <param name="fRoughness">Roughness factor 0..1</param>
+        </member>
+        <member name="M:PicoGK.Viewer.SetGroupMatrix(System.Int32,System.Numerics.Matrix4x4)">
+            <summary>
+            Set the group's transformation matrix
+            </summary>
+        </member>
+        <member name="M:PicoGK.Viewer.EnableOverhangWarning(System.Int32,System.Int32,System.Int32)">
+            <summary>
+            Enables overhang angle visualization for a viewer group
+            </summary>
+            <param name="nGroupID">Viewer group to apply the warning visualization to</param>
+            <param name="nWarningAngleDeg">Angle at which the warning color sets in</param>
+            <param name="nErrorAngleDeg">Angle at which the error color sets in</param>
+        </member>
+        <member name="M:PicoGK.Viewer.DisableOverhangWarning(System.Int32)">
+            <summary>
+            Disables the overhang angle warning of the specified group
+            </summary>
+        </member>
+        <member name="M:PicoGK.Viewer.oBBox">
+            <summary>
+            Returns the bounding box of all elements inside the view
+            </summary>
+        </member>
+        <member name="M:PicoGK.Viewer.SetBackgroundColor(PicoGK.ColorFloat)">
+            <summary>
+            Sets the background color of the viewer
+            </summary>
+        </member>
+        <member name="M:PicoGK.Viewer.ZoomToFit">
+            <summary>
+            Zoom to fit the contents of the viewer
+            </summary>
+        </member>
+        <member name="M:PicoGK.Viewer.SetFov(System.Single)">
+            <summary>
+            Set Vertical Field of View in radians (i.e. 0..2*Pi)
+            </summary>
+        </member>
+        <member name="P:PicoGK.Viewer.qOrientation">
+            <summary>
+            Access to the rotational component (orientation) of the viewer
+            </summary>
+        </member>
+        <member name="M:PicoGK.Viewer.bIsIdle">
+            <summary>
+            Allows you to query if all viewer actions are complete
+            </summary>
+            <returns>t
+            true: No more viewer actions pending
+            false: Viewer actions still pending (busy)</returns>
+        </member>
+        <member name="T:PicoGK.Viewer.IViewerAction">
+            <summary>
+            An abstract interface for viewer actions
+            </summary>
+        </member>
+        <member name="M:PicoGK.Viewer.IViewerAction.Do(PicoGK.Viewer)">
+            <summary>
+            Called from inside the main viewer thread to execute the action
+            </summary>
+            <param name="oViewer">Viewer object to work with</param>
+        </member>
+        <member name="T:PicoGK.Viewer.AnimViewRotate">
+            <summary>
+            Animate view rotation
+            </summary>
+        </member>
+        <member name="M:PicoGK.Viewer.AnimViewRotate.#ctor(PicoGK.Viewer,System.Numerics.Quaternion,System.Numerics.Quaternion)">
+            <summary>
+            Animate movement to a viewer orientation
+            </summary>
+            <param name="oViewer">Viewer to use</param>
+            <param name="qFrom">Original orientation Quaternion Format</param>
+            <param name="qTo">New orientation in Quaternion format</param>
+        </member>
+        <member name="T:PicoGK.Viewer.Camera">
+            <summary>
+            Abstract camera class to interact with the view
+            </summary>
+        </member>
+        <member name="T:PicoGK.Viewer.Camera.EDragType">
+            <summary>
+            Drag, Spin, Pan the camera
+            </summary>
+        </member>
+        <member name="F:PicoGK.Viewer.Camera.EDragType.Rotate">
+            <summary>
+            Rotate the camera (up/down)
+            </summary>
+        </member>
+        <member name="F:PicoGK.Viewer.Camera.EDragType.Spin">
+            <summary>
+            Spin the camera around the view vector
+            </summary>
+        </member>
+        <member name="F:PicoGK.Viewer.Camera.EDragType.Pan">
+            <summary>
+            Move the camera up/down
+            </summary>
+        </member>
+        <member name="M:PicoGK.Viewer.AddCross(System.Numerics.Vector3,PicoGK.ColorFloat,System.Single,System.Int32)">
+            <summary>
+            Marks the supplied coordinate with a cross-shaped polyline
+            </summary>
+            <param name="vecPt">Coordinate of the point to mark</param>
+            <param name="clr">Color of the point</param>
+            <param name="fSizeMM">Size of the cross in mm</param>
+            <param name="nViewerGroup">Viewer group to use</param>
+        </member>
+        <member name="M:PicoGK.Viewer.AddCross(System.Numerics.Vector3)">
+            <summary>
+            Marks the supplied coordinate with a cross-shaped polyline
+            </summary>
+        </member>
+        <member name="M:PicoGK.Viewer.AddArrow(System.Numerics.Vector3,System.Numerics.Vector3,PicoGK.ColorFloat,System.Single,System.Int32)">
+            <summary>
+            Adds an line ending in an arrow to the viewer
+            </summary>
+            <param name="vecPtFrom">Start point of the line</param>
+            <param name="vecPtTo">End point of the line</param>
+            <param name="clr">Color of the line</param>
+            <param name="fSizeMM">Size of the arrow in mm</param>
+            <param name="nViewerGroup">Viewer group to use</param>
+        </member>
+        <member name="M:PicoGK.Viewer.AddArrow(System.Numerics.Vector3,System.Numerics.Vector3)">
+            <summary>
+            Adds an line ending in an arrow to the viewer
+            </summary>
+        </member>
+        <member name="T:PicoGK.CliIo">
+            <summary>
+            ASCII CLI (Common Layer Interface) I/O based on
+            https://www.hmilch.net/downloads/cli_format.html#:~:text=CLI%20is%20intended%20as%20a,data%20structure%20of%20the%20machine.
+            Probably doesn't work if each $$ command is not in a separate line (\n) the spec is not clear whether this should be possible
+            The parser could probably be written in a more concise way if it generalized the structure $$ .. / for commands.
+            But this is generally not a well-though-out format.
+            </summary>
+        </member>
+        <member name="T:PicoGK.CliIo.EFormat">
+            <summary>
+            Format options for CLI writer
+            </summary>
+        </member>
+        <member name="F:PicoGK.CliIo.EFormat.UseEmptyFirstLayer">
+            <summary>
+            Uses an intentionally-empty first layer
+            to allow the CLI reader to infer the layer height
+            </summary>
+            
+        </member>
+        <member name="F:PicoGK.CliIo.EFormat.FirstLayerWithContent">
+            <summary>
+            The first layer contains outlines (default)
+            </summary>
+        </member>
+        <member name="T:PicoGK.CliIo.Result">
+            <summary>
+            Result of a CLI import
+            </summary>
+        </member>
+        <member name="F:PicoGK.CliIo.Result.oSlices">
+            <summary>
+            The stack of slices that were imported
+            </summary>
+        </member>
+        <member name="F:PicoGK.CliIo.Result.oBBoxFile">
+            <summary>
+            The bounding box of the slices contained in the file
+            </summary>
+        </member>
+        <member name="F:PicoGK.CliIo.Result.bBinary">
+            <summary>
+            Was the file binary?
+            </summary>
+        </member>
+        <member name="F:PicoGK.CliIo.Result.fUnitsHeader">
+            <summary>
+            Units used in the header
+            </summary>
+        </member>
+        <member name="F:PicoGK.CliIo.Result.b32BitAlign">
+            <summary>
+            Was the file aligned at 32 bit boundaries?
+            </summary>
+        </member>
+        <member name="F:PicoGK.CliIo.Result.nVersion">
+            <summary>
+             Version number of the CLI export
+            </summary>
+        </member>
+        <member name="F:PicoGK.CliIo.Result.strHeaderDate">
+            <summary>
+            Date string read from the header
+            </summary>
+        </member>
+        <member name="F:PicoGK.CliIo.Result.nLayers">
+            <summary>
+            Number of layers in the file
+            </summary>
+        </member>
+        <member name="F:PicoGK.CliIo.Result.strWarnings">
+            <summary>
+            Warnings that were encountered during the file reading
+            </summary>
+        </member>
+        <member name="M:PicoGK.CliIo.WriteSlicesToCliFile(PicoGK.PolySliceStack,System.String,PicoGK.CliIo.EFormat,System.String,System.Single,PicoGK.IProgress)">
+            <summary>
+            Write a stack of PolySlices to a CLI file
+            </summary>
+            <param name="oSlices">Stack of PolySlice objects</param>
+            <param name="strFilePath">Path and filename of the CLI file</param>
+            <param name="eFormat">Format options</param>
+            <param name="strDate">Optional date (if empty, current date is used)</param>
+            <param name="fUnitsInMM">Units to be used (in MM), 1000f results in coordinates to be written in meters</param>
+            <param name="xProgress">Optional progress reporting interface</param>
+            <exception cref="T:System.Exception">Throws and exception if no valid slices or file IO issues were encountered</exception>
+        </member>
+        <member name="M:PicoGK.CliIo.oSlicesFromCliFile(System.String)">
+            <summary>
+            Read PolySlice objects from a CLI file. Currently only ASCII format is supported
+            </summary>
+            <param name="strFilePath">Path and filename of the file to read</param>
+            <returns>Result object contains the slices and further information</returns>
+            <exception cref="T:System.ArgumentException">Thrown if file contains invalid parameters</exception>
+            <exception cref="T:System.NotSupportedException">Thrown if unsupported features encountered, notably binary is not supported</exception>
+        </member>
+        <member name="T:PicoGK.Numerics.Rad">
+            <summary>
+            This class implements helper functions and constants relevant to angles in Radians
+            </summary>
+        </member>
+        <member name="F:PicoGK.Numerics.Rad.TwoPi">
+            <summary>
+            Defines 2*Pi, which is constantly being used in Rad angles
+            </summary>
+        </member>
+        <member name="M:PicoGK.Numerics.Rad.fNormalizedAngleRad(System.Single)">
+            <summary>
+            Ensure the passed angles is in the range [-π, +π]
+            </summary>
+        </member>
+        <member name="T:PicoGK.Numerics.Tolerances">
+            <summary>
+            Default tolerances for comparisons
+            </summary>
+        </member>
+        <member name="F:PicoGK.Numerics.Tolerances.fDef">
+            <summary>
+            Default tolerance for fuzzy comparisons.
+            Chosen to be relatively universal for float precision.
+            </summary>
+        </member>
+        <member name="F:PicoGK.Numerics.Tolerances.fDefSquared">
+            <summary>
+            Default squared tolerance for fuzzy comparisons.
+            </summary>
+        </member>
+        <member name="F:PicoGK.Numerics.Tolerances.fZero">
+            <summary>
+            Default number regarded as zero for fuzzy zero check
+            Chosen to be relatively universal for float precision.
+            </summary>
+        </member>
+        <member name="F:PicoGK.Numerics.Tolerances.fZeroSquared">
+            <summary>
+            Default squared number regarded as zero for fuzzy zero check
+            </summary>
+        </member>
+        <member name="T:PicoGK.Numerics.ComparisonExtensions">
+            <summary>
+            Extensions that allow for fuzzy comparisons of types
+            </summary>
+        </member>
+        <member name="M:PicoGK.Numerics.ComparisonExtensions.bAlmostEqual(System.Single,System.Single,System.Single,System.Single)">
+            <summary>
+            Fuzzy comparison function to determine equality between two floats
+            Can be used like this: fValue.bAlmostEqual(fOtherValue)
+            The optional parameter determines the tolerance used for comparison
+            </summary>
+        </member>
+        <member name="M:PicoGK.Numerics.ComparisonExtensions.bAlmostZero(System.Single,System.Single)">
+            <summary>
+            Fuzzy test for zero. Can be used like this: fValue.bAlmostZero()
+            The optional parameter determines the tolerance used for comparison
+            </summary>
+        </member>
+        <member name="M:PicoGK.Numerics.ComparisonExtensions.bAlmostEqual(System.Numerics.Vector3,System.Numerics.Vector3,System.Single)">
+            <summary>
+            Fuzzy comparison function to determine equality
+            between two vectors. Can be used like this: vecA.bAlmostEqual(vecB)
+            The optional parameter determines the distance (squared!) used for comparison
+            </summary>
+        </member>
+        <member name="M:PicoGK.Numerics.ComparisonExtensions.bAlmostZero(System.Numerics.Vector3,System.Single)">
+            <summary>
+            Fuzzy comparison function to determine whether the length of the vector
+            is approximately 0. Can be used like this: vecA.bAlmostZero()
+            The optional parameter determines the distance (squared!) used for comparison
+            </summary>
+        </member>
+        <member name="M:PicoGK.Numerics.ComparisonExtensions.bAlmostEqual(System.Numerics.Vector2,System.Numerics.Vector2,System.Single)">
+            <summary>
+            Fuzzy comparison function to determine equality
+            between two vectors. Can be used like this: vecA.bAlmostEqual(vecB)
+            The optional parameter determines the distance (squared) used for comparison
+            </summary>
+        </member>
+        <member name="M:PicoGK.Numerics.ComparisonExtensions.bAlmostZero(System.Numerics.Vector2,System.Single)">
+            <summary>
+            Fuzzy comparison function to determine whether the length of the vector
+            is approximately 0. Can be used like this: vecA.bAlmostZero()
+            The optional parameter determines the distance (squared!) used for comparison
+            </summary>
+        </member>
+        <member name="F:PicoGK.Numerics.Spherical.R">
+            <summary>
+            Distance from the sphere center.
+            </summary>
+        </member>
+        <member name="F:PicoGK.Numerics.Spherical.Phi">
+            <summary>
+            Azimuth angle in the XY plane, measured from +X toward +Y.
+            Range from Cartesian conversion: [-π .. +π].
+            </summary>
+        </member>
+        <member name="F:PicoGK.Numerics.Spherical.Theta">
+            <summary>
+            Polar angle measured from +Z toward the XY plane and onward to -Z.
+            Range: [0 .. π].
+            </summary>
+        </member>
+        <member name="M:PicoGK.Numerics.Spherical.#ctor(System.Single,System.Single,System.Single)">
+            <summary>
+            Initializes a new Spherical coordinate.
+            </summary>
+        </member>
+        <member name="M:PicoGK.Numerics.Spherical.#ctor(System.Numerics.Vector3)">
+            <summary>
+            Initializes a new Spherical coordinate by converting from a cartesian coordinate.
+            </summary>
+        </member>
+        <member name="M:PicoGK.Numerics.Spherical.#ctor(PicoGK.Numerics.Cylindrical)">
+            <summary>
+            Create a Spherical coordinate from a Cylindrical coordinate.
+            </summary>
+        </member>
+        <member name="M:PicoGK.Numerics.Spherical.vecAsCartesian">
+            <summary>
+            Convert the spherical coordinate to a cartesian coordinate.
+            </summary>
+        </member>
+        <member name="M:PicoGK.Numerics.Spherical.oLerp(PicoGK.Numerics.Spherical,PicoGK.Numerics.Spherical,System.Single)">
+            <summary>
+            Linear interpolation between two Spherical coordinates (in Spherical coordinate space).
+            </summary>
+        </member>
+        <member name="M:PicoGK.Numerics.Spherical.oLerp(PicoGK.Numerics.Spherical,System.Single)">
+            <summary>
+            Linear interpolation between this coordinate and another (in Spherical coordinate space).
+            fT = 0: this coordinate;
+            fT = 1: the other coordinate
+            </summary>
+        </member>
+        <member name="M:PicoGK.Numerics.Spherical.ToString">
+            <summary>
+            Convert the spherical coordinate to a string.
+            </summary>
+        </member>
+        <member name="T:PicoGK.Numerics.Cylindrical">
+            <summary>
+            A coordinate in a cylindrical coordinate system.
+            </summary>
+        </member>
+        <member name="F:PicoGK.Numerics.Cylindrical.R">
+            <summary>
+            Distance from the cylinder's axis.
+            </summary>
+        </member>
+        <member name="F:PicoGK.Numerics.Cylindrical.Phi">
+            <summary>
+            Azimuth angle in the XY plane.
+            Range from cartesian conversion: [-π .. +π].
+            </summary>
+        </member>
+        <member name="F:PicoGK.Numerics.Cylindrical.Z">
+            <summary>
+            Position along the Z axis
+            </summary>
+        </member>
+        <member name="M:PicoGK.Numerics.Cylindrical.#ctor(System.Single,System.Single,System.Single)">
+            <summary>
+            Initialize a new cylindrical coordinate.
+            </summary>
+        </member>
+        <member name="M:PicoGK.Numerics.Cylindrical.#ctor(PicoGK.Numerics.Polar,System.Single)">
+            <summary>
+            Create a new cylindrical coordinate from a polar coordinate plus Z height.
+            </summary>
+        </member>
+        <member name="M:PicoGK.Numerics.Cylindrical.#ctor(System.Numerics.Vector3)">
+            <summary>
+            Create a new cylindrical coordinate from a cartesian coordinate.
+            </summary>
+        </member>
+        <member name="M:PicoGK.Numerics.Cylindrical.#ctor(PicoGK.Numerics.Spherical)">
+            <summary>
+            Create a cylindrical coordinate from a Spherical coordinate.
+            </summary>
+            <param name="oSpherical"></param>
+        </member>
+        <member name="M:PicoGK.Numerics.Cylindrical.vecAsCartesian">
+            <summary>
+            Convert a cylindrical coordinate into a cartesian coordinate.
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:PicoGK.Numerics.Cylindrical.oLerp(PicoGK.Numerics.Cylindrical,PicoGK.Numerics.Cylindrical,System.Single)">
+            <summary>
+            Linear interpolation between two Cylindrical coordinates (in Cylindrical coordinate space).
+            </summary>
+        </member>
+        <member name="M:PicoGK.Numerics.Cylindrical.oLerp(PicoGK.Numerics.Cylindrical,System.Single)">
+            <summary>
+            Linear interpolation between this coordinate and another (in Cylindrical coordinate space).
+            fT = 0: this coordinate;
+            fT = 1: the other coordinate
+            </summary>
+        </member>
+        <member name="M:PicoGK.Numerics.Cylindrical.ToString">
+            <summary>
+            Convert the cylindrical coordinate to a string.
+            </summary>
+        </member>
+        <member name="T:PicoGK.Numerics.Polar">
+            <summary>
+            A polar coordinate 
+            </summary>
+        </member>
+        <member name="F:PicoGK.Numerics.Polar.R">
+            <summary>
+            Distance from the center of the coordinate system.
+            </summary>
+        </member>
+        <member name="F:PicoGK.Numerics.Polar.Phi">
+            <summary>
+            Azimuth angle in the XY plane.
+            Range from cartesian conversion [-π .. +π].
+            </summary>
+        </member>
+        <member name="M:PicoGK.Numerics.Polar.#ctor(System.Single,System.Single)">
+            <summary>
+            Initialize a new polar coordinate.
+            </summary>
+        </member>
+        <member name="M:PicoGK.Numerics.Polar.#ctor(System.Numerics.Vector2)">
+            <summary>
+            Initialize a new polar coordinate from a 2D cartesian coordinate.
+            </summary>
+            <param name="vecCartesian"></param>
+        </member>
+        <member name="M:PicoGK.Numerics.Polar.vecAsCartesian">
+            <summary>
+            Return the polar coordinate as a cartesian coordinate.
+            </summary>
+        </member>
+        <member name="M:PicoGK.Numerics.Polar.oLerp(PicoGK.Numerics.Polar,PicoGK.Numerics.Polar,System.Single)">
+            <summary>
+            Linear interpolation between two polar coordinates (in Polar coordinate space).
+            </summary>
+        </member>
+        <member name="M:PicoGK.Numerics.Polar.oLerp(PicoGK.Numerics.Polar,System.Single)">
+            <summary>
+            Linear interpolation between this coordinate and another (in Polar coordinate space).
+            fT = 0: this coordinate;
+            fT = 1: the other coordinate
+            </summary>
+        </member>
+        <member name="M:PicoGK.Numerics.Polar.ToString">
+            <summary>
+            Convert the polar coordinate to a string.
+            </summary>
+        </member>
+        <member name="T:PicoGK.Numerics.VectorExt">
+            <summary>
+            Extensions to the Vector2 and Vector3 System.Numerics types
+            </summary>
+        </member>
+        <member name="M:PicoGK.Numerics.VectorExt.vecNormalized(System.Numerics.Vector3)">
+            <summary>
+            Returns the normalized version of this vector (length 1)
+            Can be used like this vec = vec.vecNormalized();
+            </summary>
+            <exception cref="T:System.ArgumentException">Thrown when the vector length is zero or almost zero.</exception>
+        </member>
+        <member name="M:PicoGK.Numerics.VectorExt.vecSafeNormalized(System.Numerics.Vector3)">
+            <summary>
+            Returns the normalized version of this vector (length 1)
+            Returns (0,0,0) if supplied vector length is 0
+            </summary>
+        </member>
+        <member name="M:PicoGK.Numerics.VectorExt.vecNormalized(System.Numerics.Vector2)">
+            <summary>
+            Returns the normalized version of this vector (length 1)
+            Can be used like this vec = vec.vecNormalized();
+            </summary>
+            <exception cref="T:System.ArgumentException">Thrown when the vector length is zero or almost zero.</exception>
+        </member>
+        <member name="M:PicoGK.Numerics.VectorExt.vecSafeNormalized(System.Numerics.Vector2)">
+            <summary>
+            Returns the normalized version of this vector (length 1)
+            Returns (0,0) if supplied vector length is 0
+            </summary>
+        </member>
+        <member name="M:PicoGK.Numerics.VectorExt.vecStripZ(System.Numerics.Vector3)">
+            <summary>
+            Converts a Vector3 into a Vector2 by stripping the Z coordinate
+            Can be used like this Vector2 vec2 = vec3.vecStripZ();
+            </summary>
+        </member>
+        <member name="M:PicoGK.Numerics.VectorExt.vecAsVector3(System.Numerics.Vector2,System.Single)">
+            <summary>
+            Converts a Vector2 into a Vector3 by adding a Z coordinate (defaults to 0)
+            Can be used like this: Vector3 vec3 = vec2.vecAsVector3();
+            </summary>
+            <param name="vec"></param>
+            <param name="fZ"></param>
+            <returns></returns>
+        </member>
+        <member name="M:PicoGK.Numerics.VectorExt.vecPtWorld(System.Numerics.Vector3,PicoGK.Shapes.Frame3d)">
+            <summary>
+            Helper function to convert a point to world coordinates using a supplied frame.
+            Usage: Vector3 vecWorld = vecLocal.vecPtWorld(frm);
+            </summary>
+        </member>
+        <member name="M:PicoGK.Numerics.VectorExt.vecDirWorld(System.Numerics.Vector3,PicoGK.Shapes.Frame3d)">
+            <summary>
+            Helper function to convert a direction to world coordinates using a supplied frame.
+            Usage: Vector3 vecWorld = vecLocal.vecDirWorld(frm);
+            </summary>
+        </member>
+        <member name="M:PicoGK.Numerics.VectorExt.vecPtLocal(System.Numerics.Vector3,PicoGK.Shapes.Frame3d)">
+            <summary>
+            Helper function to convert a point to local coordinates using a supplied frame.
+            Usage: Vector3 vecLocal = vecWorld.vecPtLocal(frm);
+            </summary>
+        </member>
+        <member name="M:PicoGK.Numerics.VectorExt.vecDirLocal(System.Numerics.Vector3,PicoGK.Shapes.Frame3d)">
+            <summary>
+            Helper function to convert a direction to local coordinates using a supplied frame.
+            Usage: Vector3 vecLocal = vecWorld.vecDirLocal(frm);
+            </summary>
+        </member>
+        <member name="M:PicoGK.Numerics.VectorExt.vecTransformed(System.Numerics.Vector3,System.Numerics.Matrix4x4)">
+            <summary>
+            Returns a matrix-transformed version of the vector.
+            </summary>
+        </member>
+        <member name="M:PicoGK.Numerics.VectorExt.vecMirrored(System.Numerics.Vector3,System.Numerics.Vector3,System.Numerics.Vector3)">
+            <summary>
+            Returns a mirrored version of the vector.
+            </summary>
+            <param name="vecPt">The point to be mirrored (this).</param>
+            <param name="vecPlanePoint">A point through which the mirror plane passes.</param>
+            <param name="vecPlaneNormal">The normal vector of the mirror plane,
+            expected to be a unit vector.</param>
+            <returns>The mirrored vector.</returns>
+        </member>
+        <member name="T:PicoGK.Shapes.IPath2d">
+            <summary>
+            Interface to represent a normalized path in 2D space
+            which travels from 0..1
+            </summary>
+        </member>
+        <member name="M:PicoGK.Shapes.IPath2d.vecPtAtT(System.Single)">
+            <summary>
+            Returns the point at position t (0..1)
+            As t increases monotonically, the point moves along the contour at
+            constant speed with respect to arc length
+            </summary>
+        </member>
+        <member name="P:PicoGK.Shapes.IPath2d.fLength">
+            <summary>
+            Length of the entire contour
+            </summary>
+        </member>
+        <member name="T:PicoGK.Shapes.IContour2d">
+            <summary>
+            Interface to represent a normalized closed contour in 2D
+            which travels from 0..1
+            - Position at 0 and 1 are identical
+            - The contour is centered around the coordinate 0/0
+            - The contour is in counter-clockwise winding order
+            </summary>
+        </member>
+        <member name="M:PicoGK.Shapes.IContour2d.PtAtT(System.Single@,System.Numerics.Vector2@,System.Numerics.Vector2@)">
+            <summary>
+            Function to return both point and normal at t
+            </summary>
+        </member>
+        <member name="M:PicoGK.Shapes.IContour2d.vecSampleNormalAt(System.Single,System.Single)">
+            <summary>
+            Sample the normal at fT
+            Helper function used by PtAtT
+            </summary>
+        </member>
+        <member name="T:PicoGK.Shapes.Circle">
+            <summary>
+            Class to represent an circle as a normalized path/contour
+            </summary>
+        </member>
+        <member name="M:PicoGK.Shapes.Circle.#ctor(System.Single)">
+            <summary>
+            Create a Circle contour with radius fR
+            </summary>
+        </member>
+        <member name="P:PicoGK.Shapes.Circle.fR">
+            <summary>
+            Radius of the circle
+            </summary>
+        </member>
+        <member name="T:PicoGK.Shapes.Ellipse">
+            <summary>
+            Class to represent an ellipse as a normalized path/contour
+            </summary>
+        </member>
+        <member name="M:PicoGK.Shapes.Ellipse.#ctor(System.Numerics.Vector2,System.Single)">
+            <summary>
+            Constructor using axis A vector and axis B length
+            </summary>
+            <param name="vecAxisA">Direction and length of axis A</param>
+            <param name="fLengthB">Length of axis B (perpendicular to A)</param>
+            <exception cref="T:System.ArgumentException"></exception>
+        </member>
+        <member name="M:PicoGK.Shapes.Ellipse.#ctor(System.Single,System.Single,System.Single)">
+            <summary>
+            Constructor using semi-major axis length, semi-minor axis length, and rotation angle
+            </summary>
+            <param name="a">Length of axis A</param>
+            <param name="b">Length of axis B</param>
+            <param name="fAngle">Rotation angle in radians</param>
+        </member>
+        <member name="P:PicoGK.Shapes.Ellipse.fPhi">
+            <summary>
+            Rotation angle of the ellipse
+            </summary>
+        </member>
+        <member name="P:PicoGK.Shapes.Ellipse.fA">
+            <summary>
+            Half-length of the ellipse in A
+            </summary>
+        </member>
+        <member name="P:PicoGK.Shapes.Ellipse.fB">
+            <summary>
+            Half-length of the ellipse in B
+            </summary>
+        </member>
+        <member name="T:PicoGK.Shapes.Supershape">
+            <summary>
+            Implements the supershape formula for interesting 2D contours
+            </summary>
+        </member>
+        <member name="M:PicoGK.Shapes.Supershape.oRoundedPolygon(System.Single,System.Single,System.Single,System.Single)">
+            <summary>
+            Helper function to create simple rounded polygons based on the Supershape
+            https://en.wikipedia.org/wiki/Superformula
+            </summary>
+            <param name="fRadius">Radius</param>
+            <param name="fPolySymmery">Number of polygonal sides, for example 4 for a square</param>
+            <param name="fOutwardCurve">Higher values curve the sides outwards, smaller values create lobes</param>
+            <param name="fRoundness">Roundness factor, higher values approach a circle</param>
+            <returns></returns>
+        </member>
+        <member name="M:PicoGK.Shapes.Supershape.#ctor(System.Single,System.Single,System.Single,System.Single,System.Single,System.Single,System.Single)">
+            <summary>
+            Constructor for a supershape with superformula parameters and rotation.
+            </summary>
+            <param name="a">Scaling factor along x (similar to semi-major axis)</param>
+            <param name="b">Scaling factor along y (similar to semi-minor axis)</param>
+            <param name="m">Symmetry parameter (number of lobes)</param>
+            <param name="n1">Exponent for overall sharpness</param>
+            <param name="n2">Exponent for cosine term</param>
+            <param name="n3">Exponent for sine term</param>
+            <param name="fAngle">Rotation angle in radians</param>
+        </member>
+        <member name="T:PicoGK.Shapes.ContourFromPath">
+            <summary>
+            This class allows you to use a closed path as a contour
+            </summary>
+        </member>
+        <member name="M:PicoGK.Shapes.ContourFromPath.#ctor(PicoGK.Shapes.IPath2d)">
+            <summary>
+            Create a IContour2d-compatible contour from an existing closed path
+            The first point in the path and the last point in the path need to
+            be identical
+            </summary>
+        </member>
+        <member name="T:PicoGK.Shapes.ContourSampler2d">
+            <summary>
+            Implements a way to adaptively sample a contour to retrieve
+            a) the correct length
+            b) sample the contour in adaptive arc T vs. linear T. this follows the
+            contour exactly at constant speed
+            </summary>
+        </member>
+        <member name="T:PicoGK.Shapes.ContourSampler2d.ISampleable">
+            <summary>
+            This interface enables a contour to be sampled in linear time 
+            </summary>
+        </member>
+        <member name="M:PicoGK.Shapes.ContourSampler2d.ISampleable.vecPtAtTLinear(System.Single)">
+            <summary>
+            Return the uncorrected position at linear t (uncorrected)
+            </summary>
+        </member>
+        <member name="M:PicoGK.Shapes.ContourSampler2d.#ctor(PicoGK.Shapes.ContourSampler2d.ISampleable,System.Single,System.Int32)">
+            <summary>
+            Adaptively sample the contour to map the linear time to
+            corrected arc-length t, for constant speed
+            </summary>
+            <param name="xContour">Contour to sample</param>
+            <param name="fPrecision">Precision (distance between points)</param>
+            <param name="nMaxDepth">Maximum recursion depth</param>
+        </member>
+        <member name="P:PicoGK.Shapes.ContourSampler2d.fTotalLength">
+            <summary>
+            Return sum of all arc segement lengths 
+            </summary>
+        </member>
+        <member name="M:PicoGK.Shapes.ContourSampler2d.fArcTFromLinearT(System.Single)">
+            <summary>
+            Convert from linear t to arc-length t
+            </summary>
+        </member>
+        <member name="T:PicoGK.Shapes.Line2d">
+            <summary>
+            A 2d line
+            </summary>
+        </member>
+        <member name="M:PicoGK.Shapes.Line2d.#ctor(System.Numerics.Vector2,System.Numerics.Vector2)">
+            <summary>
+            Construct a line with the specified start and end coordinates
+            </summary>
+        </member>
+        <member name="P:PicoGK.Shapes.Line2d.vecA">
+            <summary>
+             Start coordinate
+            </summary>
+        </member>
+        <member name="P:PicoGK.Shapes.Line2d.vecB">
+            <summary>
+            End coordinate
+            </summary>
+        </member>
+        <member name="T:PicoGK.Shapes.Arc2d">
+            <summary>
+            A circular arc in 2D space
+            </summary>
+        </member>
+        <member name="M:PicoGK.Shapes.Arc2d.#ctor(System.Numerics.Vector2,System.Numerics.Vector2,System.Single)">
+            <summary>
+            Construct a new 2D arc with the specified start point,
+            around the specified center and with the supplied angle in radians
+            </summary>
+        </member>
+        <member name="P:PicoGK.Shapes.Arc2d.vecStart">
+            <summary>
+            Start coordinate
+            </summary>
+        </member>
+        <member name="P:PicoGK.Shapes.Arc2d.vecEnd">
+            <summary>
+            End coordinate
+            </summary>
+        </member>
+        <member name="P:PicoGK.Shapes.Arc2d.vecCenter">
+            <summary>
+            Center point
+            </summary>
+        </member>
+        <member name="P:PicoGK.Shapes.Arc2d.fAngle">
+            <summary>
+            Angle in radians (positive is counter clockwise)
+            </summary>
+        </member>
+        <member name="T:PicoGK.Shapes.Path2d">
+            <summary>
+            A compound path which consists of a list of other paths
+            </summary>
+        </member>
+        <member name="M:PicoGK.Shapes.Path2d.Add(PicoGK.Shapes.IPath2d)">
+            <summary>
+            Add another path to the compound path
+            Note, the start coordinate of the added path needs to be
+            exactly coincide with the current end point
+            </summary>
+        </member>
+        <member name="M:PicoGK.Shapes.Path2d.AddLine(System.Numerics.Vector2)">
+            <summary>
+            Append a line to the specified coordinate
+            </summary>
+        </member>
+        <member name="M:PicoGK.Shapes.Path2d.AddLineRel(System.Numerics.Vector2)">
+            <summary>
+            Append a line relative to current end point
+            </summary>
+        </member>
+        <member name="M:PicoGK.Shapes.Path2d.AddArc(System.Numerics.Vector2,System.Single)">
+            <summary>
+            Append an arc with the specified center and angle
+            The start coordinate is the current end coordinate
+            </summary>
+        </member>
+        <member name="M:PicoGK.Shapes.Path2d.AddArcRel(System.Numerics.Vector2,System.Single)">
+            <summary>
+            Add an arc with the specified center, relative to the
+            current end point
+            The start coordinate is the current end coordinate
+            </summary>
+        </member>
+        <member name="T:PicoGK.Shapes.IPath3d">
+            <summary>
+            Interface to represent a normalized path in 2D space
+            which travels from 0..1
+            </summary>
+        </member>
+        <member name="M:PicoGK.Shapes.IPath3d.vecPtAtT(System.Single)">
+            <summary>
+            Returns the point at position t (0..1)
+            As t increases monotonically, the point moves along the contour at
+            constant speed with respect to arc length
+            </summary>
+        </member>
+        <member name="P:PicoGK.Shapes.IPath3d.fLength">
+            <summary>
+            Length of the entire contour
+            </summary>
+        </member>
+        <member name="T:PicoGK.Shapes.IContour3d">
+            <summary>
+            A two dimensional closed contour aligned in a plane in 3D space
+            Note: While a IPath3d can contain random segments in space, a
+            contour needs to have all its points aligned in one plane
+            The point at 0 and 1 are identical (closed contour)
+            </summary>
+        </member>
+        <member name="M:PicoGK.Shapes.IContour3d.PtAtT(System.Single,System.Numerics.Vector3@,System.Numerics.Vector3@)">
+            <summary>
+            Returns the point and normal at position t (0..1)
+            As t increases monotonically, the point moves along the contour at
+            constant speed with respect to arc length
+            </summary>
+        </member>
+        <member name="T:PicoGK.Shapes.Frame3d">
+            <summary>
+            The Frame3d object stores a local coordinate system, i.e. a rigid
+            transformation from a local coordinate to a world coordinate.
+            The transformation consists of translation (move) and rotation, but not 
+            scaling, shearing or other complex transformations.
+            </summary>
+        </member>
+        <member name="F:PicoGK.Shapes.Frame3d.frmWorld">
+            <summary>
+            Local frame representing the world coordinate system
+            </summary>
+        </member>
+        <member name="P:PicoGK.Shapes.Frame3d.vecPos">
+            <summary>
+            Position of the origin of the Frame3d
+            </summary>
+        </member>
+        <member name="P:PicoGK.Shapes.Frame3d.vecLx">
+            <summary>
+            Direction of the local X axis in world coordinates
+            </summary>
+        </member>
+        <member name="P:PicoGK.Shapes.Frame3d.vecLy">
+            <summary>
+            Direction of the local Y axis in world coordinates
+            </summary>
+        </member>
+        <member name="P:PicoGK.Shapes.Frame3d.vecLz">
+            <summary>
+            Direction of the local Z axis in world coordinates
+            </summary>
+        </member>
+        <member name="M:PicoGK.Shapes.Frame3d.frmFromPos(System.Numerics.Vector3)">
+            <summary>
+            Create a Frame3d at the specified position with axes
+            aligned with world X,Y,Z
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:PicoGK.Shapes.Frame3d.frmFromZX(System.Numerics.Vector3,System.Numerics.Vector3,System.Numerics.Vector3)">
+            <summary>
+            Create a Frame3d at the specified position with
+            local axes aligned with the specified world Z and X
+            directions. The function constructs a right-handed
+            coordinate system that is orthogonal, even if the directions
+            specified are only approximate.
+            </summary>
+        </member>
+        <member name="M:PicoGK.Shapes.Frame3d.#ctor(System.Numerics.Vector3)">
+            <summary>
+            Creates a local coordinate system with world-aligned axes
+            at the specified position
+            </summary>
+            <param name="vecPos">Position of the origin</param>
+        </member>
+        <member name="M:PicoGK.Shapes.Frame3d.#ctor(System.Numerics.Vector3,System.Numerics.Vector3,System.Numerics.Vector3)">
+            <summary>
+            Creates a local coordinate system from approximate Z and X; 
+            enforces orthonormality and right-handedness.
+            </summary>
+        </member>
+        <member name="M:PicoGK.Shapes.Frame3d.frmFromMatrix4x4(System.Numerics.Matrix4x4@)">
+            <summary>
+            Creates a Frame3d from a column-vector Matrix4x4.
+            Rows convention: [X; Y; Z; Origin] with translation in last column.
+            </summary>
+        </member>
+        <member name="M:PicoGK.Shapes.Frame3d.vecPtToWorld(System.Numerics.Vector3)">
+            <summary>
+            Convert a local coordinate to world coordinates
+            </summary>
+        </member>
+        <member name="M:PicoGK.Shapes.Frame3d.vecPtToWorld(System.Numerics.Vector2)">
+            <summary>
+            Convert a local 2D coordinate to world (3D) coordinates
+            </summary>
+        </member>
+        <member name="M:PicoGK.Shapes.Frame3d.vecDirToWorld(System.Numerics.Vector3)">
+            <summary>
+            Convert a local direction to a world direction
+            </summary>
+        </member>
+        <member name="M:PicoGK.Shapes.Frame3d.vecDirToWorld(System.Numerics.Vector2)">
+            <summary>
+            Return a 2D direction in local coordinates to 3D world coords
+            </summary>
+        </member>
+        <member name="M:PicoGK.Shapes.Frame3d.vecPtFromWorld(System.Numerics.Vector3)">
+            <summary>
+            Return local coordinate from world coordinates
+            </summary>
+        </member>
+        <member name="M:PicoGK.Shapes.Frame3d.vecDirFromWorld(System.Numerics.Vector3)">
+            <summary>
+            Return local direction from world direction
+            </summary>
+        </member>
+        <member name="M:PicoGK.Shapes.Frame3d.frmCompose(PicoGK.Shapes.Frame3d@)">
+            <summary>
+            Create a combined Frame3d from this frame and another
+            </summary>
+        </member>
+        <member name="M:PicoGK.Shapes.Frame3d.frmInverse">
+            <summary>
+            Create an inverted Frame3d object
+            </summary>
+        </member>
+        <member name="M:PicoGK.Shapes.Frame3d.frmMovedLocal(System.Numerics.Vector3)">
+            <summary>
+            Move the origin of the Frame3d object by the specified distance in local space
+            </summary>
+            <param name="vecDistance">Distance to move the origin</param>
+            <returns>A Frame3d object that is moved by the specified distance</returns>
+        </member>
+        <member name="M:PicoGK.Shapes.Frame3d.frmMovedLocalX(System.Single)">
+            <summary>
+            Move the Frame3d origin by the specified distance in X in local space
+            </summary>
+            <param name="fDistanceX">Distance to move the origin in X local space</param>
+            <returns>A Frame3d object that is moved by the specified distance</returns>
+        </member>
+        <member name="M:PicoGK.Shapes.Frame3d.frmMovedLocalY(System.Single)">
+            <summary>
+            Move the Frame3d origin by the specified distance in Y in local space
+            </summary>
+            <param name="fDistanceY">Distance to move the origin in Y in local space</param>
+            <returns>A Frame3d object that is moved by the specified distance</returns>
+        </member>
+        <member name="M:PicoGK.Shapes.Frame3d.frmMovedLocalZ(System.Single)">
+            <summary>
+            Move the Frame3d origin by the specified distance in Z in local space
+            </summary>
+            <param name="fDistanceZ">Distance to move the origin in Z in local space</param>
+            <returns>A Frame3d object that is moved by the specified distance</returns>
+        </member>
+        <member name="M:PicoGK.Shapes.Frame3d.frmRotatedWorld(System.Numerics.Vector3,System.Single)">
+            <summary>
+            Rotate the Frame3d around an arbitrary (world-space) axis through the frame’s origin.
+            </summary>
+            <param name="vecAxis">Rotation axis in world coordinates</param>
+            <param name="fAngleRad">Rotation angle in radians</param>
+            <returns></returns>
+        </member>
+        <member name="M:PicoGK.Shapes.Frame3d.frmMovedWorld(System.Numerics.Vector3)">
+            <summary>
+            Move the origin of the Frame3d object by the specified distance in world space
+            </summary>
+            <param name="vecDistance">Distance to move the origin in world space</param>
+            <returns>A Frame3d object that is moved by the specified distance</returns>
+        </member>
+        <member name="M:PicoGK.Shapes.Frame3d.frmMovedWorldX(System.Single)">
+            <summary>
+            Move the Frame3d origin by the specified distance in X in world space
+            </summary>
+            <param name="fDistanceX">Distance to move the origin in X in world space</param>
+            <returns>A Frame3d object that is moved by the specified distance</returns>
+        </member>
+        <member name="M:PicoGK.Shapes.Frame3d.frmMovedWorldY(System.Single)">
+            <summary>
+            Move the Frame3d origin by the specified distance in Y in world space
+            </summary>
+            <param name="fDistanceY">Distance to move the origin in Y in world space</param>
+            <returns>A Frame3d object that is moved by the specified distance</returns>
+        </member>
+        <member name="M:PicoGK.Shapes.Frame3d.frmMovedWorldZ(System.Single)">
+            <summary>
+            Move the Frame3d origin by the specified distance in Z in world space
+            </summary>
+            <param name="fDistanceZ">Distance to move the origin in Z in world space</param>
+            <returns>A Frame3d object that is moved by the specified distance</returns>
+        </member>
+        <member name="M:PicoGK.Shapes.Frame3d.matAsMatrix4x4">
+            <summary>
+            Convert the Frame3d transformation to an equivalent
+            Matrix4x4 transform (basis in rows, translation last column)
+            This layout is compatible with typical OpenGL shaders
+            </summary>
+            <returns>Rigid transform Matrix4x4</returns>
+        </member>
+        <member name="M:PicoGK.Shapes.Frame3d.frmRepositioned(System.Numerics.Vector3)">
+            <summary>
+            Return a frame which has been repositioned to the
+            supplied world coordinate.
+            </summary>
+            <param name="vecNewPos">New origin of the local frame</param>
+        </member>
+        <member name="M:PicoGK.Shapes.Frame3d.AsRigid(System.Numerics.Quaternion@,System.Numerics.Vector3@)">
+            <summary>
+            Return the transformation as Quaternion plus Origin
+            </summary>
+            <param name="q">Rotation component as Quaternion</param>
+            <param name="vecOrigin">Origin (same as vecPos)</param>
+        </member>
+        <member name="M:PicoGK.Shapes.Frame3d.matComposeWithScale(System.Numerics.Vector3@)">
+            <summary>
+            Helper function to drawing a scaled quad aligned to this
+            Frame3d object
+            Model = Scale * Frame.M
+            </summary>
+            <param name="vecScale">Scale to apply</param>
+            <returns>A Matrix4x4 matrix containing the rigid transformation and the additional scale applied</returns>
+        </member>
+        <member name="M:PicoGK.Shapes.Frame3d.op_Multiply(PicoGK.Shapes.Frame3d@,System.Numerics.Vector3)">
+            <summary>
+            Convert local point to a world coordinate (same as vecToWorld)
+            Enables you to write vecWorld = vecLocal * frmFrame3d
+            </summary>
+            <param name="frm">Frame3d</param>
+            <param name="vecLocal">Local coordinate point</param>
+            <returns>Point in vorld coordinates</returns>
+        </member>
+        <member name="M:PicoGK.Shapes.Frame3d.op_Multiply(PicoGK.Shapes.Frame3d@,PicoGK.Shapes.Frame3d@)">
+            <summary>
+            Combine the transformation of two Frame3d objects into one
+            (indentical to frmCompose)
+            </summary>
+            <param name="frmA">First Frame3d object</param>
+            <param name="frmB">Second Frame3d object</param>
+            <returns>Frame3d object that combines both transformations</returns>
+        </member>
+        <member name="M:PicoGK.Shapes.Frame3d.frmInterpolate(PicoGK.Shapes.Frame3d@,PicoGK.Shapes.Frame3d@,System.Single)">
+            <summary>
+            Interpolate between two Frame3d pos/orientations
+            </summary>
+            <param name="frm0">Frame at pos 0</param>
+            <param name="frm1">Frame at pos 1</param>
+            <param name="t">Interpolation parameter 0..1</param>
+            <returns></returns>
+        </member>
+        <member name="M:PicoGK.Shapes.Frame3d.Equals(PicoGK.Shapes.Frame3d)">
+            <summary>
+            Test for equality (IEquatable)
+            </summary>
+        </member>
+        <member name="M:PicoGK.Shapes.Frame3d.Equals(System.Object)">
+            <summary>
+            Test for equality (IEquatable)
+            </summary>
+        </member>
+        <member name="M:PicoGK.Shapes.Frame3d.GetHashCode">
+            <summary>
+            Create hash code (IEquatable)
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:PicoGK.Shapes.Frame3d.vecSafeNormalize(System.Numerics.Vector3)">
+            <summary>
+            Safely normalize a Vector3 without creating NaNs
+            </summary>
+        </member>
+        <member name="T:PicoGK.Shapes.OrientedPath">
+            <summary>
+            Interface to represent a normalized 2D path oriented in space
+            which travels from 0..1
+            - Position at 0 and 1 are identical
+            - The contour is centered around the coordinate 0/0
+            - The contour is in counter-clockwise winding order
+            </summary>
+        </member>
+        <member name="T:PicoGK.Shapes.OrientedContour">
+            <summary>
+            Represents an oriented 2D contour placed in 3D space by a Frame3d
+            </summary>
+        </member>
+        <member name="M:PicoGK.Shapes.OrientedContour.#ctor(PicoGK.Shapes.IContour2d,PicoGK.Shapes.Frame3d)">
+            <summary>
+            Create an oriented contour from a 2D contour and a local coordinate system
+            </summary>
+        </member>
+        <member name="T:PicoGK.BBox2">
+            <summary>
+            2D Bounding Box object
+            </summary>
+        </member>
+        <member name="M:PicoGK.BBox2.#ctor">
+            <summary>
+            Creates an empty Bounding Box
+            </summary>
+        </member>
+        <member name="M:PicoGK.BBox2.#ctor(System.Single,System.Single,System.Single,System.Single)">
+            <summary>
+            Create a 2D bounding box from float values for min/max
+            </summary>
+        </member>
+        <member name="M:PicoGK.BBox2.#ctor(System.Numerics.Vector2@,System.Numerics.Vector2@)">
+            <summary>
+            Creates a Bounding Box with the specified min/max values
+            </summary>
+        </member>
+        <member name="M:PicoGK.BBox2.bIsEmpty">
+            <summary>
+            Is the BoundingBox empty?
+            </summary>
+        </member>
+        <member name="M:PicoGK.BBox2.bContains(System.Numerics.Vector2)">
+            <summary>
+            Checks whether point is inside the bounding box
+            </summary>
+        </member>
+        <member name="M:PicoGK.BBox2.Include(System.Numerics.Vector2)">
+            <summary>
+            Include the specified vector in the bounding box
+            </summary>
+        </member>
+        <member name="M:PicoGK.BBox2.Include(PicoGK.BBox2)">
+            <summary>
+            Include the specified Bounding Box in this Box
+            </summary>
+        </member>
+        <member name="M:PicoGK.BBox2.Grow(System.Single)">
+            <summary>
+            Grows the bounding box by the specified value on each side
+            I.E. the width, for example is width + 2*fGrowBy afterwards
+            </summary>
+        </member>
+        <member name="M:PicoGK.BBox2.vecSize">
+            <summary>
+            Returns the size of the Bounding Box
+            </summary>
+        </member>
+        <member name="M:PicoGK.BBox2.vecCenter">
+            <summary>
+            Center point of the bounding box
+            </summary>
+        </member>
+        <member name="M:PicoGK.BBox2.ToString">
+            <summary>
+            A string representation of the Bounding Box
+            </summary>
+        </member>
+        <member name="F:PicoGK.BBox2.vecMin">
+            <summary>
+            Minimum coordinate of the bounding box
+            </summary>
+        </member>
+        <member name="F:PicoGK.BBox2.vecMax">
+            <summary>
+            Maximum coordinate of the bounding box
+            </summary>
+        </member>
+        <member name="T:PicoGK.BBox3">
+            <summary>
+            3D bounding box
+            </summary>
+        </member>
+        <member name="M:PicoGK.BBox3.#ctor">
+            <summary>
+            Create an empty Bounding Box
+            </summary>
+        </member>
+        <member name="M:PicoGK.BBox3.#ctor(System.Single,System.Single,System.Single,System.Single,System.Single,System.Single)">
+            <summary>
+            Create a bounding box from six float values
+            </summary>
+        </member>
+        <member name="M:PicoGK.BBox3.#ctor(System.Numerics.Vector3@,System.Numerics.Vector3@)">
+            <summary>
+            Create a Bounding Box based on the specified min/max vectors
+            </summary>
+        </member>
+        <member name="M:PicoGK.BBox3.vecSize">
+            <summary>
+            Size of the Bounding Box
+            </summary>
+        </member>
+        <member name="M:PicoGK.BBox3.bIsEmpty">
+            <summary>
+            Is the Bounding Box empty>
+            </summary>
+        </member>
+        <member name="M:PicoGK.BBox3.bContains(System.Numerics.Vector3)">
+            <summary>
+            Checks whether the specified point is inside the bounding box
+            </summary>
+        </member>
+        <member name="M:PicoGK.BBox3.Include(System.Numerics.Vector3)">
+            <summary>
+            Include the specified vector in the Bounding Box
+            </summary>
+        </member>
+        <member name="M:PicoGK.BBox3.Include(PicoGK.BBox3)">
+            <summary>
+            Include the specified Bounding Box into this box
+            </summary>
+            <param name="oBox">The box to include</param>
+        </member>
+        <member name="M:PicoGK.BBox3.Include(PicoGK.BBox2,System.Single)">
+            <summary>
+            Include the specified 2D Bounding Box, with optional Z coord
+            </summary>
+        </member>
+        <member name="M:PicoGK.BBox3.Grow(System.Single)">
+            <summary>
+            Grows the bounding box by the specified value on each side
+            I.E. the width, for example is width + 2*fGrowBy afterwards
+            </summary>
+        </member>
+        <member name="M:PicoGK.BBox3.vecCenter">
+            <summary>
+            Return the center of the Bounding Box
+            </summary>
+        </member>
+        <member name="M:PicoGK.BBox3.oFitInto(PicoGK.BBox3@,System.Single@,System.Numerics.Vector3@)">
+            <summary>
+            Fit the specified Bounding Box into this box, returning Scale and Offset
+            </summary>
+            <param name="oBounds">Bounding box to fit into this box</param>
+            <param name="fScale">How much does it need to be scaled?</param>
+            <param name="vecOffset">How much does it need to be offset after scale</param>
+            <returns></returns>
+        </member>
+        <member name="M:PicoGK.BBox3.vecRandomVectorInside(System.Random@)">
+            <summary>
+            A function to return a random point in a Bounding Box
+            </summary>
+            <param name="oRand">Random number generator to use</param>
+        </member>
+        <member name="M:PicoGK.BBox3.oAsBoundingBox2">
+            <summary>
+            Return the 2D extent of this Bounding Box
+            </summary>
+        </member>
+        <member name="M:PicoGK.BBox3.ToString">
+            <summary>
+            Return the Bounding Box as string
+            </summary>
+        </member>
+        <member name="F:PicoGK.BBox3.vecMin">
+            <summary>
+            Minimum coordinate of the bounding box
+            </summary>
+        </member>
+        <member name="F:PicoGK.BBox3.vecMax">
+            <summary>
+            Maximum coordinate of the bounding box
+            </summary>
+        </member>
+        <member name="T:PicoGK.ColorFloat">
+            <summary>
+            A floating point color value with R,G,B,A values
+            </summary>
+        </member>
+        <member name="F:PicoGK.ColorFloat.R">
+            <summary>
+            Red value (1 is full color)
+            </summary>
+        </member>
+        <member name="F:PicoGK.ColorFloat.G">
+            <summary>
+            Green value (1 is full color)
+            </summary>
+        </member>
+        <member name="F:PicoGK.ColorFloat.B">
+            <summary>
+            Blue value (1 is full color)
+            </summary>
+        </member>
+        <member name="F:PicoGK.ColorFloat.A">
+            <summary>
+            Alpha value (1 is opaque, 0 is transparent)
+            </summary>
+        </member>
+        <member name="M:PicoGK.ColorFloat.#ctor(System.String)">
+            <summary>
+            Create a color from a hex string
+            #FF0000 is red, for example (# is optional)
+            #FF000000 is a fully transparent color (0 is transparent FF/1.0 is full opaque)
+            #FF is grayscale (white)
+            #FF99 is semi-transparent white
+            </summary>
+            <param name="strHex">A 6 character or 8 character string with the color</param>
+            <exception cref="T:System.ArgumentException">Throws an exception if different sizes</exception>
+        </member>
+        <member name="M:PicoGK.ColorFloat.op_Implicit(System.String)~PicoGK.ColorFloat">
+            <summary>
+            Allows you to pass a hex string to any function that requires a FloatColor
+            </summary>
+            <param name="hex">Hexcode string</param>
+        </member>
+        <member name="M:PicoGK.ColorFloat.#ctor(System.Single,System.Single)">
+            <summary>
+            Creates a gray color based on the float value and optional alpha
+            </summary>
+            <param name="fGray">Gray value from 0.0 .. 1.0</param>
+            <param name="fAlpha">Optional Alpha, 0.0 is transparent</param>
+        </member>
+        <member name="M:PicoGK.ColorFloat.#ctor(System.Single,System.Single,System.Single,System.Single)">
+            <summary>
+            A color value from the 3/4 color components
+            </summary>
+            <param name="fR">Red value</param>
+            <param name="fG">Green value</param>
+            <param name="fB">Blue value</param>
+            <param name="fAlpha">Optional Alpha, 1.0 is fully opaque</param>
+        </member>
+        <member name="M:PicoGK.ColorFloat.#ctor(PicoGK.ColorRgb24)">
+            <summary>
+            Creates a floating point color from a RGB 24 bit color
+            </summary>
+            <param name="clr">RGB 24 bit color value</param>
+        </member>
+        <member name="M:PicoGK.ColorFloat.#ctor(PicoGK.ColorRgba32)">
+            <summary>
+            Creates a floating point color from a RGBA 32 bit color
+            </summary>
+            <param name="clr">RGBA 32 bit color value</param>
+        </member>
+        <member name="M:PicoGK.ColorFloat.#ctor(PicoGK.ColorBgr24)">
+            <summary>
+            Creates a floating point color from a BGR 24 bit color
+            </summary>
+            <param name="clr">BGR 24 bit color value</param>
+        </member>
+        <member name="M:PicoGK.ColorFloat.#ctor(PicoGK.ColorBgra32)">
+            <summary>
+            Creates a floating point color from a BGRA 32 bit color
+            </summary>
+            <param name="clr">BGRA 32 bit color value</param>
+        </member>
+        <member name="M:PicoGK.ColorFloat.#ctor(PicoGK.ColorFloat,System.Single)">
+            <summary>
+            Creates a new color from an existing color, overriding the alpha
+            </summary>
+            <param name="clr">Source color</param>
+            <param name="fAlphaOverride">Alpha override</param>
+        </member>
+        <member name="M:PicoGK.ColorFloat.#ctor(PicoGK.ColorHSV)">
+            <summary>
+            Creates a new color value from a Hue Saturation value (HSV)
+            </summary>
+            <param name="clrHSV">HSV color</param>
+        </member>
+        <member name="M:PicoGK.ColorFloat.#ctor(PicoGK.ColorHLS)">
+            <summary>
+            Create a new color value from a Hue Lightness Saturation value (HLS)
+            </summary>
+            <param name="clrHLS">HLS color</param>
+        </member>
+        <member name="M:PicoGK.ColorFloat.strAsHexCode">
+            <summary>
+            Returns the color as a hex code such as "FF" for white, "AAAA" for transparent gray
+            "AABBCC" for an RGB color value or "DDEEFF99" for a RGBA value 
+            </summary>
+            <returns>Hex-encoded color value with 2 .. 8 characters</returns>
+        </member>
+        <member name="M:PicoGK.ColorFloat.strAsABGRHexCode">
+            <summary>
+            Returns the color value as an ABGR hex code (always 8 chars)
+            </summary>
+            <returns>8 character ABGR hex string</returns>
+        </member>
+        <member name="M:PicoGK.ColorFloat.ToString">
+            <summary>
+            Returns the color as hex string
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:PicoGK.ColorFloat.clrWeighted(PicoGK.ColorFloat,PicoGK.ColorFloat,System.Single)">
+            <summary>
+            Weighted linear interpolation between two colors
+            </summary>
+            <param name="clr1">First color</param>
+            <param name="clr2">Second color</param>
+            <param name="fWeight">Weight 0..1 to interpolate the color from First...Second</param>
+            <returns></returns>
+        </member>
+        <member name="M:PicoGK.ColorFloat.clrRandom(System.Random)">
+            <summary>
+            Return a random color
+            </summary>
+            <returns>Random color</returns>
+        </member>
+        <member name="T:PicoGK.ColorRgb24">
+            <summary>
+            24 bit RGB color
+            </summary>
+        </member>
+        <member name="M:PicoGK.ColorRgb24.#ctor(System.Byte,System.Byte,System.Byte)">
+            <summary>
+            Construct a 24 bit RGB value from 3 byes
+            </summary>
+            <param name="byR">Red value</param>
+            <param name="byG">Green value</param>
+            <param name="byB">Blue value</param>
+        </member>
+        <member name="M:PicoGK.ColorRgb24.#ctor(PicoGK.ColorFloat)">
+            <summary>
+            Construct a 24 bit RGB value from a float color
+            </summary>
+            <param name="clr">Float color value</param>
+        </member>
+        <member name="M:PicoGK.ColorRgb24.op_Implicit(PicoGK.ColorFloat)~PicoGK.ColorRgb24">
+            <summary>
+            Allows you to pass a ColorFloat to any function that needs a ColorRgb24
+            </summary>
+            <param name="clr">The ColorFloat to use</param>
+        </member>
+        <member name="F:PicoGK.ColorRgb24.R">
+            <summary>
+            Red value (0..255)
+            </summary>
+        </member>
+        <member name="F:PicoGK.ColorRgb24.G">
+            <summary>
+            Green value (0..255)
+            </summary>
+        </member>
+        <member name="F:PicoGK.ColorRgb24.B">
+            <summary>
+            Blue value (0..255)
+            </summary>
+        </member>
+        <member name="T:PicoGK.ColorRgba32">
+            <summary>
+            32 bit RGBA color
+            </summary>
+        </member>
+        <member name="M:PicoGK.ColorRgba32.#ctor(System.Byte,System.Byte,System.Byte,System.Byte)">
+            <summary>
+            Create a color from 3 or 4 bytes
+            </summary>
+            <param name="byR">Red color 0..255</param>
+            <param name="byG">Green color 0..255</param>
+            <param name="byB">Blue color 0..255</param>
+            <param name="byA">Alpha channel 0..255 (255 is opaque)</param>
+        </member>
+        <member name="M:PicoGK.ColorRgba32.#ctor(PicoGK.ColorFloat)">
+            <summary>
+            Create an 8 bit RGBA color from a float color
+            Values below 0 and above 1 are truncated (0 .. 255)
+            </summary>
+            <param name="clr">Float color</param>
+        </member>
+        <member name="M:PicoGK.ColorRgba32.op_Implicit(PicoGK.ColorFloat)~PicoGK.ColorRgba32">
+            <summary>
+            Allows you to pass a ColorFloat to any function that needs a ColorRgba32
+            </summary>
+            <param name="clr">The ColorFloat to use</param>
+        </member>
+        <member name="F:PicoGK.ColorRgba32.R">
+            <summary>
+            Red value (0..255)
+            </summary>
+        </member>
+        <member name="F:PicoGK.ColorRgba32.G">
+            <summary>
+            Green value (0..255)
+            </summary>
+        </member>
+        <member name="F:PicoGK.ColorRgba32.B">
+            <summary>
+            Blue value (0..255)
+            </summary>
+        </member>
+        <member name="F:PicoGK.ColorRgba32.A">
+            <summary>
+            Alpha value 0..255 (255 is opaque)
+            </summary>
+        </member>
+        <member name="T:PicoGK.ColorBgr24">
+            <summary>
+            BGR 24 bit color value
+            </summary>
+        </member>
+        <member name="M:PicoGK.ColorBgr24.#ctor(System.Byte,System.Byte,System.Byte)">
+            <summary>
+            Construct a BGR value from 3 bytes
+            </summary>
+            <param name="byB">Blue value</param>
+            <param name="byG">Green value</param>
+            <param name="byR">Red value</param>
+        </member>
+        <member name="M:PicoGK.ColorBgr24.#ctor(PicoGK.ColorFloat)">
+            <summary>
+            Create a BGR 24 bit color from a float color
+            </summary>
+            <param name="clr">Source color</param>
+        </member>
+        <member name="M:PicoGK.ColorBgr24.op_Implicit(PicoGK.ColorFloat)~PicoGK.ColorBgr24">
+            <summary>
+            Allows you to pass a ColorFloat to any function that needs a ColorBgr24
+            </summary>
+            <param name="clr">The ColorFloat to use</param>
+        </member>
+        <member name="F:PicoGK.ColorBgr24.B">
+            <summary>
+            Blue value (0..255)
+            </summary>
+        </member>
+        <member name="F:PicoGK.ColorBgr24.G">
+            <summary>
+            Green value (0..255)
+            </summary>
+        </member>
+        <member name="F:PicoGK.ColorBgr24.R">
+            <summary>
+            Red value (0..255)
+            </summary>
+        </member>
+        <member name="T:PicoGK.ColorBgra32">
+            <summary>
+            BGRA 32 bit color value
+            </summary>
+        </member>
+        <member name="M:PicoGK.ColorBgra32.#ctor(System.Byte,System.Byte,System.Byte,System.Byte)">
+            <summary>
+            Construct a 32 bit BGRA color value from 4 bytes
+            </summary>
+            <param name="byB">Blue value (0..255)</param>
+            <param name="byG">Green value (0..255)</param>
+            <param name="byR">Red value (0..255)</param>
+            <param name="byA">Alpha value (0..255)</param>
+        </member>
+        <member name="M:PicoGK.ColorBgra32.#ctor(PicoGK.ColorFloat)">
+            <summary>
+            Construct a BGRA 32 bit value from a float color
+            </summary>
+            <param name="clr">Floating point color</param>
+        </member>
+        <member name="M:PicoGK.ColorBgra32.op_Implicit(PicoGK.ColorFloat)~PicoGK.ColorBgra32">
+            <summary>
+            Allows you to pass a ColorFloat to any function that needs a ColorBgra32
+            </summary>
+            <param name="clr">The ColorFloat to use</param>
+        </member>
+        <member name="F:PicoGK.ColorBgra32.B">
+            <summary>
+            Blue value (0..255)
+            </summary>
+        </member>
+        <member name="F:PicoGK.ColorBgra32.G">
+            <summary>
+            Green value (0..255)
+            </summary>
+        </member>
+        <member name="F:PicoGK.ColorBgra32.R">
+            <summary>
+            Red value (0..255)
+            </summary>
+        </member>
+        <member name="F:PicoGK.ColorBgra32.A">
+            <summary>
+            Alpha value (0..255)
+            </summary>
+        </member>
+        <member name="T:PicoGK.ColorHSV">
+            <summary>
+            Hue Saturation Value (HSV) color
+            </summary>
+        </member>
+        <member name="F:PicoGK.ColorHSV.H">
+            <summary>
+            Hue (0..360º)
+            </summary>
+        </member>
+        <member name="F:PicoGK.ColorHSV.S">
+            <summary>
+            Saturation (0..1)
+            </summary>
+        </member>
+        <member name="F:PicoGK.ColorHSV.V">
+            <summary>
+            Value component
+            </summary>
+        </member>
+        <member name="M:PicoGK.ColorHSV.#ctor(System.Single,System.Single,System.Single)">
+            <summary>
+            Create an HSV value from its three components
+            </summary>
+            <param name="fH"></param>
+            <param name="fS"></param>
+            <param name="fV"></param>
+        </member>
+        <member name="M:PicoGK.ColorHSV.#ctor(PicoGK.ColorFloat)">
+            <summary>
+            Create an HSV color from three linear RGB components
+            </summary>
+            <param name="clr">RGB color</param>
+        </member>
+        <member name="M:PicoGK.ColorHSV.op_Implicit(PicoGK.ColorFloat)~PicoGK.ColorHSV">
+            <summary>
+            Implicit conversion that allows you to pass a ColorFloat
+            to any function requiring and HSV color
+            </summary>
+            <param name="clr">ColorFloat to be converted to HSV</param>
+        </member>
+        <member name="M:PicoGK.ColorHSV.op_Implicit(PicoGK.ColorHSV)~PicoGK.ColorFloat">
+            <summary>
+            Implicit conversion that allows to use an HSV color value
+            for any function that requires a ColorFloat
+            </summary>
+            <param name="clrHSV">HSV color which is implicitly converted</param>
+        </member>
+        <member name="T:PicoGK.ColorHLS">
+            <summary>
+            A color value in HSV space
+            </summary>
+        </member>
+        <member name="F:PicoGK.ColorHLS.H">
+            <summary>
+            Hue value (0..360º)
+            </summary>
+        </member>
+        <member name="F:PicoGK.ColorHLS.L">
+            <summary>
+            Lightness value (0..1)
+            </summary>
+        </member>
+        <member name="F:PicoGK.ColorHLS.S">
+            <summary>
+            Saturation value (0..1)
+            </summary>
+        </member>
+        <member name="M:PicoGK.ColorHLS.#ctor(System.Single,System.Single,System.Single)">
+            <summary>
+            Create an HLS color from its three components
+            </summary>
+            <param name="fH">Hue (0..360º)</param>
+            <param name="fL">Lightness (0..1)</param>
+            <param name="fS">Saturation (0..1)</param>
+        </member>
+        <member name="M:PicoGK.ColorHLS.#ctor(PicoGK.ColorFloat)">
+            <summary>
+            Convert an RGB color into an HLS color
+            </summary>
+            <param name="clr">ColorFloat to be converted to HLS</param>
+        </member>
+        <member name="M:PicoGK.ColorHLS.op_Implicit(PicoGK.ColorFloat)~PicoGK.ColorHLS">
+            <summary>
+            Implicit conversion from ColorFloat to ColorHLS
+            </summary>
+            <param name="clr">ColorFloat to be converted to ColorHLS</param>
+        </member>
+        <member name="M:PicoGK.ColorHLS.op_Implicit(PicoGK.ColorHLS)~PicoGK.ColorFloat">
+            <summary>
+            Implicit conversion from ColorHLS to ColorFloat
+            </summary>
+            <param name="clrHLS">HLS color to be converted</param>
+        </member>
+        <member name="M:PicoGK.ColorHLS.GetColorComponent(System.Single,System.Single,System.Single)">
+            <summary>
+            Helper function to return the color component
+            </summary>
+        </member>
+        <member name="M:PicoGK.ColorHLS.NormalizeHue(System.Single)">
+            <summary>
+            Normalizes the hue to be within 0..360 bounds
+            </summary>
+            <param name="hue"></param>
+            <returns></returns>
+        </member>
+        <member name="T:PicoGK.Easing">
+            <summary>
+            Easing functions — they take a float value from 0..1 and output
+            an "eased" curve of the values, also from 0..1
+            </summary>
+        </member>
+        <member name="M:PicoGK.Image.clrGetAtNormalized(System.Single,System.Single)">
+            <summary>
+            Returns the interpolated color value at a normalized
+            coordinate going from 0..1
+            </summary>
+            <param name="fTX">X coordinate 0..1</param>
+            <param name="fTY">Y coordinate 0..1</param>
+            <returns></returns>
+        </member>
+        <member name="M:PicoGK.ImageGrayscaleAbstract.bContainsActivePixels(System.Single)">
+            <summary>
+            Returns whether the image has any pixels set to a value
+            smaller or equal to the specified value
+            This is useful to find out if a signed distance field slice
+            contains any active voxels.
+            </summary>
+            <param name="fThreshold"></param>
+            <returns></returns>
+        </member>
+        <member name="T:PicoGK.ILog">
+            <summary>
+            Logging interface which allows you to output diagnostics
+            </summary>
+        </member>
+        <member name="M:PicoGK.ILog.Log(System.String@,System.Object[])">
+            <summary>
+            This function allows you to output information using the standard string functions,
+             i.e. Log($"{strInformation} testing field value={nValue}"), or simply
+            Log("Hello World")
+            </summary>
+        </member>
+        <member name="T:PicoGK.LogConsole">
+            <summary>
+            A simple logging class which outputs to the console
+            </summary>
+        </member>
+        <member name="M:PicoGK.LogConsole.Log(System.String@,System.Object[])">
+            <summary>
+            Implementation of a simple logging class that outputs to the console
+            </summary>
+        </member>
+        <member name="T:PicoGK.IProgress">
+            <summary>
+            A generic progress reporting interface
+            </summary>
+        </member>
+        <member name="M:PicoGK.IProgress.Progress(System.Single)">
+            <summary>
+            Report progress from 0..1
+            </summary>
+        </member>
+        <member name="T:PicoGK.ProgressNoop">
+            <summary>
+            A progress reporting class that does nothing (can be used as default)
+            </summary>
+        </member>
+        <member name="M:PicoGK.ProgressNoop.Progress(System.Single)">
+            <summary>
+            Progress from 0..1
+            </summary>
+        </member>
+        <member name="T:PicoGK.LogProgress">
+            <summary>
+            A progress reporting class that outputs to a log interface
+            </summary>
+        </member>
+        <member name="M:PicoGK.LogProgress.#ctor(PicoGK.ILog,System.String,System.Single)">
+            <summary>
+            Initialize a new progress reporting object
+            </summary>
+            <param name="xLog">Log interface to output to</param>
+            <param name="strInfo">Identifying string</param>
+            <param name="fIntervalSeconds">Minimum interval to leave between reporting entries</param>
+        </member>
+        <member name="M:PicoGK.LogProgress.Progress(System.Single)">
+            <summary>
+            Report progress from 0..1
+            </summary>
+        </member>
+        <member name="M:PicoGK.LogProgress.Dispose">
+            <summary>
+            Cleanup (just reports that the task is finished)
+            </summary>
+        </member>
+        <member name="T:PicoGK.ProgressCounter">
+            <summary>
+            A progress counting class for counting up items to 100%
+            </summary>
+        </member>
+        <member name="M:PicoGK.ProgressCounter.#ctor(PicoGK.IProgress,System.Int32)">
+            <summary>
+            Create a new progress counter object
+            </summary>
+            <param name="xProgress">Progress reporting interface to use</param>
+            <param name="nItemCount">Number of items representing 100%</param>
+        </member>
+        <member name="M:PicoGK.ProgressCounter.SetItem(System.Int32)">
+            <summary>
+            Set the item (nItemCount == 100%)
+            </summary>
+        </member>
+        <member name="M:PicoGK.ProgressCounter.op_Increment(PicoGK.ProgressCounter)">
+            <summary>
+            Allow you to use ++ to count up to the next item
+            </summary>
+        </member>
+        <member name="T:PicoGK.SplitProgress">
+            <summary>
+            This class allows you to split progress reporting into multiple
+            subtasks. The object reports progress from 0..1, but allows each
+            subtask to individually progress from 0..1
+            </summary>
+        </member>
+        <member name="M:PicoGK.SplitProgress.#ctor(PicoGK.IProgress,System.Int32)">
+            <summary>
+            Create a new SplitProgress object
+            </summary>
+            <param name="xProgress">Progress reporting interface to use</param>
+            <param name="nSubTasks">Number of subtasks, each with their independet 0..1 progress</param>
+        </member>
+        <member name="M:PicoGK.SplitProgress.Progress(System.Single)">
+            <summary>
+            Report progress from 0..1 - this function automatically
+            scales the value to reflect the current subtask
+            </summary>
+        </member>
+        <member name="M:PicoGK.SplitProgress.SetSubTask(System.Int32)">
+            <summary>
+            Set current subtask (0..m_nSubTasks-1)
+            </summary>
+            <param name="nSub"></param>
+        </member>
+        <member name="M:PicoGK.SplitProgress.op_Increment(PicoGK.SplitProgress)">
+            <summary>
+            Allow you to use ++ to count up to the next subtask
+            </summary>
+        </member>
+        <member name="M:PicoGK.PolyContour.Close">
+            <summary>
+            Makes sure that the last coordinate is identical to the first
+            coordinate, to close the loop
+            </summary>
+        </member>
+        <member name="M:PicoGK.SdfVisualizer.imgEncodeFromSdf(PicoGK.ScalarField,System.Single,System.Int32,System.Nullable{PicoGK.ColorFloat},System.Nullable{PicoGK.ColorFloat},System.Nullable{PicoGK.ColorFloat},System.Nullable{PicoGK.ColorFloat},System.Nullable{PicoGK.ColorFloat})">
+            <summary>
+            Create a color image which encodes the signed distance values
+            contained in the ScalarField. You can create a new ScalarField
+            from a Voxels object, if you want to visualize a voxel field
+            </summary>
+            <param name="oField">Scalar field to visualize</param>
+            <param name="fBackgroundValue">Background value, usually 3.0f</param>
+            <param name="nSlice">Slice to visualize</param>
+            <param name="_clrBackground">Color used for background value voxels</param>
+            <param name="_clrSurface">Color used for surface value voxels</param>
+            <param name="_clrInside">Color used for the voxels on the inside</param>
+            <param name="_clrOutside">Color used for the voxels on the outside</param>
+            <param name="_clrDefect">Color used for defective voxels</param>
+            <returns>A color image containing the encoded SDF</returns>
+        </member>
+        <member name="M:PicoGK.SdfVisualizer.bDoesSliceContainDefect(PicoGK.ScalarField,System.Int32)">
+            <summary>
+            Checks if the scalar field slice contains a defective voxel. 
+            Defective voxels are voxels that contain NaN or infinity values
+            </summary>
+            <param name="oField">Field to analyze</param>
+            <param name="nSlice">Slice to analyze</param>
+            <returns>true if a defective voxel is found</returns>
+        </member>
+        <member name="M:PicoGK.SdfVisualizer.bVisualizeSdfSlicesAsTgaStack(PicoGK.ScalarField,System.Single,System.String,System.String,System.Boolean,System.Nullable{PicoGK.ColorFloat},System.Nullable{PicoGK.ColorFloat},System.Nullable{PicoGK.ColorFloat},System.Nullable{PicoGK.ColorFloat},System.Nullable{PicoGK.ColorFloat})">
+            <summary>
+            Saves a stack of TGA files, visualizing the signed distance field
+            contained in the ScalarField.
+            </summary>
+            <param name="oField">Scalar SDF to visualize (you can build one from if a Voxels object if needed</param>
+            <param name="fBackgroundValue">Background value (usually 3.0f)</param>
+            <param name="strPath">Path to write the image stack to</param>
+            <param name="strFilePrefix">File prefix to use, before slice number is appended</param>
+            <param name="bOnlyDefective">Write only frames that contain defective values (such as NaN, Infinity)</param>
+            <param name="_clrBackground">Color used for background value voxels</param>
+            <param name="_clrSurface">Color used for surface value voxels</param>
+            <param name="_clrInside">Color used for the voxels on the inside</param>
+            <param name="_clrOutside">Color used for the voxels on the outside</param>
+            <param name="_clrDefect">Color used for defective voxels</param>
+            <returns>Returns true if defective voxels were found</returns>
+        </member>
+        <member name="P:PicoGK.SliceViz.nSliceCount">
+            <summary>
+            The number of slices in this voxel field
+            </summary>
+        </member>
+        <member name="M:PicoGK.SliceViz.Visualize(System.Single)">
+            <summary>
+            Visualize the slice in the viewer using a normalized
+            parameter from 0..1
+            </summary>
+        </member>
+        <member name="M:PicoGK.SliceViz.Visualize(System.Int32)">
+            <summary>
+            Visualize the slice in the viewer, using an absolute slice index
+            </summary>
+        </member>
+        <member name="M:PicoGK.SliceViz.Dispose">
+            <summary>
+            Dispose the object (IDispose)
+            </summary>
+        </member>
+        <member name="T:PicoGK.Vdb2Cli">
+            <summary>
+            Helper class to save a voxel field contained in a VDB file to a CLI slice file
+            </summary>
+        </member>
+        <member name="M:PicoGK.Vdb2Cli.Convert(System.String,System.Single,System.String,System.String,PicoGK.IProgress)">
+            <summary>
+            Convert a voxel field to a CLI slice file
+            </summary>
+            <param name="strVdbFilePath">Path to the VDB file</param>
+            <param name="fCliLayerHeight">Layer height in millimeters</param>
+            <param name="strCliFilePath">Path to the CLI file. If empty, same file/path as VDB with .cli</param>
+            <param name="strVoxelFieldName">Name of the voxel field, or the first voxel field in the file</param>
+            <param name="xProgress">Progress reporting interface</param>
+            <exception cref="T:System.Exception">Throws exceptions when file(s) cannot be accessed orcreated, or voxel field cannot be found</exception>
+        </member>
+        <member name="T:PicoGK.VoxCutViz">
+            <summary>
+            Visualizes the result of a voxel filed cut along an axis slice.
+            Useful for showing the inside of a voxel field.
+            You can set up two slice planes along the X,Y,Z axes. The class 
+            uses two SliceViz objects to show the contents of the signed distance
+            field, and then uses a boolean operation to cut the object along these
+            slices. It then shows the result in the viewer.
+            </summary>
+        </member>
+        <member name="M:PicoGK.VoxCutViz.#ctor(PicoGK.Viewer,PicoGK.Voxels,System.Int32,PicoGK.Voxels.ESliceAxis)">
+            <summary>
+            Initializes a new VoxCutViz object with the specified
+            Viewer and VoxelField.
+            To use the object, encapsulate it into using VoxCutViz oViz = new (...)
+            this will make the visualization disappear, once it goes out of scope.
+            </summary>
+            <param name="oViewer">Viewer to use to visualize</param>
+            <param name="vox">Voxel field to slice and cut</param>
+            <param name="nViewerGroup">Viewer group to use for the sliced object</param>
+            <param name="eAxis">Axis along which to slice</param>
+        </member>
+        <member name="P:PicoGK.VoxCutViz.nSliceCount">
+            <summary>
+            Number of slices in the voxel field
+            </summary>
+        </member>
+        <member name="M:PicoGK.VoxCutViz.Cut(System.Single,System.Single)">
+            <summary>
+            Cut the voxel field along the two normalized values (0 is the first slice 1 is the last)
+            </summary>
+            <param name="fNormalizedPos1">First slice position (0..1)</param>
+            <param name="fNormalizedPos2">Second slice position (0..1)</param>
+        </member>
+        <member name="M:PicoGK.VoxCutViz.Cut(System.Int32,System.Int32)">
+            <summary>
+            Cut the voxel field along the two absolute slice values (0..nSliceCount-1)
+            </summary>
+            <param name="nSlice1">First slice position</param>
+            <param name="nSlice2">Second slice position</param>
+        </member>
+        <member name="M:PicoGK.VoxCutViz.Dispose">
+            <summary>
+            Call to stop the visualization (or let the object go out of scope, if you used using)
+            </summary>
+        </member>
+    </members>
+</doc>

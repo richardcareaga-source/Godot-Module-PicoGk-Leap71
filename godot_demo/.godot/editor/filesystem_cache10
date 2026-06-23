@@ -1,0 +1,15 @@
+ea4bc82a6ad023ab7ee23ee620429895
+::res://::1780598520
+icon.svg::CompressedTexture2D/CompressedTexture2D::325578532783763970::1780545858::1780546607::1::::<><><>0<>0<>c68d3ce8d2a99b5e6293b45b6d6a4896<>res://.godot/imported/icon.svg-218a8f2b3041327d8a5756f3a245f83b.ctex::
+README.md::TextFile/TextFile::-1::1780548237::0::1::::<><><>0<>0<><>::
+::res://addons/::1780546366
+::res://addons/picogk_planet/::1780546950
+PicogkPlanetPlugin.cs::CSharpScript/CSharpScript::8130697252897889932::1780546950::0::1::::<>EditorPlugin<><>0<>1<><>::
+plugin.cfg::TextFile/TextFile::-1::1780546366::0::1::::<><><>0<>0<><>::
+::res://scenes/::1780551173
+World.tscn::PackedScene/PackedScene::2457729893908827478::1780551173::0::1::::<><><>0<>0<><>::uid://cchkn4hb1p4ru::::res://scripts/PlanetWorld.cs<>uid://dvit17urg1i43::::res://scripts/OrbitCamera.cs
+::res://scripts/::1780551149
+MeshUtil.cs::CSharpScript/CSharpScript::7456790314912334385::1780547278::0::1::::<><><>0<>0<><>::
+OrbitCamera.cs::CSharpScript/CSharpScript::8650944555439296870::1780546794::0::1::::<>Node3D<><>0<>0<><>::
+PlanetWorld.cs::CSharpScript/CSharpScript::4928301618260702530::1780549941::0::1::::<>Node3D<><>0<>1<><>::
+VoxelPreviewUtil.cs::CSharpScript/CSharpScript::1878909553209498399::1780549385::0::1::::<><><>0<>0<><>::

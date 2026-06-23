@@ -1,0 +1,37 @@
+C:\Users\LeetGamer\Desktop\PlanetTest\bin\Release\net10.0\blosc.dll
+C:\Users\LeetGamer\Desktop\PlanetTest\bin\Release\net10.0\lz4.dll
+C:\Users\LeetGamer\Desktop\PlanetTest\bin\Release\net10.0\picogk.26.1.dll
+C:\Users\LeetGamer\Desktop\PlanetTest\bin\Release\net10.0\tbb12.dll
+C:\Users\LeetGamer\Desktop\PlanetTest\bin\Release\net10.0\zlib1.dll
+C:\Users\LeetGamer\Desktop\PlanetTest\bin\Release\net10.0\zstd.dll
+C:\Users\LeetGamer\Desktop\PlanetTest\bin\Release\net10.0\PlanetTest.exe
+C:\Users\LeetGamer\Desktop\PlanetTest\bin\Release\net10.0\PlanetTest.deps.json
+C:\Users\LeetGamer\Desktop\PlanetTest\bin\Release\net10.0\PlanetTest.runtimeconfig.json
+C:\Users\LeetGamer\Desktop\PlanetTest\bin\Release\net10.0\PlanetTest.dll
+C:\Users\LeetGamer\Desktop\PlanetTest\bin\Release\net10.0\PlanetTest.pdb
+C:\Users\LeetGamer\Desktop\PlanetTest\bin\Release\net10.0\SkiaSharp.dll
+C:\Users\LeetGamer\Desktop\PlanetTest\bin\Release\net10.0\runtimes\osx\native\libSkiaSharp.dylib
+C:\Users\LeetGamer\Desktop\PlanetTest\bin\Release\net10.0\runtimes\win-arm64\native\libSkiaSharp.dll
+C:\Users\LeetGamer\Desktop\PlanetTest\bin\Release\net10.0\runtimes\win-x64\native\libSkiaSharp.dll
+C:\Users\LeetGamer\Desktop\PlanetTest\bin\Release\net10.0\runtimes\win-x86\native\libSkiaSharp.dll
+C:\Users\LeetGamer\Desktop\PlanetTest\bin\Release\net10.0\PicoGK.dll
+C:\Users\LeetGamer\Desktop\PlanetTest\bin\Release\net10.0\PicoGK.pdb
+C:\Users\LeetGamer\Desktop\PlanetTest\bin\Release\net10.0\PicoGK.xml
+C:\Users\LeetGamer\Desktop\PlanetTest\obj\Release\net10.0\PlanetTest.csproj.AssemblyReference.cache
+C:\Users\LeetGamer\Desktop\PlanetTest\obj\Release\net10.0\PlanetTest.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\LeetGamer\Desktop\PlanetTest\obj\Release\net10.0\PlanetTest.AssemblyInfoInputs.cache
+C:\Users\LeetGamer\Desktop\PlanetTest\obj\Release\net10.0\PlanetTest.AssemblyInfo.cs
+C:\Users\LeetGamer\Desktop\PlanetTest\obj\Release\net10.0\PlanetTest.csproj.CoreCompileInputs.cache
+C:\Users\LeetGamer\Desktop\PlanetTest\obj\Release\net10.0\PlanetTest.csproj.Up2Date
+C:\Users\LeetGamer\Desktop\PlanetTest\obj\Release\net10.0\PlanetTest.dll
+C:\Users\LeetGamer\Desktop\PlanetTest\obj\Release\net10.0\refint\PlanetTest.dll
+C:\Users\LeetGamer\Desktop\PlanetTest\obj\Release\net10.0\PlanetTest.pdb
+C:\Users\LeetGamer\Desktop\PlanetTest\obj\Release\net10.0\PlanetTest.genruntimeconfig.cache
+C:\Users\LeetGamer\Desktop\PlanetTest\obj\Release\net10.0\ref\PlanetTest.dll
+C:\Users\richa\OneDrive\Desktop\PicoGK Procedural World Generation\PlanetTest\PlanetTest\obj\Release\net10.0\PlanetTest.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\richa\OneDrive\Desktop\PicoGK Procedural World Generation\PlanetTest\PlanetTest\obj\Release\net10.0\PlanetTest.AssemblyInfoInputs.cache
+C:\Users\richa\OneDrive\Desktop\PicoGK Procedural World Generation\PlanetTest\PlanetTest\obj\Release\net10.0\PlanetTest.AssemblyInfo.cs
+C:\Users\richa\OneDrive\Desktop\PicoGK Procedural World Generation\PlanetTest\PlanetTest\obj\Release\net10.0\PlanetTest.csproj.CoreCompileInputs.cache
+C:\Users\richa\OneDrive\Desktop\PicoGK Procedural World Generation\PlanetTest\PlanetTest\obj\Release\net10.0\PlanetTest.dll
+C:\Users\richa\OneDrive\Desktop\PicoGK Procedural World Generation\PlanetTest\PlanetTest\obj\Release\net10.0\refint\PlanetTest.dll
+C:\Users\richa\OneDrive\Desktop\PicoGK Procedural World Generation\PlanetTest\PlanetTest\obj\Release\net10.0\PlanetTest.pdb

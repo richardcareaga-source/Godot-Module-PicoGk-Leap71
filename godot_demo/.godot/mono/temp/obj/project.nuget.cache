@@ -1,0 +1,16 @@
+{
+  "version": 2,
+  "dgSpecHash": "CnaU6I0aTO8=",
+  "success": true,
+  "projectFilePath": "C:\\Users\\richa\\OneDrive\\Desktop\\PicoGK Procedural World Generation\\godot_demo\\PicogkPlanetDemo.csproj",
+  "expectedPackageFiles": [
+    "C:\\Users\\richa\\.nuget\\packages\\godot.sourcegenerators\\4.4.0\\godot.sourcegenerators.4.4.0.nupkg.sha512",
+    "C:\\Users\\richa\\.nuget\\packages\\godotsharp\\4.4.0\\godotsharp.4.4.0.nupkg.sha512",
+    "C:\\Users\\richa\\.nuget\\packages\\godotsharpeditor\\4.4.0\\godotsharpeditor.4.4.0.nupkg.sha512",
+    "C:\\Users\\richa\\.nuget\\packages\\skiasharp\\3.119.0\\skiasharp.3.119.0.nupkg.sha512",
+    "C:\\Users\\richa\\.nuget\\packages\\skiasharp.nativeassets.macos\\3.119.0\\skiasharp.nativeassets.macos.3.119.0.nupkg.sha512",
+    "C:\\Users\\richa\\.nuget\\packages\\skiasharp.nativeassets.win32\\3.119.0\\skiasharp.nativeassets.win32.3.119.0.nupkg.sha512",
+    "C:\\Users\\richa\\.nuget\\packages\\picogk\\2.1.0\\picogk.2.1.0.nupkg.sha512"
+  ],
+  "logs": []
+}

@@ -1,0 +1,57 @@
+[gd_scene load_steps=6 format=3 uid="uid://bbaspm3f3ad0y"]
+
+[ext_resource type="Script" uid="uid://cchkn4hb1p4ru" path="res://scripts/PlanetWorld.cs" id="1_planet"]
+[ext_resource type="Script" uid="uid://dvit17urg1i43" path="res://scripts/OrbitCamera.cs" id="2_orbit"]
+
+[sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_32lhk"]
+
+[sub_resource type="Sky" id="Sky_7g83o"]
+sky_material = SubResource("ProceduralSkyMaterial_32lhk")
+
+[sub_resource type="Environment" id="Environment_1"]
+background_mode = 2
+background_color = Color(0.08, 0.1, 0.14, 1)
+sky = SubResource("Sky_7g83o")
+ambient_light_source = 2
+ambient_light_color = Color(0.35, 0.4, 0.5, 1)
+ambient_light_energy = 0.8
+tonemap_mode = 2
+
+[node name="World" type="Node3D"]
+script = ExtResource("1_planet")
+RadiusMm = 1000.0
+DisplayScale = 1000.0
+GenerateInEditor = true
+
+[node name="PlanetRoot" type="Node3D" parent="."]
+transform = Transform3D(1000, 0, 0, 0, 1000, 0, 0, 0, 1000, 0, 0, 0)
+
+[node name="OrbitPivot" type="Node3D" parent="."]
+script = ExtResource("2_orbit")
+Distance = 4.5
+
+[node name="Camera3D" type="Camera3D" parent="OrbitPivot"]
+transform = Transform3D(0.707107, -0.292615, 0.643721, 0, 0.910359, 0.413821, -0.707107, -0.292615, 0.643721, 8.4, 5.4, 8.4)
+current = true
+fov = 55.0
+near = 0.01
+far = 500.0
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+environment = SubResource("Environment_1")
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
+transform = Transform3D(0.866025, -0.353553, 0.353553, 0, 0.707107, 0.707107, -0.5, -0.612372, 0.612372, 0, 0, 0)
+light_energy = 1.2
+shadow_enabled = true
+
+[node name="UI" type="CanvasLayer" parent="."]
+
+[node name="StatusLabel" type="Label" parent="UI"]
+offset_left = 12.0
+offset_top = 12.0
+offset_right = 900.0
+offset_bottom = 48.0
+theme_override_colors/font_color = Color(0.85, 0.9, 1, 1)
+theme_override_font_sizes/font_size = 16
+text = "OK — SolidColoredPlanet, seed 42, ~8.0 m — F on PlanetRoot"
